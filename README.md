@@ -1,4 +1,4 @@
-![XOOPS CMS](http://xoops.org/themes/wox/images/logo.png)
+![XOOPS CMS](https://xoops.org/themes/wox/images/logo.png)
 ## XOOPS CMS Module 
 
 **xContent** is a content module for XOOPS 2.5 and later, it uses the latest techniques to hone easy to present content on a standard page.
@@ -8,6 +8,6 @@ It has linked blocks and all the accessories for Tag and other features. It also
 
 However, please fork them and if you have any improvements and fixes, please share them back with us. 
 
-Visit us on http://xoops.org
+Visit us on https://xoops.org
 
 The upcoming "next generation" XOOPS CMS version is being crafted at: https://github.com/XOOPS
