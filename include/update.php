@@ -14,27 +14,23 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-function xoops_module_update_xcontent(&$module) {
-	
-	if ($module->getVar('version')<=213) {
-				
-		$text_handler =& xoops_getmodulehandler('text', 'xcontent');
-		
-		$texts = $text_handler->getObjects(NULL, false);
-		
-		foreach($texts as $xcontentid => $text) {
-			$text->setVar('title', urldecode($text->getVar('title')));
-			$text->setVar('ptitle', urldecode($text->getVar('ptitle')));
-			$text->setVar('text', urldecode($text->getVar('text')));
-			$text->setVar('rss', urldecode($text->getVar('rss')));
-			$text->setVar('keywords', urldecode($text->getVar('keywords')));
-			$text->setVar('page_description', urldecode($text->getVar('page_description')));
-			$text_handler->insert($text);	
-		}
-	
-	}
-	return true;
-	
-}
+function xoops_module_update_xcontent(XoopsModule $module)
+{
+    if ($module->getVar('version') <= 213) {
+        $textHandler = xoops_getModuleHandler('text', 'xcontent');
 
-?>
+        $texts = $textHandler->getObjects(null, false);
+
+        foreach ($texts as $xcontentid => $text) {
+            $text->setVar('title', urldecode($text->getVar('title')));
+            $text->setVar('ptitle', urldecode($text->getVar('ptitle')));
+            $text->setVar('text', urldecode($text->getVar('text')));
+            $text->setVar('rss', urldecode($text->getVar('rss')));
+            $text->setVar('keywords', urldecode($text->getVar('keywords')));
+            $text->setVar('page_description', urldecode($text->getVar('page_description')));
+            $textHandler->insert($text);
+        }
+    }
+
+    return true;
+}

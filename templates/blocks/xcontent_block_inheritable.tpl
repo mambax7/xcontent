@@ -1,3 +1,3 @@
 <div class="xcontent_inhertiable">
-	<{$block.html}>
+    <{$block.html}>
 </div>

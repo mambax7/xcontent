@@ -14,11 +14,11 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 xoops_load('XoopsFormElement');
 
-include_once('functions.php');
+require_once __DIR__ . '/functions.php';
 
 class XoopsFormSelectPages extends XoopsFormElement
 {
@@ -28,7 +28,7 @@ class XoopsFormSelectPages extends XoopsFormElement
      * @var array
      * @access private
      */
-    var $_options = array();
+    public $_options = array();
 
     /**
      * Allow multiple selections?
@@ -36,7 +36,7 @@ class XoopsFormSelectPages extends XoopsFormElement
      * @var bool
      * @access private
      */
-    var $_multiple = false;
+    public $_multiple = false;
 
     /**
      * Number of rows. "1" makes a dropdown list.
@@ -44,7 +44,7 @@ class XoopsFormSelectPages extends XoopsFormElement
      * @var int
      * @access private
      */
-    var $_size = 1;
+    public $_size = 1;
 
     /**
      * Pre-selcted values
@@ -52,50 +52,55 @@ class XoopsFormSelectPages extends XoopsFormElement
      * @var array
      * @access private
      */
-    var $_value = array();
+    public $_value = array();
 
-    function XoopsFormSelectPages($caption, $name, $value = null, $size = 1, $multiple = false, $ownid = 0)
+    public function __construct($caption, $name, $value = null, $size = 1, $multiple = false, $ownid = 0)
     {
         $this->setCaption($caption);
         $this->setName($name);
         $this->_multiple = $multiple;
-        $this->_size = intval($size);
+        $this->_size     = (int)$size;
         if (isset($value)) {
             $this->setValue($value);
         }
-		$this->addOption(0, _XCONTENT_NONE);
-		foreach($this->GetPages($ownid) as $id => $title) 
-			$this->addOption($id, $title);
+        $this->addOption(0, _XCONTENT_NONE);
+        foreach ($this->getPages($ownid) as $id => $title) {
+            $this->addOption($id, $title);
+        }
     }
 
-	function GetPages($ownid){
-		$xcontent_handler =& xoops_getmodulehandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
-		$xcontents = $xcontent_handler->getObjects(new Criteria('parent_id', 0), true);
-		$langs_array = $this->TreeMenu(array(), $xcontents, -1, $ownid);
-		return $langs_array;
-	}
-	
-	function TreeMenu($langs_array, $xcontents, $level, $ownid) {
-		$level++;
-		$xcontent_handler =& xoops_getmodulehandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
-		foreach($xcontents as $storyid => $xcontent) {
-			if ($storyid!=$ownid) {
-				$langs_array[$storyid] = str_repeat('--', $level).xcontent_getTitle($storyid);
-				if ($xcontentsb = $xcontent_handler->getObjects(new Criteria('parent_id', $storyid), true)){
-					$langs_array = $this->TreeMenu($langs_array, $xcontentsb, $level, $ownid);
-				}
-			}
-		}
-		$level--;
-		return ($langs_array);
-	}
-	
+    public function getPages($ownid)
+    {
+        $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+        $xcontents       = $xcontentHandler->getObjects(new Criteria('parent_id', 0), true);
+        $langs_array     = $this->TreeMenu(array(), $xcontents, -1, $ownid);
+
+        return $langs_array;
+    }
+
+    public function TreeMenu($langs_array, $xcontents, $level, $ownid)
+    {
+        ++$level;
+        $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+        foreach ($xcontents as $storyid => $xcontent) {
+            if ($storyid != $ownid) {
+                $langs_array[$storyid] = str_repeat('--', $level) . xcontent_getTitle($storyid);
+                if ($xcontentsb = $xcontentHandler->getObjects(new Criteria('parent_id', $storyid), true)) {
+                    $langs_array = $this->TreeMenu($langs_array, $xcontentsb, $level, $ownid);
+                }
+            }
+        }
+        $level--;
+
+        return $langs_array;
+    }
+
     /**
      * Are multiple selections allowed?
      *
      * @return bool
      */
-    function isMultiple()
+    public function isMultiple()
     {
         return $this->_multiple;
     }
@@ -105,7 +110,7 @@ class XoopsFormSelectPages extends XoopsFormElement
      *
      * @return int
      */
-    function getSize()
+    public function getSize()
     {
         return $this->_size;
     }
@@ -113,18 +118,19 @@ class XoopsFormSelectPages extends XoopsFormElement
     /**
      * Get an array of pre-selected values
      *
-     * @param bool $encode To sanitizer the text?
+     * @param  bool $encode To sanitizer the text?
      * @return array
      */
-    function getValue($encode = false)
+    public function getValue($encode = false)
     {
-        if (! $encode) {
+        if (!$encode) {
             return $this->_value;
         }
         $value = array();
-        foreach($this->_value as $val) {
+        foreach ($this->_value as $val) {
             $value[] = $val ? htmlspecialchars($val, ENT_QUOTES) : $val;
         }
+
         return $value;
     }
 
@@ -133,10 +139,10 @@ class XoopsFormSelectPages extends XoopsFormElement
      *
      * @param  $value mixed
      */
-    function setValue($value)
+    public function setValue($value)
     {
         if (is_array($value)) {
-            foreach($value as $v) {
+            foreach ($value as $v) {
                 $this->_value[] = $v;
             }
         } elseif (isset($value)) {
@@ -148,9 +154,9 @@ class XoopsFormSelectPages extends XoopsFormElement
      * Add an option
      *
      * @param string $value "value" attribute
-     * @param string $name "name" attribute
+     * @param string $name  "name" attribute
      */
-    function addOption($value, $name = '')
+    public function addOption($value, $name = '')
     {
         if ($name != '') {
             $this->_options[$value] = $name;
@@ -164,10 +170,10 @@ class XoopsFormSelectPages extends XoopsFormElement
      *
      * @param array $options Associative array of value->name pairs
      */
-    function addOptionArray($options)
+    public function addOptionArray($options)
     {
         if (is_array($options)) {
-            foreach($options as $k => $v) {
+            foreach ($options as $k => $v) {
                 $this->addOption($k, $v);
             }
         }
@@ -178,18 +184,19 @@ class XoopsFormSelectPages extends XoopsFormElement
      *
      * Note: both name and value should be sanitized. However for backward compatibility, only value is sanitized for now.
      *
-     * @param int $encode To sanitizer the text? potential values: 0 - skip; 1 - only for value; 2 - for both value and name
+     * @param bool|int $encode To sanitizer the text? potential values: 0 - skip; 1 - only for value; 2 - for both value and name
      * @return array Associative array of value->name pairs
      */
-    function getOptions($encode = false)
+    public function getOptions($encode = false)
     {
-        if (! $encode) {
+        if (!$encode) {
             return $this->_options;
         }
         $value = array();
-        foreach($this->_options as $val => $name) {
+        foreach ($this->_options as $val => $name) {
             $value[$encode ? htmlspecialchars($val, ENT_QUOTES) : $val] = ($encode > 1) ? htmlspecialchars($name, ENT_QUOTES) : $name;
         }
+
         return $value;
     }
 
@@ -198,26 +205,27 @@ class XoopsFormSelectPages extends XoopsFormElement
      *
      * @return string HTML
      */
-    function render()
+    public function render()
     {
-        $ele_name = $this->getName();
-		$ele_title = $this->getTitle();
-        $ele_value = $this->getValue();
+        $ele_name    = $this->getName();
+        $ele_title   = $this->getTitle();
+        $ele_value   = $this->getValue();
         $ele_options = $this->getOptions();
-        $ret = '<select size="'.$this->getSize().'"'.$this->getExtra();
-        if ($this->isMultiple() != false) {
-            $ret .= ' name="'.$ele_name.'[]" id="'.$ele_name.'" title="'. $ele_title. '" multiple="multiple">' ;
+        $ret         = '<select size="' . $this->getSize() . '"' . $this->getExtra();
+        if ($this->isMultiple() !== false) {
+            $ret .= ' name="' . $ele_name . '[]" id="' . $ele_name . '" title="' . $ele_title . '" multiple="multiple">';
         } else {
-            $ret .= ' name="'.$ele_name.'" id="'.$ele_name.'" title="'. $ele_title. '">' ;
+            $ret .= ' name="' . $ele_name . '" id="' . $ele_name . '" title="' . $ele_title . '">';
         }
-        foreach($ele_options as $value => $name) {
-            $ret .= '<option value="'.htmlspecialchars($value, ENT_QUOTES).'"';
+        foreach ($ele_options as $value => $name) {
+            $ret .= '<option value="' . htmlspecialchars($value, ENT_QUOTES) . '"';
             if (count($ele_value) > 0 && in_array($value, $ele_value)) {
-                $ret .= ' selected="selected"';
+                $ret .= ' selected';
             }
-            $ret .= '>'.$name.'</option>' ;
+            $ret .= '>' . $name . '</option>';
         }
         $ret .= '</select>';
+
         return $ret;
     }
 
@@ -226,21 +234,23 @@ class XoopsFormSelectPages extends XoopsFormElement
      *
      * @seealso XoopsForm::renderValidationJS
      */
-    function renderValidationJS()
+    public function renderValidationJS()
     {
         // render custom validation code if any
-        if (! empty($this->customValidationCode)) {
+        if (!empty($this->customValidationCode)) {
             return implode("\n", $this->customValidationCode);
             // generate validation code if required
         } elseif ($this->isRequired()) {
-            $eltname = $this->getName();
+            $eltname    = $this->getName();
             $eltcaption = $this->getCaption();
-            $eltmsg = empty($eltcaption) ? sprintf(_FORM_ENTER, $eltname) : sprintf(_FORM_ENTER, $eltcaption);
-            $eltmsg = str_replace('"', '\"', stripslashes($eltmsg));
-            return "\nvar hasSelected = false; var selectBox = myform.{$eltname};"."for (i = 0; i < selectBox.options.length; i++ ) { if (selectBox.options[i].selected == true) { hasSelected = true; break; } }"."if (!hasSelected) { window.alert(\"{$eltmsg}\"); selectBox.focus(); return false; }";
+            $eltmsg     = empty($eltcaption) ? sprintf(_FORM_ENTER, $eltname) : sprintf(_FORM_ENTER, $eltcaption);
+            $eltmsg     = str_replace('"', '\"', stripslashes($eltmsg));
+
+            return "\nvar hasSelected = false; var selectBox = myform.{$eltname};"
+                   . 'for (i = 0; i < selectBox.options.length; i++) { if (selectBox.options[i].selected === true) { hasSelected = true; break; } }'
+                   . "if (!hasSelected) { window.alert(\"{$eltmsg}\"); selectBox.focus(); return false; }";
         }
+
         return '';
     }
 }
-
-?>

@@ -14,6 +14,5 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-include '../../mainfile.php';
-include XOOPS_ROOT_PATH.'/include/comment_delete.php';
-?>
+include __DIR__ . '/../../mainfile.php';
+include XOOPS_ROOT_PATH . '/include/comment_delete.php';
