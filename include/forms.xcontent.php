@@ -126,9 +126,9 @@ License: See /docs - GPL 2.0
 			$category = $category_handler->createnew();
 		
 		if ($catid>0)
-			$sform = new XoopsThemeForm(_XCONTENT_AD_EDITCATEGORY, 'category', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_CATEGORY, 'post');
+			$sform = new XoopsThemeForm(_XCONTENT_AD_EDITCATEGORY, 'category', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_CATEGORY, 'post', true);
 		else
-			$sform = new XoopsThemeForm(_XCONTENT_AD_NEWCATEGORY, 'category', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_CATEGORY, 'post');
+			$sform = new XoopsThemeForm(_XCONTENT_AD_NEWCATEGORY, 'category', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_CATEGORY, 'post', true);
 			
 		$sform->setExtra('enctype="multipart/form-data"');	
 		
@@ -285,9 +285,9 @@ License: See /docs - GPL 2.0
 			$xcontent = $xcontent_handler->createnew();
 		
 		if ($storyid>0)
-			$sform = new XoopsThemeForm(_XCONTENT_AD_EDITXCONTENT, 'xcontent', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_XCONTENT, 'post');
+			$sform = new XoopsThemeForm(_XCONTENT_AD_EDITXCONTENT, 'xcontent', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_XCONTENT, 'post', true);
 		else
-			$sform = new XoopsThemeForm(_XCONTENT_AD_NEWXCONTENT, 'xcontent', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_XCONTENT, 'post');
+			$sform = new XoopsThemeForm(_XCONTENT_AD_NEWXCONTENT, 'xcontent', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_XCONTENT, 'post', true);
 			
 		$sform->setExtra('enctype="multipart/form-data"');	
 		
@@ -520,9 +520,9 @@ License: See /docs - GPL 2.0
 			$block = $block_handler->createnew();
 		
 		if ($blockid>0)
-			$sform = new XoopsThemeForm(_XCONTENT_AD_EDITBLOCK, 'block', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_BLOCKS, 'post');
+			$sform = new XoopsThemeForm(_XCONTENT_AD_EDITBLOCK, 'block', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_BLOCKS, 'post', true);
 		else
-			$sform = new XoopsThemeForm(_XCONTENT_AD_NEWBLOCK, 'block', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_BLOCKS, 'post');
+			$sform = new XoopsThemeForm(_XCONTENT_AD_NEWBLOCK, 'block', XOOPS_URL.'/modules/'._XCONTENT_DIRNAME.xcontent_getpostinglocal().'?op='._XCONTENT_URL_OP_SAVE.'&fct='._XCONTENT_URL_FCT_BLOCKS, 'post', true);
 			
 		$sform->setExtra('enctype="multipart/form-data"');	
 		
