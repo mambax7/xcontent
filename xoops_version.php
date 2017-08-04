@@ -15,8 +15,9 @@ License: See /docs - GPL 2.0
 */
 
 $i                           = 0;
-$modversion['version']       = _XCONTENT_VERSION;
-$modversion['release_date']  = '2014/04/23';
+//$modversion['version']       = _XCONTENT_VERSION;
+$modversion['version']       = '2.17';
+$modversion['release_date']  = '2017/04/23';
 $modversion['module_status'] = 'Beta 2';
 $modversion['name']          = _XCONTENT_MODULENAME;
 $modversion['author']        = _XCONTENT_AUTHOR;
@@ -26,17 +27,11 @@ $modversion['license']       = _XCONTENT_LICENSE;
 $modversion['official']      = _XCONTENT_OFFICIAL;
 $modversion['image']         = 'assets/images/logoModule.png'; //_XCONTENT_LOGOIMAGE;
 $modversion['dirname']       = basename(__DIR__); //_XCONTENT_DIRNAME;
-
 $modversion['website'] = 'www.xoops.org';
-//$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-//$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
-//$modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
 $modversion['modicons16'] = 'assets/images/icons/16';
 $modversion['modicons32'] = 'assets/images/icons/32';
-
 $modversion['release_info'] = '2012/08/06';
 $modversion['release_file'] = XOOPS_URL . '/modules/' . $modversion['dirname'] . '/docs/changelog.txt';
-
 $modversion['author_realname']        = 'Simon Roberts';
 $modversion['author_website_url']     = 'http://www.chronolabs.coop';
 $modversion['author_website_name']    = 'Chronolabs Cooperative';
@@ -85,6 +80,14 @@ $modversion['hasMain'] = _XCONTENT_HASMAIN;
 
 // Smarty
 $modversion['use_smarty'] = _XCONTENT_USESMARTY;
+
+// ------------------- Help files ------------------- //
+$modversion['helpsection'] = array(
+    ['name' => _MI_XCONTENT_OVERVIEW, 'link' => 'page=help'],
+    ['name' => _MI_XCONTENT_DISCLAIMER, 'link' => 'page=disclaimer'],
+    ['name' => _MI_XCONTENT_LICENSE, 'link' => 'page=license'],
+    ['name' => _MI_XCONTENT_SUPPORT, 'link' => 'page=support'],
+);
 
 // Templates
 $i                                          = 1;

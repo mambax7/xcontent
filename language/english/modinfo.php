@@ -303,3 +303,17 @@ define('_XCONTENT_XCONTENT_ADMENU8', 'About');
 // MENU ICONS?IMAGES
 define('_XCONTENT_XCONTENT_ADMENU0_ICON', '../../Frameworks/moduleclasses/icons/32/home.png');
 define('_XCONTENT_XCONTENT_ADMENU8_ICON', '../../Frameworks/moduleclasses/icons/32/about.png');
+
+//2.17
+//Help
+define('_MI_XCONTENT_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_XCONTENT_HELP_HEADER', __DIR__.'/help/helpheader.tpl');
+define('_MI_XCONTENT_BACK_2_ADMIN', 'Back to Administration of ');
+define('_MI_XCONTENT_OVERVIEW', 'Overview');
+
+//define('_MI_XCONTENT_HELP_DIR', __DIR__);
+
+//help multi-page
+define('_MI_XCONTENT_DISCLAIMER', 'Disclaimer');
+define('_MI_XCONTENT_LICENSE', 'License');
+define('_MI_XCONTENT_SUPPORT', 'Support');
