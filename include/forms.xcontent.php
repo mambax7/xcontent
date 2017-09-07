@@ -219,9 +219,9 @@ function xcontent_addcategory($catid = 0, $language = '')
 
     $sform->setExtra('enctype="multipart/form-data"');
 
-    $formobj  = array();
-    $eletray  = array();
-    $sformobj = array();
+    $formobj  = [];
+    $eletray  = [];
+    $sformobj = [];
 
     if ($GLOBALS['xoopsModuleConfig']['multilingual'] && $GLOBALS['xoopsModuleConfig']['json']) {
         $sformobj['language']['sel'] = new XoopsFormSelectLanguages('', 'language', (!empty($language)) ? $language : $category['text']->getVar('language'));
@@ -249,7 +249,7 @@ function xcontent_addcategory($catid = 0, $language = '')
     $formobj['keywords']         = new XoopsFormTextArea(_XCONTENT_AD_CAT_KEYWORDS, 'keywords', clear_unicodeslashes($category['text']->getVar('keywords')), 5, 45);
     $formobj['page_description'] = new XoopsFormTextArea(_XCONTENT_AD_CAT_PAGEDESCRIPTION, 'page_description', clear_unicodeslashes($category['text']->getVar('page_description')), 5, 45);
 
-    $page_desc_configs           = array();
+    $page_desc_configs           = [];
     $page_desc_configs['name']   = 'rss';
     $page_desc_configs['value']  = clear_unicodeslashes($category['text']->getVar('rss'));
     $page_desc_configs['rows']   = 35;
@@ -259,7 +259,7 @@ function xcontent_addcategory($catid = 0, $language = '')
 
     $formobj['rss'] = new XoopsFormEditor(_XCONTENT_AD_CAT_RSSDESCRIPTION, $GLOBALS['xoopsModuleConfig']['editor'], $page_desc_configs);
 
-    $page_desc_configs           = array();
+    $page_desc_configs           = [];
     $page_desc_configs['name']   = 'text';
     $page_desc_configs['value']  = clear_unicodeslashes($category['text']->getVar('text'));
     $page_desc_configs['rows']   = 35;
@@ -282,7 +282,7 @@ function xcontent_addcategory($catid = 0, $language = '')
     $eletray['buttons']->addElement($sformobj['buttons']['cancel']);
     $formobj['buttons'] = $eletray['buttons'];
 
-    $required = array('title', 'ptitle');
+    $required = ['title', 'ptitle'];
 
     foreach ($formobj as $id => $obj) {
         if (in_array($id, $required)) {
@@ -424,9 +424,9 @@ function xcontent_addxcontent($storyid = 0, $language = '')
 
     $sform->setExtra('enctype="multipart/form-data"');
 
-    $formobj  = array();
-    $eletray  = array();
-    $sformobj = array();
+    $formobj  = [];
+    $eletray  = [];
+    $sformobj = [];
 
     if ($GLOBALS['xoopsModuleConfig']['multilingual'] && $GLOBALS['xoopsModuleConfig']['json']) {
         $sformobj['language']['sel'] = new XoopsFormSelectLanguages('', 'language', (!empty($language)) ? $language : $xcontent['text']->getVar('language'));
@@ -484,7 +484,7 @@ function xcontent_addxcontent($storyid = 0, $language = '')
     //          $_GET['text'] = file_get_contents($GLOBALS['xoops']->path(_XCONTENT_PATH_PREDEFINED_HTML) . $_GET['template']);
     //      }
 
-    $page_desc_configs           = array();
+    $page_desc_configs           = [];
     $page_desc_configs['name']   = 'rss';
     $page_desc_configs['value']  = ($xcontent['text']->getVar('rss') == '') ? $_GET['rss'] : clear_unicodeslashes($xcontent['text']->getVar('rss'));
     $page_desc_configs['rows']   = 35;
@@ -494,7 +494,7 @@ function xcontent_addxcontent($storyid = 0, $language = '')
 
     $formobj['rss'] = new XoopsFormEditor(_XCONTENT_AD_RSS, $GLOBALS['xoopsModuleConfig']['editor'], $page_desc_configs);
 
-    $page_desc_configs           = array();
+    $page_desc_configs           = [];
     $page_desc_configs['name']   = 'text';
     $page_desc_configs['value']  = ($xcontent['text']->getVar('text') == '') ? $_GET['text'] : clear_unicodeslashes($xcontent['text']->getVar('text'));
     $page_desc_configs['rows']   = 35;
@@ -607,7 +607,7 @@ function xcontent_addxcontent($storyid = 0, $language = '')
         $formobj['password']->setDescription(_XCONTENT_AD_PASSWORD_DESC);
     }
 
-    $required = array('title', 'ptitle', 'weight', 'catid');
+    $required = ['title', 'ptitle', 'weight', 'catid'];
 
     foreach ($formobj as $id => $obj) {
         if (in_array($id, $required)) {
@@ -630,9 +630,9 @@ function xcontent_passwordform($storyid = 0)
     $sform = new XoopsThemeForm(_XCONTENT_MF_ENTERPASSWORD, 'password');
     $sform->setExtra('enctype="multipart/form-data"');
 
-    $formobj  = array();
-    $eletray  = array();
-    $sformobj = array();
+    $formobj  = [];
+    $eletray  = [];
+    $sformobj = [];
 
     $eletray['password']            = new XoopsFormElementTray(_XCONTENT_MF_PASSWORD, '&nbsp;');
     $sformobj['password']['txtbox'] = new XoopsFormPassword('', 'password', 32, 60);
@@ -648,7 +648,7 @@ function xcontent_passwordform($storyid = 0)
         $formobj['password']->setDescription(_XCONTENT_MF_PASSWORD_DESC);
     }
 
-    $required = array('password');
+    $required = ['password'];
 
     foreach ($formobj as $id => $obj) {
         if (in_array($id, $required)) {
@@ -681,9 +681,9 @@ function xcontent_addblock($blockid = 0, $language = '')
 
     $sform->setExtra('enctype="multipart/form-data"');
 
-    $formobj  = array();
-    $eletray  = array();
-    $sformobj = array();
+    $formobj  = [];
+    $eletray  = [];
+    $sformobj = [];
 
     if ($GLOBALS['xoopsModuleConfig']['multilingual'] && $GLOBALS['xoopsModuleConfig']['json']) {
         $sformobj['language']['sel'] = new XoopsFormSelectLanguages('', 'language', (!empty($language)) ? $language : $category['text']->getVar('language'));
@@ -707,7 +707,7 @@ function xcontent_addblock($blockid = 0, $language = '')
     $formobj['title'] = new XoopsFormText(_XCONTENT_AD_OPENDESCRIPTION, 'title', 45, 128, isset($_GET['title']) ? $_GET['title'] : clear_unicodeslashes($block['text']->getVar('title')));
     //$formobj['title']->setExtra('onChange="javascript:doJSON_CheckForm();"');
 
-    $page_desc_configs           = array();
+    $page_desc_configs           = [];
     $page_desc_configs['name']   = 'text';
     $page_desc_configs['value']  = isset($_GET['text']) ? $_GET['text'] : clear_unicodeslashes($block['text']->getVar('text'));
     $page_desc_configs['rows']   = 35;
@@ -737,7 +737,7 @@ function xcontent_addblock($blockid = 0, $language = '')
         $formobj['title']->setDescription(_XCONTENT_AD_OPENDESCRIPTION_DESC);
     }
 
-    $required = array('title', 'text');
+    $required = ['title', 'text'];
 
     foreach ($formobj as $id => $obj) {
         if (in_array($id, $required)) {

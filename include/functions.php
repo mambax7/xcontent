@@ -27,7 +27,7 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
 {
     $gpermHandler  = xoops_getHandler('groupperm');
     $configHandler = xoops_getHandler('config');
-    $groups        = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
+    $groups        = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
     /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $xoModule      = $moduleHandler->getByDirname('xcontent');
@@ -66,6 +66,7 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
                     }
                     break;
             }
+            // no break
         case _XCONTENT_URL_OP_EDIT:
             switch ($securitymode) {
                 case _XCONTENT_SECURITY_BASIC:
@@ -112,6 +113,7 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
                     }
                     break;
             }
+            // no break
         case _XCONTENT_URL_OP_ADD:
             switch ($fct) {
                 case _XCONTENT_URL_FCT_XCONTENT:
@@ -180,7 +182,7 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
 
 function loadUserMenu($currentoption, $breadcrumb = '')
 {
-    $adminmenu = array();
+    $adminmenu = [];
 
     $adminmenu[_XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT]['title'] = _XCONTENT_XCONTENT_ADMENU1;
     $adminmenu[_XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT]['link']  = 'manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_XCONTENT;
@@ -237,7 +239,7 @@ function loadUserMenu($currentoption, $breadcrumb = '')
         ';
 
     $gpermHandler = xoops_getHandler('groupperm');
-    $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
+    $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
     /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $xoModule      = $moduleHandler->getByDirname(_XCONTENT_DIRNAME);
@@ -264,7 +266,7 @@ if (!function_exists('xoops_sef')) {
         $datab             = str_replace(urlencode('æ'), 'ae', $datab);
         $datab             = str_replace(urlencode('ø'), 'oe', $datab);
         $datab             = str_replace(urlencode('å'), 'aa', $datab);
-        $replacement_chars = array(
+        $replacement_chars = [
             ' ',
             '|',
             '=',
@@ -326,7 +328,7 @@ if (!function_exists('xoops_sef')) {
             '½',
             '¾',
             '¿'
-        );
+        ];
         $return_data       = str_replace($replacement_chars, $char, urldecode($datab));
         #print $return_data."<br><br>";
         switch ($char) {
@@ -344,9 +346,9 @@ if (!function_exists('xoops_sef')) {
 if (!function_exists('clear_unicodeslashes')) {
     function clear_unicodeslashes($text)
     {
-        $text = str_replace(array("\\'"), "'", $text);
-        $text = str_replace(array("\\\\\\'"), "'", $text);
-        $text = str_replace(array('\\"'), '"', $text);
+        $text = str_replace(["\\'"], "'", $text);
+        $text = str_replace(["\\\\\\'"], "'", $text);
+        $text = str_replace(['\\"'], '"', $text);
 
         return $text;
     }
@@ -357,12 +359,12 @@ function xcontent_getBreadcrumb($storyid)
     $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
     $xcontent        = $xcontentHandler->get($storyid);
     if ($xcontent->getVar('parent_id') != 0) {
-        $children = xcontent_getChildrenTree(array(), $storyid);
+        $children = xcontent_getChildrenTree([], $storyid);
     } else {
-        $children = array(0 => $storyid);
+        $children = [0 => $storyid];
     }
 
-    $crumb = array();
+    $crumb = [];
     $j     = 0;
     foreach (array_reverse($children) as $storyid) {
         ++$j;

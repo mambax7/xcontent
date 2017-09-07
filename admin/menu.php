@@ -14,7 +14,7 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 $path = dirname(dirname(dirname(__DIR__)));
 require_once $path . '/mainfile.php';
@@ -31,7 +31,7 @@ if (!file_exists($fileinc = $pathLanguage . '/language/' . $GLOBALS['xoopsConfig
     $fileinc = $pathLanguage . '/language/english/main.php';
 }
 
-$adminmenu = array();
+$adminmenu = [];
 $i         = 1;
 //$adminmenu[$i]['icon'] = _XCONTENT_XCONTENT_ADMENU0_ICON;
 $adminmenu[$i]['image'] = _XCONTENT_XCONTENT_ADMENU0_ICON;

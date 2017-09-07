@@ -82,12 +82,12 @@ $modversion['hasMain'] = _XCONTENT_HASMAIN;
 $modversion['use_smarty'] = _XCONTENT_USESMARTY;
 
 // ------------------- Help files ------------------- //
-$modversion['helpsection'] = array(
+$modversion['helpsection'] = [
     ['name' => _MI_XCONTENT_OVERVIEW, 'link' => 'page=help'],
     ['name' => _MI_XCONTENT_DISCLAIMER, 'link' => 'page=disclaimer'],
     ['name' => _MI_XCONTENT_LICENSE, 'link' => 'page=license'],
     ['name' => _MI_XCONTENT_SUPPORT, 'link' => 'page=support'],
-);
+];
 
 // Templates
 $i                                          = 1;
@@ -158,7 +158,7 @@ $criteria->add($criteria_expire);
 $xcontents = $xcontentHandler->getObjects($criteria, true);
 
 $gpermHandler = xoops_getHandler('groupperm');
-$groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
+$groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 if ($xoModule = $moduleHandler->getByDirname('xcontent')) {
@@ -222,7 +222,7 @@ if ($xoModule = $moduleHandler->getByDirname('xcontent')) {
 
 // Blocks
 
-$modversion['blocks'][1] = array(
+$modversion['blocks'][1] = [
     'file'        => 'xcontent_block_tag.php',
     'name'        => 'Module Tag Cloud',
     'description' => 'Show tag cloud',
@@ -230,9 +230,9 @@ $modversion['blocks'][1] = array(
     'edit_func'   => 'xcontent_tag_block_cloud_edit',
     'options'     => '100|0|150|80',
     'template'    => 'xcontent_tag_block_cloud.tpl',
-);
+];
 
-$modversion['blocks'][2] = array(
+$modversion['blocks'][2] = [
     'file'        => 'xcontent_block_tag.php',
     'name'        => 'Module Top Tags',
     'description' => 'Show top tags',
@@ -240,9 +240,9 @@ $modversion['blocks'][2] = array(
     'edit_func'   => 'xcontent_tag_block_top_edit',
     'options'     => '50|30|c',
     'template'    => 'xcontent_tag_block_top.tpl',
-);
+];
 
-$modversion['blocks'][3] = array(
+$modversion['blocks'][3] = [
     'file'        => 'xcontent_block_subitems.php',
     'name'        => 'Subitems Menu for xContent',
     'description' => 'Subitems Menu for xContent',
@@ -250,9 +250,9 @@ $modversion['blocks'][3] = array(
     'edit_func'   => 'xcontent_block_subitems_edit',
     'options'     => '',
     'template'    => 'xcontent_block_subitems.tpl',
-);
+];
 
-$modversion['blocks'][4] = array(
+$modversion['blocks'][4] = [
     'file'        => 'xcontent_block_menu.php',
     'name'        => 'Menu for xContent',
     'description' => 'Menu for xContent',
@@ -260,9 +260,9 @@ $modversion['blocks'][4] = array(
     'edit_func'   => 'xcontent_block_menu_edit',
     'options'     => '',
     'template'    => 'xcontent_block_menu.tpl',
-);
+];
 
-$modversion['blocks'][5] = array(
+$modversion['blocks'][5] = [
     'file'        => 'xcontent_block_inheritable.php',
     'name'        => 'Linked Block for xContent',
     'description' => 'Linked Block for xContent',
@@ -270,9 +270,9 @@ $modversion['blocks'][5] = array(
     'edit_func'   => 'xcontent_block_inheritable_edit',
     'options'     => '',
     'template'    => 'xcontent_block_inheritable.tpl',
-);
+];
 
-$modversion['blocks'][6] = array(
+$modversion['blocks'][6] = [
     'file'        => 'xcontent_block_sections.php',
     'name'        => 'Section Block for xContent',
     'description' => 'Section Block for xContent',
@@ -280,7 +280,7 @@ $modversion['blocks'][6] = array(
     'edit_func'   => 'xcontent_block_sections_edit',
     'options'     => '',
     'template'    => 'xcontent_block_sections.tpl',
-);
+];
 
 $i = 1;
 xoops_load('XoopsEditorHandler');
@@ -437,11 +437,11 @@ $modversion['config'][$i]['description'] = '_XCONTENT_SECURITY_DESC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['default']     = _XCONTENT_SECURITY_BASIC;
-$modversion['config'][$i]['options']     = array(
+$modversion['config'][$i]['options']     = [
     _XCONTENT_SECURITY_BASIC_DESC        => _XCONTENT_SECURITY_BASIC,
     _XCONTENT_SECURITY_INTERMEDIATE_DESC => _XCONTENT_SECURITY_INTERMEDIATE,
     _XCONTENT_SECURITY_ADVANCED_DESC     => _XCONTENT_SECURITY_ADVANCED
-);
+];
 
 ++$i;
 $modversion['config'][$i]['name']        = 'multilingual';

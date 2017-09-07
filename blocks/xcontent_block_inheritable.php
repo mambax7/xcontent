@@ -39,17 +39,17 @@ function xcontent_block_inheritable_show($options)
 
     $myts = MyTextSanitizer::getInstance();
 
-    return array(
+    return [
         'html' => $myts->displayTarea(clear_unicodeslashes($block['text']->getVar('text')), true, true, true, true, false)
-    );
+    ];
 }
 
 if (!function_exists('clear_unicodeslashes')) {
     function clear_unicodeslashes($text)
     {
-        $text = str_replace(array("\\'"), "'", $text);
-        $text = str_replace(array("\\\\\\'"), "'", $text);
-        $text = str_replace(array('\\"'), '"', $text);
+        $text = str_replace(["\\'"], "'", $text);
+        $text = str_replace(["\\\\\\'"], "'", $text);
+        $text = str_replace(['\\"'], '"', $text);
 
         return $text;
     }

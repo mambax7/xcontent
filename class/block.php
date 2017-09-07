@@ -14,7 +14,7 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * Class for Blue Room xContent
@@ -50,7 +50,7 @@ class XcontentBlockHandler extends XoopsPersistableObjectHandler
 
     public function createnew()
     {
-        $ret          = array();
+        $ret          = [];
         $textHandler  = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
         $ret['text']  = $textHandler->create();
         $ret['block'] = $this->create();
@@ -60,7 +60,7 @@ class XcontentBlockHandler extends XoopsPersistableObjectHandler
 
     public function getBlock($blockid = 0, $language = '')
     {
-        $ret = array();
+        $ret = [];
         if (empty($language)) {
             $language = $GLOBALS['xoopsConfig']['language'];
         }

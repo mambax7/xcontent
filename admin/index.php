@@ -44,7 +44,7 @@ switch ($op) {
         $paypalitemno = 'VOD106';
         $aboutAdmin   = \Xmf\Module\Admin::getInstance();
         $about        = $aboutAdmin->displayAbout($paypalitemno, false);
-        $donationform = array(
+        $donationform = [
             0   => '<form name="donation" id="donation" action="http://www.chronolabs.coop/modules/xpayment/" method="post" onsubmit="return xoopsFormValidate_donation();">',
             1   => '<table class="outer" cellspacing="1" width="100%"><tbody><tr><th colspan="2">'
                    . constant('_XCONTENT_ABOUT_MAKEDONATE')
@@ -64,21 +64,26 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 }
 //--></script>
 <!-- End Form Validation JavaScript //-->'
-        );
-        $paypalform   = array(
+        ];
+        $paypalform   = [
             0 => '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">',
             1 => '<input name="cmd" value="_s-xclick" type="hidden">',
             2 => '<input name="hosted_button_id" value="%s" type="hidden">',
             3 => '<img alt="" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" height="1" border="0" width="1">',
             4 => '<input src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" border="0" type="poster">',
             5 => '</form>'
-        );
+        ];
         for ($key = 0; $key <= 4; ++$key) {
             switch ($key) {
                 case 2:
-                    $donationform[$key] = sprintf($donationform[$key],
+                    $donationform[$key] = sprintf(
+                        $donationform[$key],
                                                   $GLOBALS['xoopsConfig']['sitename'] . ' - ' . (strlen($GLOBALS['xoopsUser']->getVar('name')) > 0 ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')),
-                                                  $GLOBALS['xoopsUser']->getVar('email'), XOOPS_LICENSE_KEY, strtoupper($GLOBALS['xcontentModule']->getVar('dirname')), strtoupper($GLOBALS['xcontentModule']->getVar('dirname')) . ' ' . $GLOBALS['xcontentModule']->getVar('name'));
+                                                  $GLOBALS['xoopsUser']->getVar('email'),
+                        XOOPS_LICENSE_KEY,
+                        strtoupper($GLOBALS['xcontentModule']->getVar('dirname')),
+                        strtoupper($GLOBALS['xcontentModule']->getVar('dirname')) . ' ' . $GLOBALS['xcontentModule']->getVar('name')
+                    );
                     break;
             }
         }
@@ -578,12 +583,12 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                 if (empty($_POST['confirmed'])) {
                     xoops_cp_header();
 
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_DELETE,
                                       'fct'       => _XCONTENT_URL_FCT_XCONTENT,
                                       'storyid'   => $storyid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getTitle($storyid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getTitle($storyid)));
                     xoops_cp_footer();
                     exit(0);
                 }
@@ -597,12 +602,12 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
             case _XCONTENT_URL_FCT_CATEGORY:
                 if (empty($_POST['confirmed'])) {
                     xoops_cp_header();
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_DELETE,
                                       'fct'       => _XCONTENT_URL_FCT_CATEGORY,
                                       'catid'     => $catid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getCatTitle($catid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getCatTitle($catid)));
                     xoops_cp_footer();
                     exit(0);
                 }
@@ -616,12 +621,12 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
             case _XCONTENT_URL_FCT_BLOCKS:
                 if (empty($_POST['confirmed'])) {
                     xoops_cp_header();
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_DELETE,
                                       'fct'       => _XCONTENT_URL_FCT_BLOCKS,
                                       'blockid'   => $blockid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getBlockTitle($blockid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getBlockTitle($blockid)));
                     xoops_cp_footer();
                     exit(0);
                 }
@@ -634,18 +639,19 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 
         }
 
+        // no break
     case _XCONTENT_URL_OP_COPY:
         switch ($fct) {
             default:
             case _XCONTENT_URL_FCT_XCONTENT:
                 if (empty($_POST['confirmed'])) {
                     xoops_cp_header();
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_COPY,
                                       'fct'       => _XCONTENT_URL_FCT_XCONTENT,
                                       'storyid'   => $storyid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getTitle($storyid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getTitle($storyid)));
                     xoops_cp_footer();
                     exit(0);
                 }
@@ -704,12 +710,12 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
             case _XCONTENT_URL_FCT_BLOCKS:
                 if (empty($_POST['confirmed'])) {
                     xoops_cp_header();
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_COPY,
                                       'fct'       => _XCONTENT_URL_FCT_BLOCKS,
                                       'blockid'   => $blockid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getBlockTitle($blockid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getBlockTitle($blockid)));
                     xoops_cp_footer();
                     exit(0);
                 }
@@ -754,12 +760,12 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
             case _XCONTENT_URL_FCT_CATEGORY:
                 if (empty($_POST['confirmed'])) {
                     xoops_cp_header();
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_COPY,
                                       'fct'       => _XCONTENT_URL_FCT_CATEGORY,
                                       'catid'     => $catid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getCatTitle($catid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getCatTitle($catid)));
                     xoops_cp_footer();
                     exit(0);
                 }
@@ -802,6 +808,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                 break;
 
         }
+        // no break
     case _XCONTENT_URL_OP_MANAGE:
         switch ($fct) {
             case _XCONTENT_URL_FCT_XCONTENT:
@@ -961,8 +968,8 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
             case _XCONTENT_URL_FCT_CATEGORIES:
             default:
                 // View Categories permissions
-                $item_list_view = array();
-                $block_view     = array();
+                $item_list_view = [];
+                $block_view     = [];
 
                 $result_view = $GLOBALS['xoopsDB']->query('SELECT catid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_CATEGORY) . ' ');
                 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
@@ -1001,8 +1008,8 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
             case _XCONTENT_URL_FCT_XCONTENT:
 
                 // View Categories permissions
-                $item_list_view = array();
-                $block_view     = array();
+                $item_list_view = [];
+                $block_view     = [];
 
                 if ($mode == _XCONTENT_PERM_MODE_ADD) {
                     $result_view = $GLOBALS['xoopsDB']->query('SELECT catid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_CATEGORY) . ' ');
@@ -1075,8 +1082,8 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
             case _XCONTENT_URL_FCT_BLOCKS:
 
                 // View Categories permissions
-                $item_list_view = array();
-                $block_view     = array();
+                $item_list_view = [];
+                $block_view     = [];
 
                 $result_view = $GLOBALS['xoopsDB']->query('SELECT blockid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_BLOCK) . ' ');
                 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
@@ -1114,7 +1121,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 
             case _XCONTENT_URL_FCT_TEMPLATE:
 
-                $permtypes = array(
+                $permtypes = [
                     _XCONTENT_PERM_TEMPLATE_ADD_XCONTENT    => _XCONTENT_PERM_TEMPLATE_ADD_XCONTENT_DESC,
                     _XCONTENT_PERM_TEMPLATE_ADD_CATEGORY    => _XCONTENT_PERM_TEMPLATE_ADD_CATEGORY_DESC,
                     _XCONTENT_PERM_TEMPLATE_ADD_BLOCK       => _XCONTENT_PERM_TEMPLATE_ADD_BLOCK_DESC,
@@ -1134,7 +1141,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY => _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY_DESC,
                     _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK    => _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK_DESC,
                     _XCONTENT_PERM_TEMPLATE_PERMISSIONS     => _XCONTENT_PERM_TEMPLATE_PERMISSIONS_DESC
-                );
+                ];
 
                 $form_view = new XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_TEMPLATE, "<img id='toptableicon' src="
                                                                                                                                       . XOOPS_URL

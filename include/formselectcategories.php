@@ -36,7 +36,7 @@ License: See /docs - GPL 2.0
  * @author          Taiwen Jiang <phppp@users.sourceforge.net>
  * @author          John Neill <catzwolf@xoops.org>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 xoops_load('XoopsFormElement');
 
@@ -61,7 +61,7 @@ class XoopsFormSelectCategories extends XoopsFormElement
      * @var array
      * @access private
      */
-    public $_options = array();
+    public $_options = [];
 
     /**
      * Allow multiple selections?
@@ -85,7 +85,7 @@ class XoopsFormSelectCategories extends XoopsFormElement
      * @var array
      * @access private
      */
-    public $_value = array();
+    public $_value = [];
 
     /**
      * Constructor
@@ -116,7 +116,7 @@ class XoopsFormSelectCategories extends XoopsFormElement
     {
         $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
         $categories      = $categoryHandler->getObjects(new Criteria('parent_id', 0), true);
-        $langs_array     = $this->TreeMenu(array(), $categories, -1, $ownid);
+        $langs_array     = $this->TreeMenu([], $categories, -1, $ownid);
 
         return $langs_array;
     }
@@ -169,7 +169,7 @@ class XoopsFormSelectCategories extends XoopsFormElement
         if (!$encode) {
             return $this->_value;
         }
-        $value = array();
+        $value = [];
         foreach ($this->_value as $val) {
             $value[] = $val ? htmlspecialchars($val, ENT_QUOTES) : $val;
         }
@@ -235,7 +235,7 @@ class XoopsFormSelectCategories extends XoopsFormElement
         if (!$encode) {
             return $this->_options;
         }
-        $value = array();
+        $value = [];
         foreach ($this->_options as $val => $name) {
             $value[$encode ? htmlspecialchars($val, ENT_QUOTES) : $val] = ($encode > 1) ? htmlspecialchars($name, ENT_QUOTES) : $name;
         }

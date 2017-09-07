@@ -14,7 +14,7 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * Class for Blue Room xContent
@@ -30,7 +30,7 @@ class XcontentText extends XoopsObject
         $this->initVar('storyid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('catid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('blockid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('type', XOBJ_DTYPE_ENUM, 'xcontent', false, false, false, array('xcontent', 'category', 'block'));
+        $this->initVar('type', XOBJ_DTYPE_ENUM, 'xcontent', false, false, false, ['xcontent', 'category', 'block']);
         $this->initVar('language', XOBJ_DTYPE_TXTBOX, $GLOBALS['xoopsConfig']['language'], true, 32);
         $this->initVar('title', XOBJ_DTYPE_TXTBOX, null, true, 255); // Removed Unicode in 2.10
         $this->initVar('ptitle', XOBJ_DTYPE_TXTBOX, null, false, 255); // Removed Unicode in 2.10

@@ -41,7 +41,7 @@ function xcontent_search($queryarray, $andor, $limit, $offset, $userid)
 
     $sql    .= ' ORDER BY b.date ASC';
     $result = $GLOBALS['xoopsDB']->query($sql, $limit, $offset);
-    $ret    = array();
+    $ret    = [];
     $i      = 0;
 
     while ($myrow = $GLOBALS['xoopsDB']->fetchArray($result)) {

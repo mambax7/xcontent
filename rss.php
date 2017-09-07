@@ -36,17 +36,17 @@ if ($GLOBALS['xoopsModuleConfig']['htaccess']) {
 function rss_data($catid, $language)
 {
     $myts            = MyTextSanitizer::getInstance();
-    $rss             = array();
+    $rss             = [];
     $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
     $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
     $criteria        = new CriteriaCompo(new Criteria('catid', $catid), 'AND');
     $criteria->setSort('weight');
     $xcontents = $xcontentHandler->getObjects($criteria, true);
-    $category  = array();
+    $category  = [];
     foreach ($xcontents as $storyid => $xcontent) {
         $txcontent               = $xcontentHandler->getContent($storyid, $language);
         $tcategory               = $categoryHandler->getCategory($xcontent->getVar('catid'));
-        $download                = array();
+        $download                = [];
         $download['title']       = strip_tags($myts->displayTarea(clear_unicodeslashes($txcontent['text']->getVar('ptitle')), 0, 0, 1));
         $download['description'] = htmlspecialchars($myts->displayTarea(clear_unicodeslashes($txcontent['text']->getVar('rss')), 1, 1, 1));
         $download['url']         = XOOPS_URL . '/modules/xcontent/?id=' . $storyid . '&catid=' . $xcontent->getVar('catid');
@@ -84,7 +84,7 @@ header('content-type: text/xml; charset=' . _CHARSET);
 } ?>
         <language>en</language>
         <?php if (!isset($_REQUEST['ms'])) {
-    ?>
+        ?>
             <image>
                 <title><?php echo(htmlspecialchars($xoopsConfig['sitename'])); ?></title>
                 <url><?php echo XOOPS_URL; ?>/images/logo.png
@@ -94,7 +94,7 @@ header('content-type: text/xml; charset=' . _CHARSET);
             <title>RSS Feed | <?php echo htmlspecialchars($xoopsConfig['sitename']) . ' | ' . ucfirst($rssfeed_data['category'][0]); ?> </title>
             <link><?php echo XOOPS_URL; ?></link>
             <?php
-} ?>
+    } ?>
         <?php
 
         foreach ($rssfeed_data['item'] as $item) {

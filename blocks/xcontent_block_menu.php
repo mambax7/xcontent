@@ -18,7 +18,7 @@ function xcontent_block_menu_show($options)
 {
     $gpermHandler  = xoops_getHandler('groupperm');
     $configHandler = xoops_getHandler('config');
-    $groups        = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
+    $groups        = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
     /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $xoModule      = $moduleHandler->getByDirname('xcontent');
@@ -102,7 +102,7 @@ function xcontent_block_menu_show($options)
         }
     }
 
-    return array('pages' => $pages);
+    return ['pages' => $pages];
 }
 
 function xcontent_block_menu_edit($options)

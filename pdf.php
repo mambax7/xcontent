@@ -61,7 +61,7 @@ if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XC
         exit(0);
     } elseif (strlen($xcontent['xcontent']->getVar('password')) == 32) {
         if (!isset($_COOKIE['xcontent_password'])) {
-            $_COOKIE['xcontent_password'] = array();
+            $_COOKIE['xcontent_password'] = [];
         }
         if ($_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] === false) {
             if (md5($_POST['password']) != $xcontent['xcontent']->getVar('password')) {
@@ -191,11 +191,11 @@ if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XC
 
     //DNPROSSI ADDED FOR SCHINESE
     if (_LANGCODE == 'cn') {
-        $pdf->setHeaderFont(array('gbsn00lp', '', 10));
-        $pdf->setFooterFont(array('gbsn00lp', '', 10));
+        $pdf->setHeaderFont(['gbsn00lp', '', 10]);
+        $pdf->setFooterFont(['gbsn00lp', '', 10]);
     } else {
-        $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+        $pdf->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
+        $pdf->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
     }
 
     $pdf->setLanguageArray($l); //set language items

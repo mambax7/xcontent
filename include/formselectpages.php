@@ -14,7 +14,7 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 xoops_load('XoopsFormElement');
 
@@ -28,7 +28,7 @@ class XoopsFormSelectPages extends XoopsFormElement
      * @var array
      * @access private
      */
-    public $_options = array();
+    public $_options = [];
 
     /**
      * Allow multiple selections?
@@ -52,7 +52,7 @@ class XoopsFormSelectPages extends XoopsFormElement
      * @var array
      * @access private
      */
-    public $_value = array();
+    public $_value = [];
 
     public function __construct($caption, $name, $value = null, $size = 1, $multiple = false, $ownid = 0)
     {
@@ -73,7 +73,7 @@ class XoopsFormSelectPages extends XoopsFormElement
     {
         $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
         $xcontents       = $xcontentHandler->getObjects(new Criteria('parent_id', 0), true);
-        $langs_array     = $this->TreeMenu(array(), $xcontents, -1, $ownid);
+        $langs_array     = $this->TreeMenu([], $xcontents, -1, $ownid);
 
         return $langs_array;
     }
@@ -126,7 +126,7 @@ class XoopsFormSelectPages extends XoopsFormElement
         if (!$encode) {
             return $this->_value;
         }
-        $value = array();
+        $value = [];
         foreach ($this->_value as $val) {
             $value[] = $val ? htmlspecialchars($val, ENT_QUOTES) : $val;
         }
@@ -192,7 +192,7 @@ class XoopsFormSelectPages extends XoopsFormElement
         if (!$encode) {
             return $this->_options;
         }
-        $value = array();
+        $value = [];
         foreach ($this->_options as $val => $name) {
             $value[$encode ? htmlspecialchars($val, ENT_QUOTES) : $val] = ($encode > 1) ? htmlspecialchars($name, ENT_QUOTES) : $name;
         }

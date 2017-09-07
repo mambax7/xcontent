@@ -450,12 +450,12 @@ switch ($op) {
             case _XCONTENT_URL_FCT_XCONTENT:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_DELETE,
                                       'fct'       => _XCONTENT_URL_FCT_XCONTENT,
                                       'storyid'   => $storyid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getTitle($storyid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getTitle($storyid)));
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
@@ -469,12 +469,12 @@ switch ($op) {
             case _XCONTENT_URL_FCT_CATEGORY:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_DELETE,
                                       'fct'       => _XCONTENT_URL_FCT_CATEGORY,
                                       'catid'     => $catid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getCatTitle($catid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getCatTitle($catid)));
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
@@ -488,12 +488,12 @@ switch ($op) {
             case _XCONTENT_URL_FCT_BLOCKS:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_DELETE,
                                       'fct'       => _XCONTENT_URL_FCT_BLOCKS,
                                       'blockid'   => $blockid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getBlockTitle($blockid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getBlockTitle($blockid)));
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
@@ -506,18 +506,19 @@ switch ($op) {
 
         }
 
+        // no break
     case _XCONTENT_URL_OP_COPY:
         switch ($fct) {
             default:
             case _XCONTENT_URL_FCT_XCONTENT:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_COPY,
                                       'fct'       => _XCONTENT_URL_FCT_XCONTENT,
                                       'storyid'   => $storyid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getTitle($storyid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getTitle($storyid)));
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
@@ -576,12 +577,12 @@ switch ($op) {
             case _XCONTENT_URL_FCT_BLOCKS:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_COPY,
                                       'fct'       => _XCONTENT_URL_FCT_BLOCKS,
                                       'blockid'   => $blockid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getBlockTitle($blockid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getBlockTitle($blockid)));
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
@@ -627,12 +628,12 @@ switch ($op) {
             case _XCONTENT_URL_FCT_CATEGORY:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm(array(
+                    xoops_confirm([
                                       'confirmed' => true,
                                       'op'        => _XCONTENT_URL_OP_COPY,
                                       'fct'       => _XCONTENT_URL_FCT_CATEGORY,
                                       'catid'     => $catid
-                                  ), $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getCatTitle($catid)));
+                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getCatTitle($catid)));
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
@@ -676,6 +677,7 @@ switch ($op) {
                 break;
 
         }
+        // no break
     default:
     case _XCONTENT_URL_OP_MANAGE:
         switch ($fct) {
@@ -827,8 +829,8 @@ switch ($op) {
             case _XCONTENT_URL_FCT_CATEGORIES:
             default:
                 // View Categories permissions
-                $item_list_view = array();
-                $block_view     = array();
+                $item_list_view = [];
+                $block_view     = [];
 
                 $result_view = $GLOBALS['xoopsDB']->query('SELECT catid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_CATEGORY) . ' ');
                 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
@@ -867,8 +869,8 @@ switch ($op) {
             case _XCONTENT_URL_FCT_XCONTENT:
 
                 // View Categories permissions
-                $item_list_view = array();
-                $block_view     = array();
+                $item_list_view = [];
+                $block_view     = [];
 
                 if ($mode == _XCONTENT_PERM_MODE_ADD) {
                     $result_view = $GLOBALS['xoopsDB']->query('SELECT catid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_CATEGORY) . ' ');
@@ -941,8 +943,8 @@ switch ($op) {
             case _XCONTENT_URL_FCT_BLOCKS:
 
                 // View Categories permissions
-                $item_list_view = array();
-                $block_view     = array();
+                $item_list_view = [];
+                $block_view     = [];
 
                 $result_view = $GLOBALS['xoopsDB']->query('SELECT blockid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_BLOCK) . ' ');
                 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
@@ -980,7 +982,7 @@ switch ($op) {
 
             case _XCONTENT_URL_FCT_TEMPLATE:
 
-                $permtypes = array(
+                $permtypes = [
                     _XCONTENT_PERM_TEMPLATE_ADD_XCONTENT    => _XCONTENT_PERM_TEMPLATE_ADD_XCONTENT_DESC,
                     _XCONTENT_PERM_TEMPLATE_ADD_CATEGORY    => _XCONTENT_PERM_TEMPLATE_ADD_CATEGORY_DESC,
                     _XCONTENT_PERM_TEMPLATE_ADD_BLOCK       => _XCONTENT_PERM_TEMPLATE_ADD_BLOCK_DESC,
@@ -1000,7 +1002,7 @@ switch ($op) {
                     _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY => _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY_DESC,
                     _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK    => _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK_DESC,
                     _XCONTENT_PERM_TEMPLATE_PERMISSIONS     => _XCONTENT_PERM_TEMPLATE_PERMISSIONS_DESC
-                );
+                ];
 
                 $form_view = new XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_TEMPLATE, "<img id='toptableicon' src="
                                                                                                                                       . XOOPS_URL

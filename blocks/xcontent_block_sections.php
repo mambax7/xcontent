@@ -35,7 +35,7 @@ function xcontent_block_sections_show($options)
 {
     $gpermHandler  = xoops_getHandler('groupperm');
     $configHandler = xoops_getHandler('config');
-    $groups        = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
+    $groups        = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
     /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $xoModule      = $moduleHandler->getByDirname('xcontent');
@@ -44,7 +44,7 @@ function xcontent_block_sections_show($options)
 
     xoops_loadLanguage('modinfo', 'xcontent');
 
-    $children = xcontent_block_sections_getChildrenTree(array($options[0]), $options[0]);
+    $children = xcontent_block_sections_getChildrenTree([$options[0]], $options[0]);
 
     $criteria = new CriteriaCompo(new Criteria('parent_id', '(' . implode(',', $children) . ')', 'IN'));
     $criteria->add(new Criteria('submenu', 1));
@@ -121,7 +121,7 @@ function xcontent_block_sections_show($options)
     }
 
     if (count($pages)) {
-        return array('pages' => $pages);
+        return ['pages' => $pages];
     } else {
         return false;
     }

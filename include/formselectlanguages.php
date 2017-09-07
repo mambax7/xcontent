@@ -36,7 +36,7 @@ License: See /docs - GPL 2.0
  * @author          Taiwen Jiang <phppp@users.sourceforge.net>
  * @author          John Neill <catzwolf@xoops.org>
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 xoops_load('XoopsFormElement');
 
@@ -61,7 +61,7 @@ class XoopsFormSelectLanguages extends XoopsFormElement
      * @var array
      * @access private
      */
-    public $_options = array();
+    public $_options = [];
 
     /**
      * Allow multiple selections?
@@ -85,7 +85,7 @@ class XoopsFormSelectLanguages extends XoopsFormElement
      * @var array
      * @access private
      */
-    public $_value = array();
+    public $_value = [];
 
     /**
      * Constructor
@@ -159,7 +159,7 @@ class XoopsFormSelectLanguages extends XoopsFormElement
         if (!$encode) {
             return $this->_value;
         }
-        $value = array();
+        $value = [];
         foreach ($this->_value as $val) {
             $value[] = $val ? htmlspecialchars($val, ENT_QUOTES) : $val;
         }
@@ -225,7 +225,7 @@ class XoopsFormSelectLanguages extends XoopsFormElement
         if (!$encode) {
             return $this->_options;
         }
-        $value = array();
+        $value = [];
         foreach ($this->_options as $val => $name) {
             $value[$encode ? htmlspecialchars($val, ENT_QUOTES) : $val] = ($encode > 1) ? htmlspecialchars($name, ENT_QUOTES) : $name;
         }

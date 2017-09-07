@@ -20,7 +20,7 @@ include $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_JSON);
 
 $json = new services_JSON();
 
-$values = array();
+$values = [];
 $submit = true;
 if ($passkey != xcontent_passkey()) {
     ob_start();
