@@ -33,57 +33,57 @@ if (!file_exists($fileinc = $pathLanguage . '/language/' . $GLOBALS['xoopsConfig
 
 $adminmenu = [];
 $i         = 1;
-//$adminmenu[$i]['icon'] = _XCONTENT_XCONTENT_ADMENU0_ICON;
-$adminmenu[$i]['image'] = _XCONTENT_XCONTENT_ADMENU0_ICON;
-$adminmenu[$i]['title'] = _XCONTENT_XCONTENT_ADMENU0;
-$adminmenu[$i]['link']  = 'admin/index.php?op=' . _XCONTENT_URL_OP_DASHBOARD;
-$adminmenu[$i]['icon']  = $pathIcon32 . '/home.png';
+//'icon' =>  _XCONTENT_XCONTENT_ADMENU0_ICON,
+'image' =>  _XCONTENT_XCONTENT_ADMENU0_ICON,
+'title' =>  _XCONTENT_XCONTENT_ADMENU0,
+'link' => ' . _XCONTENT_URL_OP_DASHBOARD,
+'icon' =>  $pathIcon32 . '/home.png',
 ++$i;
-//$adminmenu[$i]['icon'] = _XCONTENT_XCONTENT_ADMENU3_ICON;
-$adminmenu[$i]['image'] = _XCONTENT_XCONTENT_ADMENU3_ICON;
-$adminmenu[$i]['icon']  = $pathIcon32 . '/category.png';
-$adminmenu[$i]['title'] = _XCONTENT_XCONTENT_ADMENU3;
-$adminmenu[$i]['link']  = 'admin/index.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES;
+//'icon' =>  _XCONTENT_XCONTENT_ADMENU3_ICON,
+'image' =>  _XCONTENT_XCONTENT_ADMENU3_ICON,
+'icon' =>  $pathIcon32 . '/category.png',
+'title' =>  _XCONTENT_XCONTENT_ADMENU3,
+'link' => ' . _XCONTENT_URL_FCT_CATEGORIES,
 ++$i;
-//$adminmenu[$i]['icon'] = _XCONTENT_XCONTENT_ADMENU1_ICON;
-$adminmenu[$i]['image'] = _XCONTENT_XCONTENT_ADMENU1_ICON;
-$adminmenu[$i]['icon']  = $pathIcon32 . '/manage.png';
-$adminmenu[$i]['title'] = _XCONTENT_XCONTENT_ADMENU1;
-$adminmenu[$i]['link']  = 'admin/index.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_XCONTENT;
+//'icon' =>  _XCONTENT_XCONTENT_ADMENU1_ICON,
+'image' =>  _XCONTENT_XCONTENT_ADMENU1_ICON,
+'icon' =>  $pathIcon32 . '/manage.png',
+'title' =>  _XCONTENT_XCONTENT_ADMENU1,
+'link' => ' . _XCONTENT_URL_FCT_XCONTENT,
 //++$i;
-//$adminmenu[$i]['icon'] = _XCONTENT_XCONTENT_ADMENU2_ICON;
-//$adminmenu[$i]['image'] = _XCONTENT_XCONTENT_ADMENU2_ICON;
-//$adminmenu[$i]['title'] = _XCONTENT_XCONTENT_ADMENU2;
-//$adminmenu[$i]['link']  = "admin/index.php?op="._XCONTENT_URL_OP_ADD."&fct="._XCONTENT_URL_FCT_XCONTENT;
+//'icon' =>  _XCONTENT_XCONTENT_ADMENU2_ICON,
+//'image' =>  _XCONTENT_XCONTENT_ADMENU2_ICON,
+//'title' =>  _XCONTENT_XCONTENT_ADMENU2,
+//'link' => "._XCONTENT_URL_FCT_XCONTENT,
 //++$i;
-//$adminmenu[$i]['icon'] = _XCONTENT_XCONTENT_ADMENU4_ICON;
-//$adminmenu[$i]['image'] = _XCONTENT_XCONTENT_ADMENU4_ICON;
-//$adminmenu[$i]['title'] = _XCONTENT_XCONTENT_ADMENU4;
-//$adminmenu[$i]['link']  = "admin/index.php?op="._XCONTENT_URL_OP_ADD."&fct="._XCONTENT_URL_FCT_CATEGORIES;
+//'icon' =>  _XCONTENT_XCONTENT_ADMENU4_ICON,
+//'image' =>  _XCONTENT_XCONTENT_ADMENU4_ICON,
+//'title' =>  _XCONTENT_XCONTENT_ADMENU4,
+//'link' => "._XCONTENT_URL_FCT_CATEGORIES,
 ++$i;
-//$adminmenu[$i]['icon'] = _XCONTENT_XCONTENT_ADMENU5_ICON;
-$adminmenu[$i]['icon']  = $pathIcon32 . '/block.png';
-$adminmenu[$i]['image'] = _XCONTENT_XCONTENT_ADMENU5_ICON;
-$adminmenu[$i]['title'] = _XCONTENT_XCONTENT_ADMENU5;
-$adminmenu[$i]['link']  = 'admin/index.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_BLOCKS;
+//'icon' =>  _XCONTENT_XCONTENT_ADMENU5_ICON,
+'icon' =>  $pathIcon32 . '/block.png',
+'image' =>  _XCONTENT_XCONTENT_ADMENU5_ICON,
+'title' =>  _XCONTENT_XCONTENT_ADMENU5,
+'link' => ' . _XCONTENT_URL_FCT_BLOCKS,
 //++$i;
-//$adminmenu[$i]['icon'] = _XCONTENT_XCONTENT_ADMENU6_ICON;
-//$adminmenu[$i]['image'] = _XCONTENT_XCONTENT_ADMENU6_ICON;
-//$adminmenu[$i]['title'] = _XCONTENT_XCONTENT_ADMENU6;
-//$adminmenu[$i]['link']  = "admin/index.php?op="._XCONTENT_URL_OP_ADD."&fct="._XCONTENT_URL_FCT_BLOCKS;
+//'icon' =>  _XCONTENT_XCONTENT_ADMENU6_ICON,
+//'image' =>  _XCONTENT_XCONTENT_ADMENU6_ICON,
+//'title' =>  _XCONTENT_XCONTENT_ADMENU6,
+//'link' => "._XCONTENT_URL_FCT_BLOCKS,
 ++$i;
-//$adminmenu[$i]['icon'] = _XCONTENT_XCONTENT_ADMENU7_ICON;
-$adminmenu[$i]['image'] = _XCONTENT_XCONTENT_ADMENU7_ICON;
-$adminmenu[$i]['icon']  = $pathIcon32 . '/permissions.png';
-$adminmenu[$i]['title'] = _XCONTENT_XCONTENT_ADMENU7;
-$adminmenu[$i]['link']  = 'admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_TEMPLATE . '&mode=' . _XCONTENT_PERM_MODE_ALL;
+//'icon' =>  _XCONTENT_XCONTENT_ADMENU7_ICON,
+'image' =>  _XCONTENT_XCONTENT_ADMENU7_ICON,
+'icon' =>  $pathIcon32 . '/permissions.png',
+'title' =>  _XCONTENT_XCONTENT_ADMENU7,
+'link' => ' . _XCONTENT_PERM_MODE_ALL,
 ++$i;
-$adminmenu[$i]['icon']  = _XCONTENT_XCONTENT_ADMENU8_ICON;
-$adminmenu[$i]['image'] = _XCONTENT_XCONTENT_ADMENU8_ICON;
-$adminmenu[$i]['title'] = _XCONTENT_XCONTENT_ADMENU8;
-$adminmenu[$i]['link']  = 'admin/index.php?op=' . _XCONTENT_URL_OP_ABOUT;
+'icon' =>  _XCONTENT_XCONTENT_ADMENU8_ICON,
+'image' =>  _XCONTENT_XCONTENT_ADMENU8_ICON,
+'title' =>  _XCONTENT_XCONTENT_ADMENU8,
+'link' => ' . _XCONTENT_URL_OP_ABOUT,
 
 //++$i;
-//$adminmenu[$i]['title'] = _AM_MODULEADMIN_ABOUT;
+//'title' =>  _AM_MODULEADMIN_ABOUT,
 //$adminmenu[$i]["link"]  = "admin/about.php";
 //$adminmenu[$i]["icon"]  = $pathIcon32 . '/about.png';
