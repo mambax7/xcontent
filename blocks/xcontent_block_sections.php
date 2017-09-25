@@ -62,7 +62,7 @@ function xcontent_block_sections_show($options)
 
     if ($xcontents = $xcontentHandler->getObjects($criteria, true)) {
         foreach ($xcontents as $storyid => $xcontent) {
-            if ($xoConfig['security'] != _XCONTENT_SECURITY_BASIC) {
+            if (_XCONTENT_SECURITY_BASIC != $xoConfig['security']) {
                 if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)
                     && $gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent->getVar('catid'), $groups, $modid)) {
                     $pages[$storyid]['storyid'] = $storyid;
@@ -144,7 +144,7 @@ function xcontent_block_sections_getChildrenTree($children, $storyid = 0)
 {
     $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
     $xcontent        = $xcontentHandler->get($storyid);
-    if ($xcontent->getVar('parent_id') != 0) {
+    if (0 != $xcontent->getVar('parent_id')) {
         $children[$storyid] = $storyid;
         $children           = xcontent_block_sections_getChildrenTree($children, $xcontent->getVar('parent_id'));
     } else {

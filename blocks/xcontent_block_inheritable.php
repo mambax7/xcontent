@@ -22,16 +22,16 @@ function xcontent_block_inheritable_show($options)
     $blockHandler    = xoops_getModuleHandler('block', 'xcontent');
     $xcontent        = $xcontentHandler->get((int)$_GET['storyid']);
     if (is_object($xcontent)) {
-        if ($xcontent->getVar('blockid') == 0 && $options[0] == 0) {
+        if (0 == $xcontent->getVar('blockid') && 0 == $options[0]) {
             return false;
-        } elseif ($xcontent->getVar('blockid') != 0) {
+        } elseif (0 != $xcontent->getVar('blockid')) {
             $block = $blockHandler->getBlock($xcontent->getVar('blockid'), $GLOBALS['xoopsConfig']['language']);
-        } elseif ($options[0] != 0) {
+        } elseif (0 != $options[0]) {
             $block = $blockHandler->getBlock($options[0], $GLOBALS['xoopsConfig']['language']);
         } else {
             return false;
         }
-    } elseif ($options[0] != 0) {
+    } elseif (0 != $options[0]) {
         $block = $blockHandler->getBlock($options[0], $GLOBALS['xoopsConfig']['language']);
     } else {
         return false;

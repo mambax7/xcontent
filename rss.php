@@ -22,7 +22,7 @@ if ($GLOBALS['xoopsModuleConfig']['htaccess']) {
     if (strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {
         $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
         $category        = $categoryHandler->getCategory($catid);
-        if ($category['text']->getVar('title') != '') {
+        if ('' != $category['text']->getVar('title')) {
             header('HTTP/1.1 301 Moved Permanently');
             header('Location: ' . XOOPS_URL . '/' . $GLOBALS['xoopsModuleConfig']['baseurl'] . '/' . xoops_sef($category['text']->getVar('title')) . '/feed,' . $catid . $GLOBALS['xoopsModuleConfig']['endofurl_rss']);
         } else {

@@ -16,7 +16,7 @@ License: See /docs - GPL 2.0
 
 function xcontent_getpostinglocal()
 {
-    if (strpos($_SERVER['PHP_SELF'], '/admin/index.php') == 0) {
+    if (0 == strpos($_SERVER['PHP_SELF'], '/admin/index.php')) {
         return '/manage.php';
     } else {
         return '/admin/index.php';
@@ -33,7 +33,7 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
     $xoModule      = $moduleHandler->getByDirname('xcontent');
     $modid         = $xoModule->getVar('mid');
     $xoConfig      = $configHandler->getConfigList($modid, 0);
-    if (strlen($securitymode) == 0) {
+    if (0 == strlen($securitymode)) {
         $securitymode = $xoConfig['security'];
     }
 
@@ -57,7 +57,7 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
                             return true;
                             break;
                         case _XCONTENT_URL_FCT_XCONTENT:
-                            if ($storyid == 0) {
+                            if (0 == $storyid) {
                                 return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ADD . _XCONTENT_PERM_TYPE_XCONTENT, $catid, $groups, $modid);
                             } else {
                                 return true;
@@ -358,7 +358,7 @@ function xcontent_getBreadcrumb($storyid)
 {
     $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
     $xcontent        = $xcontentHandler->get($storyid);
-    if ($xcontent->getVar('parent_id') != 0) {
+    if (0 != $xcontent->getVar('parent_id')) {
         $children = xcontent_getChildrenTree([], $storyid);
     } else {
         $children = [0 => $storyid];
@@ -383,7 +383,7 @@ function xcontent_getChildrenTree($children, $storyid = 0)
 {
     $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
     $xcontent        = $xcontentHandler->get($storyid);
-    if ($xcontent->getVar('parent_id') != 0) {
+    if (0 != $xcontent->getVar('parent_id')) {
         $children[$storyid] = $storyid;
         $children           = xcontent_getChildrenTree($children, $xcontent->getVar('parent_id'));
     } else {

@@ -44,7 +44,7 @@ function xcontent_block_subitems_show($options)
 
     if ($xcontents = $xcontentHandler->getObjects($criteria, true)) {
         foreach ($xcontents as $storyid => $xcontent) {
-            if ($xoConfig['security'] != _XCONTENT_SECURITY_BASIC) {
+            if (_XCONTENT_SECURITY_BASIC != $xoConfig['security']) {
                 if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)
                     && $gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent->getVar('catid'), $groups, $modid)) {
                     $pages[$storyid]['storyid'] = $storyid;

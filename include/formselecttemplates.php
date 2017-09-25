@@ -110,7 +110,7 @@ class XoopsFormSelectTemplates extends XoopsFormElement
         $html_files = XoopsLists::getHtmlListAsArray($GLOBALS['xoops']->path(_XCONTENT_PATH_PREDEFINED_HTML));
         $rss_files  = XoopsLists::getHtmlListAsArray($GLOBALS['xoops']->path(_XCONTENT_PATH_PREDEFINED_RSS));
         foreach ($html_files as $id => $file) {
-            if (strtolower($file) != 'index.html') {
+            if ('index.html' != strtolower($file)) {
                 if (in_array($file, $rss_files)) {
                     $this->addOption($file, $file);
                 }
@@ -181,7 +181,7 @@ class XoopsFormSelectTemplates extends XoopsFormElement
      */
     public function addOption($value, $name = '')
     {
-        if ($name != '') {
+        if ('' != $name) {
             $this->_options[$value] = $name;
         } else {
             $this->_options[$value] = $value;
@@ -235,7 +235,7 @@ class XoopsFormSelectTemplates extends XoopsFormElement
         $ele_value   = $this->getValue();
         $ele_options = $this->getOptions();
         $ret         = '<select size="' . $this->getSize() . '"' . $this->getExtra();
-        if ($this->isMultiple() !== false) {
+        if (false !== $this->isMultiple()) {
             $ret .= ' name="' . $ele_name . '[]" id="' . $ele_name . '" title="' . $ele_title . '" multiple="multiple">';
         } else {
             $ret .= ' name="' . $ele_name . '" id="' . $ele_name . '" title="' . $ele_title . '">';

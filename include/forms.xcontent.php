@@ -42,7 +42,7 @@ function xcontent_listblock()
     if ($blocks = $blockHandler->getObjects($criteria, true)) {
         $class = 'odd';
         foreach ($blocks as $blockid => $block) {
-            $class = ($class === 'odd') ? 'even' : 'odd';
+            $class = ('odd' === $class) ? 'even' : 'odd';
             $ret   .= '<tr class="' . $class . '">';
             $ret   .= '<td>' . xcontent_getBlockTitle($blockid) . '</a></td>';
             $ret   .= '<td>' . date(_DATESTRING, $block->getVar('created')) . '</td>';
@@ -134,7 +134,7 @@ function xcontent_listcategory()
     if ($categories = $categoryHandler->getObjects($criteria, true)) {
         $class = 'odd';
         foreach ($categories as $catid => $category) {
-            $class              = ($class === 'odd') ? 'even' : 'odd';
+            $class              = ('odd' === $class) ? 'even' : 'odd';
             $ret                .= '<tr class="' . $class . '">';
             $ret                .= '<td>' . xcontent_getCatTitle($catid) . '</a></td>';
             $formobj_catid      = new XoopsFormSelectCategories('', 'parent_id[' . $catid . ']', $category->getVar('parent_id'), 1, false, $catid);
@@ -331,7 +331,7 @@ function xcontent_listxcontent()
     if ($xcontents = $xcontentHandler->getObjects($criteria, true)) {
         $class = 'odd';
         foreach ($xcontents as $storyid => $xcontent) {
-            $class                       = ($class === 'odd') ? 'even' : 'odd';
+            $class                       = ('odd' === $class) ? 'even' : 'odd';
             $cntarray                    = $xcontent->toArray();
             $ret                         .= '<tr class="' . $class . '">';
             $ret                         .= '<td><a href="' . XOOPS_URL . '/modules/' . _XCONTENT_DIRNAME . '/?storyid=' . $storyid . '">' . xcontent_getTitle($storyid) . '</a></td>';
@@ -486,7 +486,7 @@ function xcontent_addxcontent($storyid = 0, $language = '')
 
     $page_desc_configs           = [];
     $page_desc_configs['name']   = 'rss';
-    $page_desc_configs['value']  = ($xcontent['text']->getVar('rss') == '') ? $_GET['rss'] : clear_unicodeslashes($xcontent['text']->getVar('rss'));
+    $page_desc_configs['value']  = ('' == $xcontent['text']->getVar('rss')) ? $_GET['rss'] : clear_unicodeslashes($xcontent['text']->getVar('rss'));
     $page_desc_configs['rows']   = 35;
     $page_desc_configs['cols']   = 60;
     $page_desc_configs['width']  = '100%';
@@ -496,7 +496,7 @@ function xcontent_addxcontent($storyid = 0, $language = '')
 
     $page_desc_configs           = [];
     $page_desc_configs['name']   = 'text';
-    $page_desc_configs['value']  = ($xcontent['text']->getVar('text') == '') ? $_GET['text'] : clear_unicodeslashes($xcontent['text']->getVar('text'));
+    $page_desc_configs['value']  = ('' == $xcontent['text']->getVar('text')) ? $_GET['text'] : clear_unicodeslashes($xcontent['text']->getVar('text'));
     $page_desc_configs['rows']   = 35;
     $page_desc_configs['cols']   = 60;
     $page_desc_configs['width']  = '100%';
@@ -783,7 +783,7 @@ function xcontent_listuserblock()
     if ($blocks = $blockHandler->getObjects($criteria, true)) {
         $class = 'odd';
         foreach ($blocks as $blockid => $block) {
-            $class = ($class === 'odd') ? 'even' : 'odd';
+            $class = ('odd' === $class) ? 'even' : 'odd';
             $ret   .= '<tr class="' . $class . '">';
             $ret   .= '<td>' . xcontent_getBlockTitle($blockid) . '</a></td>';
             $ret   .= '<td>' . date(_DATESTRING, $block->getVar('created')) . '</td>';
@@ -875,7 +875,7 @@ function xcontent_listusercategory()
     if ($categories = $categoryHandler->getObjects($criteria, true)) {
         $class = 'odd';
         foreach ($categories as $catid => $category) {
-            $class              = ($class === 'odd') ? 'even' : 'odd';
+            $class              = ('odd' === $class) ? 'even' : 'odd';
             $ret                .= '<tr class="' . $class . '">';
             $ret                .= '<td>' . xcontent_getCatTitle($catid) . '</a></td>';
             $formobj_catid      = new XoopsFormSelectCategories('', 'parent_id[' . $catid . ']', $category->getVar('parent_id'), 1, false, $catid);
@@ -971,7 +971,7 @@ function xcontent_listuserxcontent()
     if ($xcontents = $xcontentHandler->getObjects($criteria, true)) {
         $class = 'odd';
         foreach ($xcontents as $storyid => $xcontent) {
-            $class                       = ($class === 'odd') ? 'even' : 'odd';
+            $class                       = ('odd' === $class) ? 'even' : 'odd';
             $cntarray                    = $xcontent->toArray();
             $ret                         .= '<tr class="' . $class . '">';
             $ret                         .= '<td><a href="' . XOOPS_URL . '/modules/' . _XCONTENT_DIRNAME . '/?storyid=' . $storyid . '">' . xcontent_getTitle($storyid) . '</a></td>';

@@ -114,7 +114,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     $xcontent->setVar('submenu', $submenu[$storyid]);
                     $xcontent->setVar('weight', $weight[$storyid]);
 
-                    if ($homepage[$storyid] === true) {
+                    if (true === $homepage[$storyid]) {
                         $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_XCONTENT) . ' SET homepage=0';
                         @$GLOBALS['xoopsDB']->queryF($sql);
                     }
@@ -158,7 +158,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 
                 $blockHandler = xoops_getModuleHandler(_XCONTENT_CLASS_BLOCK, _XCONTENT_DIRNAME);
 
-                if ($blockid == 0) {
+                if (0 == $blockid) {
                     $block = $blockHandler->createnew();
                 } else {
                     $block = $blockHandler->getBlock($blockid, $language);
@@ -213,7 +213,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 
                 $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
 
-                if ($catid == 0) {
+                if (0 == $catid) {
                     $category = $categoryHandler->createnew();
                 } else {
                     $category = $categoryHandler->getCategory($catid, $language);
@@ -270,7 +270,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     ${$id} = $val;
                 }
 
-                if ($homepage === true) {
+                if (true === $homepage) {
                     $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_XCONTENT) . ' SET homepage=0';
                     @$GLOBALS['xoopsDB']->queryF($sql);
                 }
@@ -278,7 +278,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                 $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
                 $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
 
-                if ($storyid == 0) {
+                if (0 == $storyid) {
                     $xcontent = $xcontentHandler->createnew();
                 } else {
                     $xcontent = $xcontentHandler->getContent($storyid, $language);
@@ -368,7 +368,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     $tagHandler->updateByItem($_POST['tags'], $xcontent['xcontent']->getVar('storyid'), $GLOBALS['xoopsModule']->getVar('dirname'), $xcontent['xcontent']->getVar('catid'));
                 }
 
-                if ($newObject === true) {
+                if (true === $newObject) {
                     $groupperm  = xoops_getHandler('groupperm');
                     $criteria   = new Criteria('gperm_name', _XCONTENT_PERM_TEMPLATE_VIEW_XCONTENT);
                     $groupperms = $groupperm->getObjects($criteria);
@@ -496,7 +496,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
         switch ($fct) {
             case _XCONTENT_URL_FCT_XCONTENT:
                 $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
-                if ($categoryHandler->getCount(null) == 0) {
+                if (0 == $categoryHandler->getCount(null)) {
                     redirect_header('index.php?op=' . _XCONTENT_URL_OP_ADD . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES, 6, _XCONTENT_NEEDCATEGORIES);
                     exit(0);
                 }
@@ -856,106 +856,106 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
         }
 
         echo '<div style="float:right; clear:both;"><form name="perms"><select name="permlinks" onChange="window.location=document.perms.permlinks.options[document.perms.permlinks.selectedIndex].value">';
-        if ($GLOBALS['xoopsModuleConfig']['security'] == _XCONTENT_SECURITY_BASIC) {
+        if (_XCONTENT_SECURITY_BASIC == $GLOBALS['xoopsModuleConfig']['security']) {
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_TEMPLATE . '&mode=' . _XCONTENT_PERM_MODE_ALL . '"';
-            if ($fct == _XCONTENT_URL_FCT_TEMPLATE) {
+            if (_XCONTENT_URL_FCT_TEMPLATE == $fct) {
                 echo ' selected>' . _XCONTENT_PERM_DEFAULT_TEMPLATE . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_DEFAULT_TEMPLATE . '</option>';
             }
-            if ($fct == _XCONTENT_URL_FCT_CATEGORIES && $_GET['mode'] == _XCONTENT_PERM_MODE_VIEW) {
+            if (_XCONTENT_URL_FCT_CATEGORIES == $fct && _XCONTENT_PERM_MODE_VIEW == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_VIEW_CATEGORY . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_VIEW_CATEGORY . '</option>';
             }
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_XCONTENT . '&mode=' . _XCONTENT_PERM_MODE_VIEW . '"';
-            if ($fct == _XCONTENT_URL_FCT_XCONTENT && $_GET['mode'] == _XCONTENT_PERM_MODE_VIEW) {
+            if (_XCONTENT_URL_FCT_XCONTENT == $fct && _XCONTENT_PERM_MODE_VIEW == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_VIEW_XCONTENT . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_VIEW_XCONTENT . '</option>';
             }
-        } elseif ($GLOBALS['xoopsModuleConfig']['security'] == _XCONTENT_SECURITY_INTERMEDIATE) {
+        } elseif (_XCONTENT_SECURITY_INTERMEDIATE == $GLOBALS['xoopsModuleConfig']['security']) {
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_TEMPLATE . '&mode=' . _XCONTENT_PERM_MODE_ALL . '"';
-            if ($fct == _XCONTENT_URL_FCT_TEMPLATE && $_GET['mode'] == _XCONTENT_PERM_MODE_ALL) {
+            if (_XCONTENT_URL_FCT_TEMPLATE == $fct && _XCONTENT_PERM_MODE_ALL == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_DEFAULT_TEMPLATE . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_DEFAULT_TEMPLATE . '</option>';
             }
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES . '&mode=' . _XCONTENT_PERM_MODE_VIEW . '"';
-            if ($fct == _XCONTENT_URL_FCT_CATEGORIES && $_GET['mode'] == _XCONTENT_PERM_MODE_VIEW) {
+            if (_XCONTENT_URL_FCT_CATEGORIES == $fct && _XCONTENT_PERM_MODE_VIEW == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_VIEW_CATEGORY . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_VIEW_CATEGORY . '</option>';
             }
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_XCONTENT . '&mode=' . _XCONTENT_PERM_MODE_VIEW . '"';
-            if ($fct == _XCONTENT_URL_FCT_XCONTENT && $_GET['mode'] == _XCONTENT_PERM_MODE_VIEW) {
+            if (_XCONTENT_URL_FCT_XCONTENT == $fct && _XCONTENT_PERM_MODE_VIEW == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_VIEW_XCONTENT . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_VIEW_XCONTENT . '</option>';
             }
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_BLOCKS . '&mode=' . _XCONTENT_PERM_MODE_VIEW . '"';
-            if ($fct == _XCONTENT_URL_FCT_BLOCKS && $_GET['mode'] == _XCONTENT_PERM_MODE_VIEW) {
+            if (_XCONTENT_URL_FCT_BLOCKS == $fct && _XCONTENT_PERM_MODE_VIEW == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_VIEW_BLOCK . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_VIEW_BLOCK . '</option>';
             }
-            if ($fct == _XCONTENT_URL_FCT_CATEGORIES && $_GET['mode'] == _XCONTENT_PERM_MODE_ADD) {
+            if (_XCONTENT_URL_FCT_CATEGORIES == $fct && _XCONTENT_PERM_MODE_ADD == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_ADD_XCONTENT . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_EDIT_BLOCK . '</option>';
             }
         } else {
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_TEMPLATE . '&mode=' . _XCONTENT_PERM_MODE_ALL . '"';
-            if ($fct == _XCONTENT_URL_FCT_TEMPLATE && $_GET['mode'] == _XCONTENT_PERM_MODE_ALL) {
+            if (_XCONTENT_URL_FCT_TEMPLATE == $fct && _XCONTENT_PERM_MODE_ALL == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_DEFAULT_TEMPLATE . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_DEFAULT_TEMPLATE . '</option>';
             }
 
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES . '&mode=' . _XCONTENT_PERM_MODE_VIEW . '"';
-            if ($fct == _XCONTENT_URL_FCT_CATEGORIES && $_GET['mode'] == _XCONTENT_PERM_MODE_VIEW) {
+            if (_XCONTENT_URL_FCT_CATEGORIES == $fct && _XCONTENT_PERM_MODE_VIEW == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_VIEW_CATEGORY . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_VIEW_CATEGORY . '</option>';
             }
 
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_XCONTENT . '&mode=' . _XCONTENT_PERM_MODE_VIEW . '"';
-            if ($fct == _XCONTENT_URL_FCT_XCONTENT && $_GET['mode'] == _XCONTENT_PERM_MODE_VIEW) {
+            if (_XCONTENT_URL_FCT_XCONTENT == $fct && _XCONTENT_PERM_MODE_VIEW == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_VIEW_XCONTENT . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_VIEW_XCONTENT . '</option>';
             }
 
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_BLOCKS . '&mode=' . _XCONTENT_PERM_MODE_VIEW . '"';
-            if ($fct == _XCONTENT_URL_FCT_BLOCKS && $_GET['mode'] == _XCONTENT_PERM_MODE_VIEW) {
+            if (_XCONTENT_URL_FCT_BLOCKS == $fct && _XCONTENT_PERM_MODE_VIEW == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_VIEW_BLOCK . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_VIEW_BLOCK . '</option>';
             }
 
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES . '&mode=' . _XCONTENT_PERM_MODE_EDIT . '"';
-            if ($fct == _XCONTENT_URL_FCT_CATEGORIES && $_GET['mode'] == _XCONTENT_PERM_MODE_EDIT) {
+            if (_XCONTENT_URL_FCT_CATEGORIES == $fct && _XCONTENT_PERM_MODE_EDIT == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_EDIT_CATEGORY . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_EDIT_CATEGORY . '</option>';
             }
 
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_XCONTENT . '&mode=' . _XCONTENT_PERM_MODE_EDIT . '"';
-            if ($fct == _XCONTENT_URL_FCT_XCONTENT && $_GET['mode'] == _XCONTENT_PERM_MODE_EDIT) {
+            if (_XCONTENT_URL_FCT_XCONTENT == $fct && _XCONTENT_PERM_MODE_EDIT == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_EDIT_XCONTENT . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_EDIT_XCONTENT . '</option>';
             }
 
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_BLOCKS . '&mode=' . _XCONTENT_PERM_MODE_EDIT . '"';
-            if ($fct == _XCONTENT_URL_FCT_BLOCKS && $_GET['mode'] == _XCONTENT_PERM_MODE_EDIT) {
+            if (_XCONTENT_URL_FCT_BLOCKS == $fct && _XCONTENT_PERM_MODE_EDIT == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_EDIT_BLOCK . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_EDIT_BLOCK . '</option>';
             }
 
             echo '<option value="' . XOOPS_URL . '/modules/xcontent/admin/index.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_XCONTENT . '&mode=' . _XCONTENT_PERM_MODE_ADD . '"';
-            if ($fct == _XCONTENT_URL_FCT_XCONTENT && $_GET['mode'] == _XCONTENT_PERM_MODE_ADD) {
+            if (_XCONTENT_URL_FCT_XCONTENT == $fct && _XCONTENT_PERM_MODE_ADD == $_GET['mode']) {
                 echo ' selected>' . _XCONTENT_PERM_ADD_XCONTENT . '</option>';
             } else {
                 echo '>' . _XCONTENT_PERM_ADD_XCONTENT . '</option>';
@@ -1011,7 +1011,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                 $item_list_view = [];
                 $block_view     = [];
 
-                if ($mode == _XCONTENT_PERM_MODE_ADD) {
+                if (_XCONTENT_PERM_MODE_ADD == $mode) {
                     $result_view = $GLOBALS['xoopsDB']->query('SELECT catid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_CATEGORY) . ' ');
                     if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
                         while ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view)) {

@@ -30,19 +30,19 @@ $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . _XCONTENT_PATH_CSS_INDEX);
 
 $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
 
-if (!empty($storyid) && $xcontentHandler->getCount(new Criteria('storyid', $storyid)) != 0) {
+if (!empty($storyid) && 0 != $xcontentHandler->getCount(new Criteria('storyid', $storyid))) {
     if ($xcontent = $xcontentHandler->getContent($storyid)) {
         if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent['xcontent']->getVar('storyid'), $groups, $modid)) {
             redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
         } elseif (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent['xcontent']->getVar('catid'), $groups, $modid)
-                  && $GLOBALS['xoopsModuleConfig']['security'] != _XCONTENT_SECURITY_BASIC) {
+                  && _XCONTENT_SECURITY_BASIC != $GLOBALS['xoopsModuleConfig']['security']) {
             redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
         } else {
             if ($GLOBALS['xoopsModuleConfig']['htaccess']) {
                 if (strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {
                     $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
                     $category        = $categoryHandler->getCategory($xcontent['xcontent']->getVar('catid'));
-                    if ($category['text']->getVar('title') != '') {
+                    if ('' != $category['text']->getVar('title')) {
                         header('HTTP/1.1 301 Moved Permanently');
                         header('Location: '
                                . XOOPS_URL
@@ -75,15 +75,15 @@ if (!empty($storyid) && $xcontentHandler->getCount(new Criteria('storyid', $stor
                 }
             }
 
-            if ($xcontent['xcontent']->getVar('link') == 1 && $xcontent['xcontent']->getVar('address') !== 'http://') {
+            if (1 == $xcontent['xcontent']->getVar('link') && 'http://' !== $xcontent['xcontent']->getVar('address')) {
                 header('HTTP/1.1 301 Moved Permanently');
                 header('Location: ' . $xcontent['xcontent']->getVar('address'));
                 exit(0);
             }
 
-            if ($xcontent['xcontent']->getVar('storyid') > 0 && $xcontent['xcontent']->getVar('visible') == 1) {
+            if ($xcontent['xcontent']->getVar('storyid') > 0 && 1 == $xcontent['xcontent']->getVar('visible')) {
                 if ($xcontent['xcontent']->getVar('publish') > time()
-                    && $xcontent['xcontent']->getVar('publish') != 0) {
+                    && 0 != $xcontent['xcontent']->getVar('publish')) {
                     if ($xcontent['xcontent']->getVar('publish_storyid') > 0) {
                         redirect_header(XOOPS_URL . '/modules/' . _XCONTENT_DIRNAME . '/?storyid=' . $xcontent['xcontent']->getVar('publish_storyid'), 10, _XCONTENT_TOBEPUBLISHED);
                     } else {
@@ -91,18 +91,18 @@ if (!empty($storyid) && $xcontentHandler->getCount(new Criteria('storyid', $stor
                     }
                     exit(0);
                 } elseif ($xcontent['xcontent']->getVar('expire') < time()
-                          && $xcontent['xcontent']->getVar('expire') != 0) {
+                          && 0 != $xcontent['xcontent']->getVar('expire')) {
                     if ($xcontent['xcontent']->getVar('expire_storyid') > 0) {
                         redirect_header(XOOPS_URL . '/modules/' . _XCONTENT_DIRNAME . '/?storyid=' . $xcontent['xcontent']->getVar('expire_storyid'), 10, _XCONTENT_XCONTENTEXPIRED);
                     } else {
                         redirect_header(XOOPS_URL . '/modules/' . _XCONTENT_DIRNAME . '/', 10, _XCONTENT_XCONTENTEXPIRED);
                     }
                     exit(0);
-                } elseif (strlen($xcontent['xcontent']->getVar('password')) == 32) {
+                } elseif (32 == strlen($xcontent['xcontent']->getVar('password'))) {
                     if (!isset($_COOKIE['xcontent_password'])) {
                         $_COOKIE['xcontent_password'] = [];
                     }
-                    if ($_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] === false) {
+                    if (false === $_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)]) {
                         if (md5($_POST['password']) != $xcontent['xcontent']->getVar('password')) {
                             $GLOBALS['xoopsOption']['template_main'] = _XCONTENT_TEMPLATE_INDEX_PASSWORD;
                             $GLOBALS['xoopsTpl']->assign('xoops_pagetitle', xcontent_getPageTitle($xcontent['xcontent']->getVar('storyid')));
@@ -154,10 +154,10 @@ if (!empty($storyid) && $xcontentHandler->getCount(new Criteria('storyid', $stor
         if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent['xcontent']->getVar('storyid'), $groups, $modid)) {
             redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
         } elseif (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent['xcontent']->getVar('catid'), $groups, $modid)
-                  && $GLOBALS['xoopsModuleConfig']['security'] != _XCONTENT_SECURITY_BASIC) {
+                  && _XCONTENT_SECURITY_BASIC != $GLOBALS['xoopsModuleConfig']['security']) {
             redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
         } else {
-            if ($xcontent['xcontent']->getVar('link') == 1 && $xcontent['xcontent']->getVar('address') !== 'http://') {
+            if (1 == $xcontent['xcontent']->getVar('link') && 'http://' !== $xcontent['xcontent']->getVar('address')) {
                 header('HTTP/1.1 301 Moved Permanently');
                 header('Location: ' . $xcontent['xcontent']->getVar('address'));
                 exit(0);

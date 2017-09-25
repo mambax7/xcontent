@@ -115,7 +115,7 @@ class XoopsFormSelectLanguages extends XoopsFormElement
         require_once $GLOBALS['xoops']->path('class/xoopslists.php');
 
         $langs_array = XoopsLists::getDirListAsArray($GLOBALS['xoops']->path('modules/system/language/'));
-        if ($GLOBALS['multilingual'] === true) {
+        if (true === $GLOBALS['multilingual']) {
             $langHandler = xoops_getModuleHandler('xlanguage_ext', 'xcontent');
             $langs       = $langHandler->getObjects(null, true);
             foreach ($langs as $id => $lang) {
@@ -191,7 +191,7 @@ class XoopsFormSelectLanguages extends XoopsFormElement
      */
     public function addOption($value, $name = '')
     {
-        if ($name != '') {
+        if ('' != $name) {
             $this->_options[$value] = $name;
         } else {
             $this->_options[$value] = $value;
@@ -245,7 +245,7 @@ class XoopsFormSelectLanguages extends XoopsFormElement
         $ele_value   = $this->getValue();
         $ele_options = $this->getOptions();
         $ret         = '<select size="' . $this->getSize() . '"' . $this->getExtra();
-        if ($this->isMultiple() !== false) {
+        if (false !== $this->isMultiple()) {
             $ret .= ' name="' . $ele_name . '[]" id="' . $ele_name . '" title="' . $ele_title . '" multiple="multiple">';
         } else {
             $ret .= ' name="' . $ele_name . '" id="' . $ele_name . '" title="' . $ele_title . '">';
