@@ -13,7 +13,7 @@ Owner: Chronolabs
 
 License: See /docs - GPL 2.0
 */
-
+require_once __DIR__ . '/preloads/autoloader.php';
 $i                           = 0;
 //$modversion['version']       = _XCONTENT_VERSION;
 $modversion['version']       = '2.17';

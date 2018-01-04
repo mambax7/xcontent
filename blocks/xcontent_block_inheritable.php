@@ -37,7 +37,7 @@ function xcontent_block_inheritable_show($options)
         return false;
     }
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     return [
         'html' => $myts->displayTarea(clear_unicodeslashes($block['text']->getVar('text')), true, true, true, true, false)

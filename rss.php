@@ -35,7 +35,7 @@ if ($GLOBALS['xoopsModuleConfig']['htaccess']) {
 
 function rss_data($catid, $language)
 {
-    $myts            = MyTextSanitizer::getInstance();
+    $myts            = \MyTextSanitizer::getInstance();
     $rss             = [];
     $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
     $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
@@ -61,7 +61,7 @@ function rss_data($catid, $language)
     return $rss;
 }
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $rssfeed_data = rss_data($catid, $language);
 

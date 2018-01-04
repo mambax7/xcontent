@@ -30,8 +30,8 @@ switch ($op) {
         $xcontentHandler = xoops_getModuleHandler('xcontent', 'xcontent');
         $indexAdmin      = \Xmf\Module\Admin::getInstance();
         $adminObject->addInfoBox(_XCONTENT_ADMIN_COUNTS);
-        $adminObject->addInfoBoxLine(_XCONTENT_ADMIN_COUNTS, '<label>' . _XCONTENT_ADMIN_THEREARE_CATEGORIES . '</label>', $categoryHandler->getCount(null), 'Green');
-        $adminObject->addInfoBoxLine(_XCONTENT_ADMIN_COUNTS, '<label>' . _XCONTENT_ADMIN_THEREARE_ARTICLES . '</label>', $xcontentHandler->getCount(null), 'Green');
+        $adminObject->addInfoBoxLine(sprintf('<label>' . _XCONTENT_ADMIN_THEREARE_CATEGORIES . '</label>', $categoryHandler->getCount(null)), '', 'Green');
+        $adminObject->addInfoBoxLine(sprintf('<label>' . _XCONTENT_ADMIN_THEREARE_ARTICLES . '</label>', $xcontentHandler->getCount(null)), '', 'Green');
         $adminObject->displayIndex();
         xoops_cp_footer();
         break;

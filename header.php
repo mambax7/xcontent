@@ -21,7 +21,7 @@ require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FORMOBJECTS);
 require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FORMS);
 require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_TEMPLATE);
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $gpermHandler = xoops_getHandler('groupperm');
 $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
