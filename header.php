@@ -43,8 +43,8 @@ $language   = isset($_REQUEST['language']) ? $_REQUEST['language'] : $GLOBALS['x
 
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$criteria      = new CriteriaCompo(new Criteria('dirname', 'xlanguage'));
-$criteria->add(new Criteria('isactive', true));
+$criteria      = new \CriteriaCompo(new \Criteria('dirname', 'xlanguage'));
+$criteria->add(new \Criteria('isactive', true));
 if ($moduleHandler->getCount($criteria) > 0) {
     $GLOBALS['multilingual'] = true;
 } else {

@@ -142,15 +142,15 @@ $modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_INDEX_PASSWORD_
 // Submenu Items
 $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
 $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-$criteria        = new CriteriaCompo(new Criteria('homepage', false));
-$criteria->add(new Criteria('submenu', true));
-$criteria->add(new Criteria('parent_id', 0));
-$criteria->add(new Criteria('visible', 1));
+$criteria        = new \CriteriaCompo(new \Criteria('homepage', false));
+$criteria->add(new \Criteria('submenu', true));
+$criteria->add(new \Criteria('parent_id', 0));
+$criteria->add(new \Criteria('visible', 1));
 
-$criteria_publish = new CriteriaCompo(new Criteria('publish', time(), '<'), 'OR');
-$criteria_publish->add(new Criteria('publish', 0), 'OR');
-$criteria_expire = new CriteriaCompo(new Criteria('expire', time(), '>'), 'OR');
-$criteria_expire->add(new Criteria('expire', 0), 'OR');
+$criteria_publish = new \CriteriaCompo(new \Criteria('publish', time(), '<'), 'OR');
+$criteria_publish->add(new \Criteria('publish', 0), 'OR');
+$criteria_expire = new \CriteriaCompo(new \Criteria('expire', time(), '>'), 'OR');
+$criteria_expire->add(new \Criteria('expire', 0), 'OR');
 
 $criteria->add($criteria_publish);
 $criteria->add($criteria_expire);
@@ -209,8 +209,8 @@ if ($xoModule = $moduleHandler->getByDirname('xcontent')) {
     foreach ($xcontents as $storyid => $xcontent) {
         if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)
             && $gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent->getVar('catid'), $groups, $modid)) {
-            $criteria = new CriteriaCompo(new Criteria('storyid', $storyid));
-            $criteria->add(new Criteria('language', $GLOBALS['xoopsConfig']['language']));
+            $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+            $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
             if ($texts = $textHandler->getObjects($criteria)) {
                 $modversion['sub'][$i]['name'] = $texts[0]->getVar('title');
                 $modversion['sub'][$i]['url']  = 'index.php?storyid=' . $storyid . '';

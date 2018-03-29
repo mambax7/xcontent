@@ -18,7 +18,7 @@ include __DIR__ . '/header.php';
 
 $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
 
-if (empty($storyid) && 0 == $xcontentHandler->getCount(new Criteria('storyid', $storyid))) {
+if (empty($storyid) && 0 == $xcontentHandler->getCount(new \Criteria('storyid', $storyid))) {
     redirect_header(XOOPS_URL . _XCONTENT_PATH_MODULE_ROOT, 2, _XCONTENT_NOSTORY);
 }
 

@@ -36,7 +36,7 @@ License: See /docs - GPL 2.0
  * @author          Taiwen Jiang <phppp@users.sourceforge.net>
  * @author          John Neill <catzwolf@xoops.org>
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 xoops_load('XoopsFormElement');
 
@@ -115,7 +115,7 @@ class XoopsFormSelectCategories extends XoopsFormElement
     public function getCategories($ownid)
     {
         $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
-        $categories      = $categoryHandler->getObjects(new Criteria('parent_id', 0), true);
+        $categories      = $categoryHandler->getObjects(new \Criteria('parent_id', 0), true);
         $langs_array     = $this->TreeMenu([], $categories, -1, $ownid);
 
         return $langs_array;
@@ -128,7 +128,7 @@ class XoopsFormSelectCategories extends XoopsFormElement
         foreach ($categories as $catid => $category) {
             if ($catid != $ownid) {
                 $langs_array[$catid] = str_repeat('--', $level) . xcontent_getCatTitle($catid);
-                if ($categoriesb = $categoryHandler->getObjects(new Criteria('parent_id', $catid), true)) {
+                if ($categoriesb = $categoryHandler->getObjects(new \Criteria('parent_id', $catid), true)) {
                     $langs_array = $this->TreeMenu($langs_array, $categoriesb, $level);
                 }
             }
@@ -282,7 +282,7 @@ class XoopsFormSelectCategories extends XoopsFormElement
         // render custom validation code if any
         if (!empty($this->customValidationCode)) {
             return implode("\n", $this->customValidationCode);
-            // generate validation code if required
+        // generate validation code if required
         } elseif ($this->isRequired()) {
             $eltname    = $this->getName();
             $eltcaption = $this->getCaption();

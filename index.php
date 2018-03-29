@@ -30,7 +30,7 @@ $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . _XCONTENT_PATH_CSS_INDEX);
 
 $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
 
-if (!empty($storyid) && 0 != $xcontentHandler->getCount(new Criteria('storyid', $storyid))) {
+if (!empty($storyid) && 0 != $xcontentHandler->getCount(new \Criteria('storyid', $storyid))) {
     if ($xcontent = $xcontentHandler->getContent($storyid)) {
         if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent['xcontent']->getVar('storyid'), $groups, $modid)) {
             redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);

@@ -46,15 +46,15 @@ $language   = isset($_REQUEST['language']) ? $_REQUEST['language'] : $GLOBALS['x
 
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$criteria      = new CriteriaCompo(new Criteria('dirname', 'xlanguage'));
-$criteria->add(new Criteria('isactive', true));
+$criteria      = new \CriteriaCompo(new \Criteria('dirname', 'xlanguage'));
+$criteria->add(new \Criteria('isactive', true));
 if ($moduleHandler->getCount($criteria) > 0) {
     $GLOBALS['multilingual'] = true;
 } else {
     $GLOBALS['multilingual'] = false;
 }
 
-$GLOBALS['contentTpl'] = new XoopsTpl();
+$GLOBALS['contentTpl'] = new \XoopsTpl();
 
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler                   = xoops_getHandler('module');
@@ -71,7 +71,7 @@ require_once $GLOBALS['xoops']->path('class/xoopstree.php');
 
 if (file_exists($GLOBALS['xoops']->path('Frameworks/moduleclasses/moduleadmin/moduleadmin.php'))) {
     require_once $GLOBALS['xoops']->path('Frameworks/moduleclasses/moduleadmin/moduleadmin.php');
-    //return true;
+//return true;
 } else {
     echo xcontent_error("Error: You don't use the Frameworks \"admin module\". Please install this Frameworks");
     //return false;
@@ -90,7 +90,7 @@ if ($GLOBALS['xoopsUser']) {
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
     require_once XOOPS_ROOT_PATH . '/class/template.php';
-    $GLOBALS['xoopsTpl'] = new XoopsTpl();
+    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }
 
 $GLOBALS['xoopsTpl']->assign('pathImageIcon', $GLOBALS['xcontentImageIcon']);

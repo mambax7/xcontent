@@ -57,7 +57,7 @@ if (!function_exists('clear_unicodeslashes')) {
 
 function xcontent_block_inheritable_edit($options)
 {
-    $blockform = new XoopsFormSelectBlocks('', 'options[0]', $options[0]);
+    $blockform = new \XoopsFormSelectBlocks('', 'options[0]', $options[0]);
 
     return 'Default Block: ' . $blockform->render();
 }

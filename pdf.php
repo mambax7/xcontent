@@ -21,7 +21,7 @@ $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DI
 $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
 $xcontent        = $xcontentHandler->getContent($storyid, $language);
 
-if (empty($storyid) && 0 == $xcontentHandler->getCount(new Criteria('storyid', $storyid))) {
+if (empty($storyid) && 0 == $xcontentHandler->getCount(new \Criteria('storyid', $storyid))) {
     redirect_header(XOOPS_URL . _XCONTENT_PATH_MODULE_ROOT, 2, _XCONTENT_NOSTORY);
 }
 
@@ -163,7 +163,7 @@ if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XC
     $doc_keywords = 'XOOPS';
 
     //DNPROSSI ADDED gbsn00lp chinese to tcpdf fonts dir
-    if (_LANGCODE == 'cn') {
+    if (_LANGCODE === 'cn') {
         $pdf->SetFont('gbsn00lp', '', 10);
     }
 
@@ -190,7 +190,7 @@ if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XC
     $pdf->setImageScale(1); //set image scale factor
 
     //DNPROSSI ADDED FOR SCHINESE
-    if (_LANGCODE == 'cn') {
+    if (_LANGCODE === 'cn') {
         $pdf->setHeaderFont(['gbsn00lp', '', 10]);
         $pdf->setFooterFont(['gbsn00lp', '', 10]);
     } else {

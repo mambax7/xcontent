@@ -14,7 +14,7 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 xoops_load('XoopsFormElement');
 
@@ -72,7 +72,7 @@ class XoopsFormSelectPages extends XoopsFormElement
     public function getPages($ownid)
     {
         $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
-        $xcontents       = $xcontentHandler->getObjects(new Criteria('parent_id', 0), true);
+        $xcontents       = $xcontentHandler->getObjects(new \Criteria('parent_id', 0), true);
         $langs_array     = $this->TreeMenu([], $xcontents, -1, $ownid);
 
         return $langs_array;
@@ -85,7 +85,7 @@ class XoopsFormSelectPages extends XoopsFormElement
         foreach ($xcontents as $storyid => $xcontent) {
             if ($storyid != $ownid) {
                 $langs_array[$storyid] = str_repeat('--', $level) . xcontent_getTitle($storyid);
-                if ($xcontentsb = $xcontentHandler->getObjects(new Criteria('parent_id', $storyid), true)) {
+                if ($xcontentsb = $xcontentHandler->getObjects(new \Criteria('parent_id', $storyid), true)) {
                     $langs_array = $this->TreeMenu($langs_array, $xcontentsb, $level, $ownid);
                 }
             }
@@ -239,7 +239,7 @@ class XoopsFormSelectPages extends XoopsFormElement
         // render custom validation code if any
         if (!empty($this->customValidationCode)) {
             return implode("\n", $this->customValidationCode);
-            // generate validation code if required
+        // generate validation code if required
         } elseif ($this->isRequired()) {
             $eltname    = $this->getName();
             $eltcaption = $this->getCaption();

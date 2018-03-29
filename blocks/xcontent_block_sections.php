@@ -17,14 +17,14 @@ License: See /docs - GPL 2.0
 function xcontent_block_sections_gettext($storyid)
 {
     $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-    $criteria    = new CriteriaCompo(new Criteria('storyid', $storyid));
-    $criteria->add(new Criteria('language', $GLOBALS['xoopsConfig']['language']));
-    $criteria->add(new Criteria('type', 'xcontent'));
+    $criteria    = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+    $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
+    $criteria->add(new \Criteria('type', 'xcontent'));
     if ($texts = $textHandler->getObjects($criteria)) {
         return $texts[0];
     } else {
-        $criteria = new CriteriaCompo(new Criteria('storyid', $storyid));
-        $criteria->add(new Criteria('type', 'xcontent'));
+        $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+        $criteria->add(new \Criteria('type', 'xcontent'));
         if ($texts = $textHandler->getObjects($criteria)) {
             return $texts[0];
         }
@@ -46,14 +46,14 @@ function xcontent_block_sections_show($options)
 
     $children = xcontent_block_sections_getChildrenTree([$options[0]], $options[0]);
 
-    $criteria = new CriteriaCompo(new Criteria('parent_id', '(' . implode(',', $children) . ')', 'IN'));
-    $criteria->add(new Criteria('submenu', 1));
-    $criteria->add(new Criteria('visible', 1));
+    $criteria = new \CriteriaCompo(new \Criteria('parent_id', '(' . implode(',', $children) . ')', 'IN'));
+    $criteria->add(new \Criteria('submenu', 1));
+    $criteria->add(new \Criteria('visible', 1));
 
-    $criteria_publish = new CriteriaCompo(new Criteria('publish', time(), '<'), 'OR');
-    $criteria_publish->add(new Criteria('publish', 0), 'OR');
-    $criteria_expire = new CriteriaCompo(new Criteria('expire', time(), '>'), 'OR');
-    $criteria_expire->add(new Criteria('expire', 0), 'OR');
+    $criteria_publish = new \CriteriaCompo(new \Criteria('publish', time(), '<'), 'OR');
+    $criteria_publish->add(new \Criteria('publish', 0), 'OR');
+    $criteria_expire = new \CriteriaCompo(new \Criteria('expire', time(), '>'), 'OR');
+    $criteria_expire->add(new \Criteria('expire', 0), 'OR');
 
     $criteria->add($criteria_publish);
     $criteria->add($criteria_expire);
@@ -72,8 +72,8 @@ function xcontent_block_sections_show($options)
                         $pages[$storyid]['title']  = $text->getVar('title');
                     }
 
-                    $criteriab = new CriteriaCompo(new Criteria('parent_id', $storyid));
-                    $criteriab->add(new Criteria('submenu', 1));
+                    $criteriab = new \CriteriaCompo(new \Criteria('parent_id', $storyid));
+                    $criteriab->add(new \Criteria('submenu', 1));
                     $j = 0;
                     if ($xcontentsb = $xcontentHandler->getObjects($criteriab, true)) {
                         foreach ($xcontentsb as $storyidb => $xcontentb) {
@@ -99,8 +99,8 @@ function xcontent_block_sections_show($options)
                         $pages[$storyid]['title']  = $text->getVar('title');
                     }
 
-                    $criteriab = new CriteriaCompo(new Criteria('parent_id', $storyid));
-                    $criteriab->add(new Criteria('submenu', 1));
+                    $criteriab = new \CriteriaCompo(new \Criteria('parent_id', $storyid));
+                    $criteriab->add(new \Criteria('submenu', 1));
                     $j = 0;
                     if ($xcontentsb = $xcontentHandler->getObjects($criteriab, true)) {
                         foreach ($xcontentsb as $storyidb => $xcontentb) {
@@ -133,7 +133,7 @@ function xcontent_block_sections_edit($options)
     xoops_loadLanguage('modinfo', 'xcontent');
     require_once $GLOBALS['xoops']->path('modules/xcontent/include/formselectpages.php');
     if (class_exists('XoopsFormSelectPages')) {
-        $cats = new XoopsFormSelectPages(_XCONTENT_AD_PAGE, 'options[]', $options[0]);
+        $cats = new \XoopsFormSelectPages(_XCONTENT_AD_PAGE, 'options[]', $options[0]);
         $form .= "<div style='display:block;'>" . _XCONTENT_AD_PAGE . ':' . $cats->render() . '</div>';
     }
 

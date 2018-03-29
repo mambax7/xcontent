@@ -27,14 +27,14 @@ function xcontent_block_menu_show($options)
 
     xoops_loadLanguage('modinfo', 'xcontent');
 
-    $criteria = new CriteriaCompo(new Criteria('parent_id', 0));
-    $criteria->add(new Criteria('submenu', 1));
-    $criteria->add(new Criteria('visible', 1));
+    $criteria = new \CriteriaCompo(new \Criteria('parent_id', 0));
+    $criteria->add(new \Criteria('submenu', 1));
+    $criteria->add(new \Criteria('visible', 1));
 
-    $criteria_publish = new CriteriaCompo(new Criteria('publish', time(), '<'), 'OR');
-    $criteria_publish->add(new Criteria('publish', 0), 'OR');
-    $criteria_expire = new CriteriaCompo(new Criteria('expire', time(), '>'), 'OR');
-    $criteria_expire->add(new Criteria('expire', 0), 'OR');
+    $criteria_publish = new \CriteriaCompo(new \Criteria('publish', time(), '<'), 'OR');
+    $criteria_publish->add(new \Criteria('publish', 0), 'OR');
+    $criteria_expire = new \CriteriaCompo(new \Criteria('expire', time(), '>'), 'OR');
+    $criteria_expire->add(new \Criteria('expire', 0), 'OR');
 
     $criteria->add($criteria_publish);
     $criteria->add($criteria_expire);
@@ -54,8 +54,8 @@ function xcontent_block_menu_show($options)
                         $pages[$storyid]['title']  = $text->getVar('title');
                     }
 
-                    $criteriab = new CriteriaCompo(new Criteria('parent_id', $storyid));
-                    $criteriab->add(new Criteria('submenu', 1));
+                    $criteriab = new \CriteriaCompo(new \Criteria('parent_id', $storyid));
+                    $criteriab->add(new \Criteria('submenu', 1));
                     $j = 0;
                     if ($xcontentsb = $xcontentHandler->getObjects($criteriab, true)) {
                         foreach ($xcontentsb as $storyidb => $xcontentb) {
@@ -81,8 +81,8 @@ function xcontent_block_menu_show($options)
                         $pages[$storyid]['title']  = $text->getVar('title');
                     }
 
-                    $criteriab = new CriteriaCompo(new Criteria('parent_id', $storyid));
-                    $criteriab->add(new Criteria('submenu', 1));
+                    $criteriab = new \CriteriaCompo(new \Criteria('parent_id', $storyid));
+                    $criteriab->add(new \Criteria('submenu', 1));
                     $j = 0;
                     if ($xcontentsb = $xcontentHandler->getObjects($criteriab, true)) {
                         foreach ($xcontentsb as $storyidb => $xcontentb) {
@@ -113,14 +113,14 @@ function xcontent_block_menu_edit($options)
 function xcontent_block_menu_gettext($storyid)
 {
     $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-    $criteria    = new CriteriaCompo(new Criteria('storyid', $storyid));
-    $criteria->add(new Criteria('language', $GLOBALS['xoopsConfig']['language']));
-    $criteria->add(new Criteria('type', 'xcontent'));
+    $criteria    = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+    $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
+    $criteria->add(new \Criteria('type', 'xcontent'));
     if ($texts = $textHandler->getObjects($criteria)) {
         return $texts[0];
     } else {
-        $criteria = new CriteriaCompo(new Criteria('storyid', $storyid));
-        $criteria->add(new Criteria('type', 'xcontent'));
+        $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+        $criteria->add(new \Criteria('type', 'xcontent'));
         if ($texts = $textHandler->getObjects($criteria)) {
             return $texts[0];
         }

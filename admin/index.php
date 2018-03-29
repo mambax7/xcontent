@@ -364,13 +364,13 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 
                 if (file_exists($GLOBALS['xoops']->path('modules/tag/class/tag.php'))
                     && $GLOBALS['xoopsModuleConfig']['tags']) {
-                    $tagHandler = xoops_getModuleHandler('tag', 'tag');
+                    $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
                     $tagHandler->updateByItem($_POST['tags'], $xcontent['xcontent']->getVar('storyid'), $GLOBALS['xoopsModule']->getVar('dirname'), $xcontent['xcontent']->getVar('catid'));
                 }
 
                 if (true === $newObject) {
                     $groupperm  = xoops_getHandler('groupperm');
-                    $criteria   = new Criteria('gperm_name', _XCONTENT_PERM_TEMPLATE_VIEW_XCONTENT);
+                    $criteria   = new \Criteria('gperm_name', _XCONTENT_PERM_TEMPLATE_VIEW_XCONTENT);
                     $groupperms = $groupperm->getObjects($criteria);
                     foreach ($groupperms as $id => $perm) {
                         $newperm = $groupperm->create();
@@ -402,7 +402,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     $GLOBALS['xoTheme']->addScript(XOOPS_URL . _XCONTENT_PATH_JS_JQUERY);
                 }
 
-                $GLOBALS['contentTpl'] = new XoopsTpl();
+                $GLOBALS['contentTpl'] = new \XoopsTpl();
                 $GLOBALS['contentTpl']->assign('passkey', xcontent_passkey());
                 $GLOBALS['contentTpl']->assign('xoConfig', $GLOBALS['xoopsModuleConfig']);
                 $GLOBALS['contentTpl']->assign('xoModule', $GLOBALS['xoopsModule']->toArray());
@@ -435,7 +435,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     $GLOBALS['xoTheme']->addScript(XOOPS_URL . _XCONTENT_PATH_JS_JQUERY);
                 }
 
-                $GLOBALS['contentTpl'] = new XoopsTpl();
+                $GLOBALS['contentTpl'] = new \XoopsTpl();
                 $GLOBALS['contentTpl']->assign('passkey', xcontent_passkey());
                 $GLOBALS['contentTpl']->assign('xoConfig', $GLOBALS['xoopsModuleConfig']);
                 $GLOBALS['contentTpl']->assign('xoModule', $GLOBALS['xoopsModule']->toArray());
@@ -469,7 +469,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     $GLOBALS['xoTheme']->addScript(XOOPS_URL . _XCONTENT_PATH_JS_JQUERY);
                 }
 
-                $GLOBALS['contentTpl'] = new XoopsTpl();
+                $GLOBALS['contentTpl'] = new \XoopsTpl();
                 $GLOBALS['contentTpl']->assign('passkey', xcontent_passkey());
                 $GLOBALS['contentTpl']->assign('xoConfig', $GLOBALS['xoopsModuleConfig']);
                 $GLOBALS['contentTpl']->assign('xoModule', $GLOBALS['xoopsModule']->toArray());
@@ -512,7 +512,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     $GLOBALS['xoTheme']->addScript(XOOPS_URL . _XCONTENT_PATH_JS_JQUERY);
                 }
 
-                $GLOBALS['contentTpl'] = new XoopsTpl();
+                $GLOBALS['contentTpl'] = new \XoopsTpl();
                 $GLOBALS['contentTpl']->assign('passkey', xcontent_passkey());
                 $GLOBALS['contentTpl']->assign('xoConfig', $GLOBALS['xoopsModuleConfig']);
                 $GLOBALS['contentTpl']->assign('xoModule', $GLOBALS['xoopsModule']->toArray());
@@ -536,7 +536,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     $GLOBALS['xoTheme']->addScript(XOOPS_URL . _XCONTENT_PATH_JS_JQUERY);
                 }
 
-                $GLOBALS['contentTpl'] = new XoopsTpl();
+                $GLOBALS['contentTpl'] = new \XoopsTpl();
                 $GLOBALS['contentTpl']->assign('passkey', xcontent_passkey());
                 $GLOBALS['contentTpl']->assign('xoConfig', $GLOBALS['xoopsModuleConfig']);
                 $GLOBALS['contentTpl']->assign('xoModule', $GLOBALS['xoopsModule']->toArray());
@@ -561,7 +561,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     $GLOBALS['xoTheme']->addScript(XOOPS_URL . _XCONTENT_PATH_JS_JQUERY);
                 }
 
-                $GLOBALS['contentTpl'] = new XoopsTpl();
+                $GLOBALS['contentTpl'] = new \XoopsTpl();
                 $GLOBALS['contentTpl']->assign('passkey', xcontent_passkey());
                 $GLOBALS['contentTpl']->assign('xoConfig', $GLOBALS['xoopsModuleConfig']);
                 $GLOBALS['contentTpl']->assign('xoModule', $GLOBALS['xoopsModule']->toArray());
@@ -658,8 +658,8 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 
                 $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
                 $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-                $criteria        = new CriteriaCompo(new Criteria('storyid', $storyid));
-                $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
+                $criteria        = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+                $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
                 $xcontent  = $xcontentHandler->get($storyid);
                 $texts     = $textHandler->getObjects($criteria);
                 $xcontentb = $xcontentHandler->create();
@@ -722,8 +722,8 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 
                 $blockHandler = xoops_getModuleHandler(_XCONTENT_CLASS_BLOCK, _XCONTENT_DIRNAME);
                 $textHandler  = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-                $criteria     = new CriteriaCompo(new Criteria('blockid', $blockid));
-                $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
+                $criteria     = new \CriteriaCompo(new \Criteria('blockid', $blockid));
+                $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
                 $block  = $blockHandler->get($blockid);
                 $texts  = $textHandler->getObjects($criteria);
                 $blockb = $blockHandler->create();
@@ -772,8 +772,8 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 
                 $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
                 $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-                $criteria        = new CriteriaCompo(new Criteria('catid', $catid));
-                $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
+                $criteria        = new \CriteriaCompo(new \Criteria('catid', $catid));
+                $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
                 $category  = $categoryHandler->get($catid);
                 $texts     = $textHandler->getObjects($criteria);
                 $categoryb = $categoryHandler->create();
@@ -973,10 +973,10 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 
                 $result_view = $GLOBALS['xoopsDB']->query('SELECT catid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_CATEGORY) . ' ');
                 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
-                    while ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view)) {
+                    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
                         $item_list_view['cid']   = $myrow_view['catid'];
                         $item_list_view['title'] = xcontent_getCatTitle($myrow_view['catid']);
-                        $form_view               = new XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_CATEGORY, "<img id='toptableicon' src="
+                        $form_view               = new \XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_CATEGORY, "<img id='toptableicon' src="
                                                                                                                                                             . XOOPS_URL
                                                                                                                                                             . '/modules/'
                                                                                                                                                             . $GLOBALS['xoopsModule']->dirname()
@@ -1014,10 +1014,10 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                 if (_XCONTENT_PERM_MODE_ADD == $mode) {
                     $result_view = $GLOBALS['xoopsDB']->query('SELECT catid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_CATEGORY) . ' ');
                     if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
-                        while ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view)) {
+                        while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
                             $item_list_view['cid']   = $myrow_view['catid'];
                             $item_list_view['title'] = xcontent_getCatTitle($myrow_view['catid']);
-                            $form_view               = new XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_XCONTENT, "<img id='toptableicon' src="
+                            $form_view               = new \XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_XCONTENT, "<img id='toptableicon' src="
                                                                                                                                                                 . XOOPS_URL
                                                                                                                                                                 . '/modules/'
                                                                                                                                                                 . $GLOBALS['xoopsModule']->dirname()
@@ -1046,10 +1046,10 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                 } else {
                     $result_view = $GLOBALS['xoopsDB']->query('SELECT storyid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_XCONTENT) . ' ');
                     if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
-                        while ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view)) {
+                        while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
                             $item_list_view['cid']   = $myrow_view['storyid'];
                             $item_list_view['title'] = xcontent_getTitle($myrow_view['storyid']);
-                            $form_view               = new XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_XCONTENT, "<img id='toptableicon' src="
+                            $form_view               = new \XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_XCONTENT, "<img id='toptableicon' src="
                                                                                                                                                                 . XOOPS_URL
                                                                                                                                                                 . '/modules/'
                                                                                                                                                                 . $GLOBALS['xoopsModule']->dirname()
@@ -1087,10 +1087,10 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 
                 $result_view = $GLOBALS['xoopsDB']->query('SELECT blockid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_BLOCK) . ' ');
                 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
-                    while ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view)) {
+                    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
                         $item_list_view['cid']   = $myrow_view['blockid'];
                         $item_list_view['title'] = xcontent_getBlockTitle($myrow_view['blockid']);
-                        $form_view               = new XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_BLOCK, "<img id='toptableicon' src="
+                        $form_view               = new \XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_BLOCK, "<img id='toptableicon' src="
                                                                                                                                                          . XOOPS_URL
                                                                                                                                                          . '/modules/'
                                                                                                                                                          . $GLOBALS['xoopsModule']->dirname()
@@ -1143,7 +1143,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     _XCONTENT_PERM_TEMPLATE_PERMISSIONS     => _XCONTENT_PERM_TEMPLATE_PERMISSIONS_DESC
                 ];
 
-                $form_view = new XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_TEMPLATE, "<img id='toptableicon' src="
+                $form_view = new \XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_TEMPLATE, "<img id='toptableicon' src="
                                                                                                                                       . XOOPS_URL
                                                                                                                                       . '/modules/'
                                                                                                                                       . $GLOBALS['xoopsModule']->dirname()

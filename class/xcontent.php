@@ -14,7 +14,7 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class for Blue Room xContent
@@ -62,7 +62,7 @@ class XcontentXcontent extends XoopsObject
  */
 class XcontentXcontentHandler extends XoopsPersistableObjectHandler
 {
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db = $db;
         parent::__construct($db, _XCONTENT_TABLE_XCONTENT, 'XcontentXcontent', 'storyid');
@@ -85,9 +85,9 @@ class XcontentXcontentHandler extends XoopsPersistableObjectHandler
             $language = $GLOBALS['xoopsConfig']['language'];
         }
         $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-        $criteria    = new CriteriaCompo(new Criteria('storyid', $storyid));
-        $criteria->add(new Criteria('language', $language));
-        $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
+        $criteria    = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+        $criteria->add(new \Criteria('language', $language));
+        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
         if ($texts = $textHandler->getObjects($criteria)) {
             $ret['text']               = $texts[0];
             $ret['xcontent']           = $this->get($storyid);
@@ -117,11 +117,11 @@ class XcontentXcontentHandler extends XoopsPersistableObjectHandler
         }
 
         $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-        $criteria_a  = new Criteria('homepage', true);
-        $criteria_b  = new CriteriaCompo(new Criteria('language', $language));
-        $criteria_b->add(new Criteria('type', 'xcontent'));
-        if ($xcontent = $this->getObjects($criteria_a)) {
-            $criteria_b->add(new Criteria('storyid', $xcontent[0]->getVar('storyid')));
+        $criteria_a  = new \Criteria('homepage', true);
+        $criteria_b  = new \CriteriaCompo(new \Criteria('language', $language));
+        $criteria_b->add(new \Criteria('type', 'xcontent'));
+        if ($xcontent =& $this->getObjects($criteria_a)) {
+            $criteria_b->add(new \Criteria('storyid', $xcontent[0]->getVar('storyid')));
             if ($texts = $textHandler->getObjects($criteria_b)) {
                 $ret['text'] = $texts[0];
             }

@@ -440,14 +440,14 @@ function xcontent_getMetaDescription($storyid)
 function xcontent_getTitle($storyid)
 {
     $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-    $criteria    = new CriteriaCompo(new Criteria('storyid', $storyid));
-    $criteria->add(new Criteria('language', $GLOBALS['xoopsConfig']['language']));
-    $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
+    $criteria    = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+    $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
     if ($texts = $textHandler->getObjects($criteria)) {
         return $texts[0]->getVar('title');
     } else {
-        $criteria = new CriteriaCompo(new Criteria('storyid', $storyid));
-        $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
+        $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
         if ($texts = $textHandler->getObjects($criteria)) {
             return $texts[0]->getVar('title');
         } else {
@@ -459,14 +459,14 @@ function xcontent_getTitle($storyid)
 function xcontent_getBlockTitle($blockid)
 {
     $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-    $criteria    = new CriteriaCompo(new Criteria('blockid', $blockid));
-    $criteria->add(new Criteria('language', $GLOBALS['xoopsConfig']['language']));
-    $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
+    $criteria    = new \CriteriaCompo(new \Criteria('blockid', $blockid));
+    $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
     if ($texts = $textHandler->getObjects($criteria)) {
         return $texts[0]->getVar('title');
     } else {
-        $criteria = new CriteriaCompo(new Criteria('blockid', $blockid));
-        $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
+        $criteria = new \CriteriaCompo(new \Criteria('blockid', $blockid));
+        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
         if ($texts = $textHandler->getObjects($criteria)) {
             return $texts[0]->getVar('title');
         } else {
@@ -478,14 +478,14 @@ function xcontent_getBlockTitle($blockid)
 function xcontent_getCatTitle($catid)
 {
     $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-    $criteria    = new CriteriaCompo(new Criteria('catid', $catid));
-    $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
-    $criteria->add(new Criteria('language', $GLOBALS['xoopsConfig']['language']));
+    $criteria    = new \CriteriaCompo(new \Criteria('catid', $catid));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
+    $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
     if ($texts = $textHandler->getObjects($criteria)) {
         return $texts[0]->getVar('title');
     } else {
-        $criteria = new CriteriaCompo(new Criteria('catid', $catid));
-        $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
+        $criteria = new \CriteriaCompo(new \Criteria('catid', $catid));
+        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
         if ($texts = $textHandler->getObjects($criteria)) {
             return $texts[0]->getVar('title');
         } else {
@@ -497,14 +497,14 @@ function xcontent_getCatTitle($catid)
 function xcontent_getField($storyid, $field)
 {
     $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-    $criteria    = new CriteriaCompo(new Criteria('storyid', $storyid));
-    $criteria->add(new Criteria('language', $GLOBALS['xoopsConfig']['language']));
-    $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
+    $criteria    = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+    $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
     if ($texts = $textHandler->getObjects($criteria)) {
         return clear_unicodeslashes($texts[0]->getVar($field));
     } else {
-        $criteria = new CriteriaCompo(new Criteria('storyid', $storyid));
-        $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
+        $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
         if ($texts = $textHandler->getObjects($criteria)) {
             return clear_unicodeslashes($texts[0]->getVar($field));
         } else {
@@ -516,14 +516,14 @@ function xcontent_getField($storyid, $field)
 function xcontent_getCatField($catid, $field)
 {
     $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-    $criteria    = new CriteriaCompo(new Criteria('catid', $catid));
-    $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
-    $criteria->add(new Criteria('language', $GLOBALS['xoopsConfig']['language']));
+    $criteria    = new \CriteriaCompo(new \Criteria('catid', $catid));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
+    $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
     if ($texts = $textHandler->getObjects($criteria)) {
         return clear_unicodeslashes($texts[0]->getVar($field));
     } else {
-        $criteria = new CriteriaCompo(new Criteria('catid', $catid));
-        $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
+        $criteria = new \CriteriaCompo(new \Criteria('catid', $catid));
+        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
         if ($texts = $textHandler->getObjects($criteria)) {
             return clear_unicodeslashes($texts[0]->getVar($field));
         } else {
@@ -535,14 +535,14 @@ function xcontent_getCatField($catid, $field)
 function xcontent_getBlockField($blockid, $field)
 {
     $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-    $criteria    = new CriteriaCompo(new Criteria('blockid', $blockid));
-    $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
-    $criteria->add(new Criteria('language', $GLOBALS['xoopsConfig']['language']));
+    $criteria    = new \CriteriaCompo(new \Criteria('blockid', $blockid));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
+    $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
     if ($texts = $textHandler->getObjects($criteria)) {
         return clear_unicodeslashes($texts[0]->getVar($field));
     } else {
-        $criteria = new CriteriaCompo(new Criteria('blockid', $blockid));
-        $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
+        $criteria = new \CriteriaCompo(new \Criteria('blockid', $blockid));
+        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
         if ($texts = $textHandler->getObjects($criteria)) {
             return clear_unicodeslashes($texts[0]->getVar($field));
         } else {

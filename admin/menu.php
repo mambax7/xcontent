@@ -16,7 +16,7 @@ License: See /docs - GPL 2.0
 
 use XoopsModules\Xcontent;
 
-require_once __DIR__ . '/../class/Helper.php';
+// require_once __DIR__ . '/../class/Helper.php';
 //require_once __DIR__ . '/../include/common.php';
 $helper = Xcontent\Helper::getInstance();
 

@@ -14,7 +14,7 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class for Blue Room xContent
@@ -51,7 +51,7 @@ class XcontentText extends XoopsObject
  */
 class XcontentTextHandler extends XoopsPersistableObjectHandler
 {
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db = $db;
         parent::__construct($db, _XCONTENT_TABLE_TEXT, 'XcontentText', 'xcontentid', 'title');

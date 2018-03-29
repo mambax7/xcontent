@@ -14,7 +14,7 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-function xoops_module_update_xcontent(XoopsModule $module)
+function xoops_module_update_xcontent(\XoopsModule $module)
 {
     if ($module->getVar('version') <= 213) {
         $textHandler = xoops_getModuleHandler('text', 'xcontent');

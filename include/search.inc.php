@@ -44,7 +44,7 @@ function xcontent_search($queryarray, $andor, $limit, $offset, $userid)
     $ret    = [];
     $i      = 0;
 
-    while ($myrow = $GLOBALS['xoopsDB']->fetchArray($result)) {
+    while (false !== ($myrow = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $ret[$i]['image'] = '';
         $ret[$i]['link']  = 'index.php?storyid=' . $myrow['storyid'];
         $ret[$i]['title'] = xoops_convert_decode($myrow['title']);

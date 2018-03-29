@@ -14,7 +14,7 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class for Blue Room xContent
@@ -42,7 +42,7 @@ class XcontentCategory extends XoopsObject
  */
 class XcontentCategoryHandler extends XoopsPersistableObjectHandler
 {
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db = $db;
         parent::__construct($db, _XCONTENT_TABLE_CATEGORY, 'XcontentCategory', 'catid', 'title');
@@ -65,9 +65,9 @@ class XcontentCategoryHandler extends XoopsPersistableObjectHandler
             $language = $GLOBALS['xoopsConfig']['language'];
         }
         $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
-        $criteria    = new CriteriaCompo(new Criteria('catid', $catid));
-        $criteria->add(new Criteria('language', $language));
-        $criteria->add(new Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
+        $criteria    = new \CriteriaCompo(new \Criteria('catid', $catid));
+        $criteria->add(new \Criteria('language', $language));
+        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
         if ($texts = $textHandler->getObjects($criteria)) {
             $ret['text'] = $texts[0];
             $ret['cat']  = $this->get($catid);
