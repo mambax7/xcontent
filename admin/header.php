@@ -36,10 +36,10 @@ $myts = \MyTextSanitizer::getInstance();
 
 $op         = isset($_REQUEST['op']) ? strtolower($_REQUEST['op']) : 'dashboard';
 $fct        = isset($_REQUEST['fct']) ? strtolower($_REQUEST['fct']) : '';
-$storyid    = isset($_REQUEST['storyid']) ? (int)$_REQUEST['storyid'] : 0;
-$xcontentid = isset($_REQUEST['xcontentid']) ? (int)$_REQUEST['xcontentid'] : 0;
-$catid      = isset($_REQUEST['catid']) ? (int)$_REQUEST['catid'] : 0;
-$blockid    = isset($_REQUEST['blockid']) ? (int)$_REQUEST['blockid'] : 0;
+$storyid    = \Xmf\Request::getInt('storyid', 0, 'REQUEST');
+$xcontentid = \Xmf\Request::getInt('xcontentid', 0, 'REQUEST');
+$catid      = \Xmf\Request::getInt('catid', 0, 'REQUEST');
+$blockid    = \Xmf\Request::getInt('blockid', 0, 'REQUEST');
 $passkey    = isset($_REQUEST['passkey']) ? strtolower($_REQUEST['passkey']) : '';
 $mode       = isset($_REQUEST['mode']) ? strtolower($_REQUEST['mode']) : _XCONTENT_PERM_MODE_VIEW;
 $language   = isset($_REQUEST['language']) ? $_REQUEST['language'] : $GLOBALS['xoopsConfig']['language'];

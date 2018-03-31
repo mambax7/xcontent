@@ -20,8 +20,8 @@ function xcontent_listblock()
     $textHandler  = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
     $userHandler  = xoops_getHandler('user');
 
-    $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 30;
+    $start = \Xmf\Request::getInt('start', 0, 'GET');
+    $limit = \Xmf\Request::getInt('limit', 30, 'GET');
 
     $ttl     = $blockHandler->getCount(null);
     $pagenav = new \XoopsPageNav($ttl, $limit, $start, 'start', 'op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_BLOCKS . '&limit=' . $limit . '');
@@ -112,8 +112,8 @@ function xcontent_listcategory()
     $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
     $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
 
-    $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 30;
+    $start = \Xmf\Request::getInt('start', 0, 'GET');
+    $limit = \Xmf\Request::getInt('limit', 30, 'GET');
 
     $ttl     = $categoryHandler->getCount(null);
     $pagenav = new \XoopsPageNav($ttl, $limit, $start, 'start', 'op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES . '&limit=' . $limit . '');
@@ -305,8 +305,8 @@ function xcontent_listxcontent()
     $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
     $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
 
-    $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 30;
+    $start = \Xmf\Request::getInt('start', 0, 'GET');
+    $limit = \Xmf\Request::getInt('limit', 30, 'GET');
 
     $ttl     = $xcontentHandler->getCount(null);
     $pagenav = new \XoopsPageNav($ttl, $limit, $start, 'start', 'op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_XCONTENT . '&limit=' . $limit . '');
@@ -761,8 +761,8 @@ function xcontent_listuserblock()
     $textHandler  = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
     $userHandler  = xoops_getHandler('user');
 
-    $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 30;
+    $start = \Xmf\Request::getInt('start', 0, 'GET');
+    $limit = \Xmf\Request::getInt('limit', 30, 'GET');
 
     $ttl     = $blockHandler->getCount(null);
     $pagenav = new \XoopsPageNav($ttl, $limit, $start, 'start', 'op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_BLOCKS . '&limit=' . $limit . '');
@@ -853,8 +853,8 @@ function xcontent_listusercategory()
     $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
     $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
 
-    $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 30;
+    $start = \Xmf\Request::getInt('start', 0, 'GET');
+    $limit = \Xmf\Request::getInt('limit', 30, 'GET');
 
     $ttl     = $categoryHandler->getCount(null);
     $pagenav = new \XoopsPageNav($ttl, $limit, $start, 'start', 'op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES . '&limit=' . $limit . '');
@@ -947,8 +947,8 @@ function xcontent_listuserxcontent()
     $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
     $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
 
-    $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 30;
+    $start = \Xmf\Request::getInt('start', 0, 'GET');
+    $limit = \Xmf\Request::getInt('limit', 30, 'GET');
 
     $ttl     = $xcontentHandler->getCount(null);
     $pagenav = new \XoopsPageNav($ttl, $limit, $start, 'start', 'op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_XCONTENT . '&limit=' . $limit . '');
