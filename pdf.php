@@ -25,9 +25,9 @@ if (empty($storyid) && 0 == $xcontentHandler->getCount(new \Criteria('storyid', 
     redirect_header(XOOPS_URL . _XCONTENT_PATH_MODULE_ROOT, 2, _XCONTENT_NOSTORY);
 }
 
-if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent['xcontent']->getVar('storyid'), $groups, $modid)) {
+if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent['xcontent']->getVar('storyid'), $groups, $modid)) {
     redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
-} elseif (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent['xcontent']->getVar('catid'), $groups, $modid)
+} elseif (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent['xcontent']->getVar('catid'), $groups, $modid)
           && _XCONTENT_SECURITY_BASIC != $GLOBALS['xoopsModuleConfig']['security']) {
     redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
 } else {

@@ -23,7 +23,7 @@ require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_TEMPLATE);
 
 $myts = \MyTextSanitizer::getInstance();
 
-$gpermHandler = xoops_getHandler('groupperm');
+$grouppermHandler = xoops_getHandler('groupperm');
 $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');

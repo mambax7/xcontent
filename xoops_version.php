@@ -157,58 +157,58 @@ $criteria->add($criteria_expire);
 
 $xcontents = $xcontentHandler->getObjects($criteria, true);
 
-$gpermHandler = xoops_getHandler('groupperm');
+$grouppermHandler = xoops_getHandler('groupperm');
 $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 if ($xoModule = $moduleHandler->getByDirname('xcontent')) {
     $modid = $xoModule->getVar('mid');
 
-    if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_XCONTENT, $groups, $modid)) {
+    if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_XCONTENT, $groups, $modid)) {
         $modversion['sub'][$i]['name'] = _XCONTENT_PERM_TEMPLATE_ADD_XCONTENT_DESC;
         $modversion['sub'][$i]['url']  = 'manage.php?op=' . _XCONTENT_URL_OP_ADD . '&fct=' . _XCONTENT_URL_FCT_XCONTENT;
         ++$i;
     }
 
-    if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_CATEGORY, $groups, $modid)) {
+    if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_CATEGORY, $groups, $modid)) {
         $modversion['sub'][$i]['name'] = _XCONTENT_PERM_TEMPLATE_ADD_CATEGORY_DESC;
         $modversion['sub'][$i]['url']  = 'manage.php?op=' . _XCONTENT_URL_OP_ADD . '&fct=' . _XCONTENT_URL_FCT_CATEGORY;
         ++$i;
     }
 
-    if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_BLOCK, $groups, $modid)) {
+    if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_BLOCK, $groups, $modid)) {
         $modversion['sub'][$i]['name'] = _XCONTENT_PERM_TEMPLATE_ADD_BLOCK_DESC;
         $modversion['sub'][$i]['url']  = 'manage.php?op=' . _XCONTENT_URL_OP_ADD . '&fct=' . _XCONTENT_URL_FCT_BLOCKS;
         ++$i;
     }
 
-    if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT, $groups, $modid)) {
+    if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT, $groups, $modid)) {
         $modversion['sub'][$i]['name'] = _XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT_DESC;
         $modversion['sub'][$i]['url']  = 'manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_XCONTENT;
         ++$i;
     }
 
-    if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY, $groups, $modid)) {
+    if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY, $groups, $modid)) {
         $modversion['sub'][$i]['name'] = _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY_DESC;
         $modversion['sub'][$i]['url']  = 'manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES;
         ++$i;
     }
 
-    if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK, $groups, $modid)) {
+    if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK, $groups, $modid)) {
         $modversion['sub'][$i]['name'] = _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK_DESC;
         $modversion['sub'][$i]['url']  = 'manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_BLOCKS;
         ++$i;
     }
 
-    if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_PERMISSIONS, $groups, $modid)) {
+    if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_PERMISSIONS, $groups, $modid)) {
         $modversion['sub'][$i]['name'] = _XCONTENT_PERM_TEMPLATE_PERMISSIONS_DESC;
         $modversion['sub'][$i]['url']  = 'manage.php?op=' . _XCONTENT_URL_OP_PERMISSIONS;
         ++$i;
     }
 
     foreach ($xcontents as $storyid => $xcontent) {
-        if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)
-            && $gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent->getVar('catid'), $groups, $modid)) {
+        if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)
+            && $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent->getVar('catid'), $groups, $modid)) {
             $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
             $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
             if ($texts = $textHandler->getObjects($criteria)) {

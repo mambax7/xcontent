@@ -33,7 +33,7 @@ function xcontent_block_sections_gettext($storyid)
 
 function xcontent_block_sections_show($options)
 {
-    $gpermHandler  = xoops_getHandler('groupperm');
+    $grouppermHandler  = xoops_getHandler('groupperm');
     $configHandler = xoops_getHandler('config');
     $groups        = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
     /** @var XoopsModuleHandler $moduleHandler */
@@ -63,8 +63,8 @@ function xcontent_block_sections_show($options)
     if ($xcontents = $xcontentHandler->getObjects($criteria, true)) {
         foreach ($xcontents as $storyid => $xcontent) {
             if (_XCONTENT_SECURITY_BASIC != $xoConfig['security']) {
-                if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)
-                    && $gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent->getVar('catid'), $groups, $modid)) {
+                if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)
+                    && $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent->getVar('catid'), $groups, $modid)) {
                     $pages[$storyid]['storyid'] = $storyid;
                     $pages[$storyid]['catid']   = $xcontent->getVar('catid');
                     if ($text = xcontent_block_sections_gettext($storyid)) {
@@ -77,8 +77,8 @@ function xcontent_block_sections_show($options)
                     $j = 0;
                     if ($xcontentsb = $xcontentHandler->getObjects($criteriab, true)) {
                         foreach ($xcontentsb as $storyidb => $xcontentb) {
-                            if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontentb->getVar('storyid'), $groups, $modid)
-                                && $gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontentb->getVar('catid'), $groups, $modid)) {
+                            if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontentb->getVar('storyid'), $groups, $modid)
+                                && $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontentb->getVar('catid'), $groups, $modid)) {
                                 ++$j;
                                 $pages[$storyid]['sublinks'][$j]['storyid'] = $storyidb;
                                 $pages[$storyid]['sublinks'][$j]['catid']   = $xcontentb->getVar('catid');
@@ -91,7 +91,7 @@ function xcontent_block_sections_show($options)
                     }
                 }
             } else {
-                if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)) {
+                if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)) {
                     $pages[$storyid]['storyid'] = $storyid;
                     $pages[$storyid]['catid']   = $xcontent->getVar('catid');
                     if ($text = xcontent_block_sections_gettext($storyid)) {
@@ -104,7 +104,7 @@ function xcontent_block_sections_show($options)
                     $j = 0;
                     if ($xcontentsb = $xcontentHandler->getObjects($criteriab, true)) {
                         foreach ($xcontentsb as $storyidb => $xcontentb) {
-                            if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontentb->getVar('storyid'), $groups, $modid)) {
+                            if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontentb->getVar('storyid'), $groups, $modid)) {
                                 ++$j;
                                 $pages[$storyid]['sublinks'][$j]['storyid'] = $storyidb;
                                 $pages[$storyid]['sublinks'][$j]['catid']   = $xcontentb->getVar('catid');

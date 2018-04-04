@@ -25,7 +25,7 @@ function xcontent_getpostinglocal()
 
 function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode)
 {
-    $gpermHandler  = xoops_getHandler('groupperm');
+    $grouppermHandler  = xoops_getHandler('groupperm');
     $configHandler = xoops_getHandler('config');
     $groups        = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
     /** @var XoopsModuleHandler $moduleHandler */
@@ -49,7 +49,7 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
                     switch ($fct) {
                         case _XCONTENT_URL_FCT_PAGES:
                             foreach ($catid as $id => $val) {
-                                if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_ADD . _XCONTENT_PERM_TYPE_CATEGORY, $val, $groups, $modid)) {
+                                if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ADD . _XCONTENT_PERM_TYPE_CATEGORY, $val, $groups, $modid)) {
                                     return false;
                                 }
                             }
@@ -58,7 +58,7 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
                             break;
                         case _XCONTENT_URL_FCT_XCONTENT:
                             if (0 == $storyid) {
-                                return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ADD . _XCONTENT_PERM_TYPE_XCONTENT, $catid, $groups, $modid);
+                                return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ADD . _XCONTENT_PERM_TYPE_XCONTENT, $catid, $groups, $modid);
                             } else {
                                 return true;
                             }
@@ -73,42 +73,42 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
                 case _XCONTENT_SECURITY_INTERMEDIATE:
                     switch ($fct) {
                         case _XCONTENT_URL_FCT_XCONTENT:
-                            return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_XCONTENT, $groups, $modid);
+                            return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_XCONTENT, $groups, $modid);
                             break;
                         case _XCONTENT_URL_FCT_CATEGORY:
                         case _XCONTENT_URL_FCT_CATEGORIES:
-                            return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_CATEGORY, $groups, $modid);
+                            return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_CATEGORY, $groups, $modid);
                             break;
                         case _XCONTENT_URL_FCT_BLOCK:
                         case _XCONTENT_URL_FCT_BLOCKS:
-                            return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_BLOCK, $groups, $modid);
+                            return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_BLOCK, $groups, $modid);
                             break;
                     }
                     break;
                 case _XCONTENT_SECURITY_ADVANCED:
                     switch ($fct) {
                         case _XCONTENT_URL_FCT_XCONTENT:
-                            if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_XCONTENT, $groups, $modid)) {
+                            if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_XCONTENT, $groups, $modid)) {
                                 return false;
                             }
 
-                            return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_EDIT . _XCONTENT_PERM_TYPE_XCONTENT, $storyid, $groups, $modid);
+                            return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_EDIT . _XCONTENT_PERM_TYPE_XCONTENT, $storyid, $groups, $modid);
                             break;
                         case _XCONTENT_URL_FCT_CATEGORY:
                         case _XCONTENT_URL_FCT_CATEGORIES:
-                            if (!$gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_CATEGORY, $groups, $modid)) {
+                            if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_CATEGORY, $groups, $modid)) {
                                 return false;
                             }
 
-                            return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_EDIT . _XCONTENT_PERM_TYPE_CATEGORY, $catid, $groups, $modid);
+                            return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_EDIT . _XCONTENT_PERM_TYPE_CATEGORY, $catid, $groups, $modid);
                             break;
                         case _XCONTENT_URL_FCT_BLOCK:
                         case _XCONTENT_URL_FCT_BLOCKS:
-                            if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_BLOCK, $groups, $modid)) {
+                            if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_EDIT_BLOCK, $groups, $modid)) {
                                 return false;
                             }
 
-                            return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_EDIT . _XCONTENT_PERM_TYPE_BLOCK, $blockid, $groups, $modid);
+                            return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_EDIT . _XCONTENT_PERM_TYPE_BLOCK, $blockid, $groups, $modid);
                             break;
                     }
                     break;
@@ -117,65 +117,65 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
         case _XCONTENT_URL_OP_ADD:
             switch ($fct) {
                 case _XCONTENT_URL_FCT_XCONTENT:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_XCONTENT, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_XCONTENT, $groups, $modid);
                     break;
                 case _XCONTENT_URL_FCT_CATEGORY:
                 case _XCONTENT_URL_FCT_CATEGORIES:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_CATEGORY, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_CATEGORY, $groups, $modid);
                     break;
                 case _XCONTENT_URL_FCT_BLOCK:
                 case _XCONTENT_URL_FCT_BLOCKS:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_BLOCK, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_BLOCK, $groups, $modid);
                     break;
             }
             break;
         case _XCONTENT_URL_OP_DELETE:
             switch ($fct) {
                 case _XCONTENT_URL_FCT_XCONTENT:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_DELETE_XCONTENT, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_DELETE_XCONTENT, $groups, $modid);
                     break;
                 case _XCONTENT_URL_FCT_CATEGORY:
                 case _XCONTENT_URL_FCT_CATEGORIES:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_DELETE_CATEGORY, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_DELETE_CATEGORY, $groups, $modid);
                     break;
                 case _XCONTENT_URL_FCT_BLOCK:
                 case _XCONTENT_URL_FCT_BLOCKS:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_DELETE_BLOCK, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_DELETE_BLOCK, $groups, $modid);
                     break;
             }
             break;
         case _XCONTENT_URL_OP_COPY:
             switch ($fct) {
                 case _XCONTENT_URL_FCT_XCONTENT:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_COPY_XCONTENT, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_COPY_XCONTENT, $groups, $modid);
                     break;
                 case _XCONTENT_URL_FCT_CATEGORY:
                 case _XCONTENT_URL_FCT_CATEGORIES:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_COPY_CATEGORY, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_COPY_CATEGORY, $groups, $modid);
                     break;
                 case _XCONTENT_URL_FCT_BLOCK:
                 case _XCONTENT_URL_FCT_BLOCKS:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_COPY_BLOCK, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_COPY_BLOCK, $groups, $modid);
                     break;
             }
             break;
         case _XCONTENT_URL_OP_MANAGE:
             switch ($fct) {
                 case _XCONTENT_URL_FCT_XCONTENT:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT, $groups, $modid);
                     break;
                 case _XCONTENT_URL_FCT_CATEGORY:
                 case _XCONTENT_URL_FCT_CATEGORIES:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY, $groups, $modid);
                     break;
                 case _XCONTENT_URL_FCT_BLOCKS:
                 case _XCONTENT_URL_FCT_BLOCK:
-                    return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK, $groups, $modid);
+                    return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK, $groups, $modid);
                     break;
             }
             break;
         case _XCONTENT_URL_OP_PERMISSIONS:
-            return $gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_PERMISSIONS, $groups, $modid);
+            return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_PERMISSIONS, $groups, $modid);
             break;
     }
 }
@@ -238,7 +238,7 @@ function loadUserMenu($currentoption, $breadcrumb = '')
          <ul>
         ';
 
-    $gpermHandler = xoops_getHandler('groupperm');
+    $grouppermHandler = xoops_getHandler('groupperm');
     $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
     /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
@@ -247,7 +247,7 @@ function loadUserMenu($currentoption, $breadcrumb = '')
 
     foreach (array_keys($adminObject) as $key) {
         ++$j;
-        if ($gpermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, $key, $groups, $modid)) {
+        if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, $key, $groups, $modid)) {
             $adminMenu_text .= (($currentoption == $j) ? '<li class="current">' : '<li>') . '<a href="' . $module_link . $adminmenu[$key]['link'] . '"><span>' . $adminmenu[$key]['title'] . '</span></a></li>';
         }
     }
