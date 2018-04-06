@@ -2,7 +2,7 @@
 
 function xoops_kernel_block_plugin_xcontent()
 {
-    return (int)$_GET['storyid'];
+    return \Xmf\Request::getInt('storyid', 0, 'GET');
 }
 
 function xoops_kernel_block_list_plugin_xcontent()

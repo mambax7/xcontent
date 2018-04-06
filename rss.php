@@ -16,7 +16,7 @@ License: See /docs - GPL 2.0
 
 include __DIR__ . '/header.php';
 
-$catid = (int)$_GET['catid'];
+$catid = \Xmf\Request::getInt('catid', 0, 'GET');
 
 if ($GLOBALS['xoopsModuleConfig']['htaccess']) {
     if (strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {

@@ -120,7 +120,7 @@ class XcontentXcontentHandler extends XoopsPersistableObjectHandler
         $criteria_a  = new \Criteria('homepage', true);
         $criteria_b  = new \CriteriaCompo(new \Criteria('language', $language));
         $criteria_b->add(new \Criteria('type', 'xcontent'));
-        if ($xcontent =& $this->getObjects($criteria_a)) {
+        if ($xcontent = $this->getObjects($criteria_a)) {
             $criteria_b->add(new \Criteria('storyid', $xcontent[0]->getVar('storyid')));
             if ($texts = $textHandler->getObjects($criteria_b)) {
                 $ret['text'] = $texts[0];

@@ -20,7 +20,7 @@ function xcontent_block_inheritable_show($options)
 {
     $xcontentHandler = xoops_getModuleHandler('xcontent', 'xcontent');
     $blockHandler    = xoops_getModuleHandler('block', 'xcontent');
-    $xcontent        = $xcontentHandler->get((int)$_GET['storyid']);
+    $xcontent        = $xcontentHandler->get(\Xmf\Request::getInt('storyid', 0, 'GET'));
     if (is_object($xcontent)) {
         if (0 == $xcontent->getVar('blockid') && 0 == $options[0]) {
             return false;
