@@ -14,5 +14,5 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-include __DIR__ . '/../../mainfile.php';
+include  dirname(dirname(__DIR__)) . '/mainfile.php';
 include XOOPS_ROOT_PATH . '/include/comment_reply.php';

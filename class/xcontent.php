@@ -22,7 +22,7 @@ License: See /docs - GPL 2.0
  * @copyright copyright (c) 2009-2003 XOOPS.org
  * @package   kernel
  */
-class XcontentXcontent extends XoopsObject
+class XcontentXcontent extends \XoopsObject
 {
     public function __construct($id = null)
     {
@@ -60,7 +60,7 @@ class XcontentXcontent extends XoopsObject
  * @author  Simon Roberts <simon@chronolabs.coop>
  * @package kernel
  */
-class XcontentXcontentHandler extends XoopsPersistableObjectHandler
+class XcontentXcontentHandler extends \XoopsPersistableObjectHandler
 {
     public function __construct(\XoopsDatabase $db)
     {

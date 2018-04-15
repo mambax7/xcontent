@@ -53,7 +53,7 @@ xoops_load('XoopsFormElement');
  * @subpackage  form
  * @access      public
  */
-class XoopsFormSelectBlocks extends XoopsFormElement
+class XoopsFormSelectBlocks extends \XoopsFormElement
 {
     /**
      * Options

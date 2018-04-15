@@ -20,7 +20,7 @@ xoops_load('XoopsFormElement');
 
 require_once __DIR__ . '/functions.php';
 
-class XoopsFormSelectPages extends XoopsFormElement
+class XoopsFormSelectPages extends \XoopsFormElement
 {
     /**
      * Options

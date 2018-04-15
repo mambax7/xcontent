@@ -53,7 +53,7 @@ xoops_load('XoopsFormElement');
  * @subpackage  form
  * @access      public
  */
-class XoopsFormSelectTemplates extends XoopsFormElement
+class XoopsFormSelectTemplates extends \XoopsFormElement
 {
     /**
      * Options
@@ -107,8 +107,8 @@ class XoopsFormSelectTemplates extends XoopsFormElement
         }
         $this->addOption('', _XCONTENT_NONE);
         xoops_load('xoopslists');
-        $html_files = XoopsLists::getHtmlListAsArray($GLOBALS['xoops']->path(_XCONTENT_PATH_PREDEFINED_HTML));
-        $rss_files  = XoopsLists::getHtmlListAsArray($GLOBALS['xoops']->path(_XCONTENT_PATH_PREDEFINED_RSS));
+        $html_files = \XoopsLists::getHtmlListAsArray($GLOBALS['xoops']->path(_XCONTENT_PATH_PREDEFINED_HTML));
+        $rss_files  = \XoopsLists::getHtmlListAsArray($GLOBALS['xoops']->path(_XCONTENT_PATH_PREDEFINED_RSS));
         foreach ($html_files as $id => $file) {
             if ('index.html' != strtolower($file)) {
                 if (in_array($file, $rss_files)) {

@@ -14,9 +14,9 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-require_once __DIR__ . '/../../../include/cp_header.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
-require_once __DIR__ . '/../../../include/cp_header.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 if (!defined('_CHARSET')) {
     define('_CHARSET', 'UTF-8');
@@ -80,8 +80,8 @@ $GLOBALS['xcontentImageIcon']  = \Xmf\Module\Admin::iconUrl('', 16);
 $GLOBALS['xcontentImageAdmin'] = XOOPS_URL . '/' . $GLOBALS['xcontentModule']->getInfo('icons32');
 
 if ($GLOBALS['xoopsUser']) {
-    $modulepermHandler = xoops_getHandler('groupperm');
-    if (!$modulepermHandler->checkRight('module_admin', $GLOBALS['xcontentModule']->getVar('mid'), $GLOBALS['xoopsUser']->getGroups())) {
+    $grouppermHandler = xoops_getHandler('groupperm');
+    if (!$grouppermHandler->checkRight('module_admin', $GLOBALS['xcontentModule']->getVar('mid'), $GLOBALS['xoopsUser']->getGroups())) {
         redirect_header(XOOPS_URL, 1, _NOPERM);
     }
 } else {

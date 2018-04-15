@@ -53,7 +53,7 @@ xoops_load('XoopsFormElement');
  * @subpackage  form
  * @access      public
  */
-class XoopsFormSelectLanguages extends XoopsFormElement
+class XoopsFormSelectLanguages extends \XoopsFormElement
 {
     /**
      * Options
@@ -114,7 +114,7 @@ class XoopsFormSelectLanguages extends XoopsFormElement
     {
         require_once $GLOBALS['xoops']->path('class/xoopslists.php');
 
-        $langs_array = XoopsLists::getDirListAsArray($GLOBALS['xoops']->path('modules/system/language/'));
+        $langs_array = \XoopsLists::getDirListAsArray($GLOBALS['xoops']->path('modules/system/language/'));
         if (true === $GLOBALS['multilingual']) {
             $langHandler = xoops_getModuleHandler('xlanguage_ext', 'xcontent');
             $langs       = $langHandler->getObjects(null, true);
