@@ -1,0 +1,166 @@
+xcontent_xcontent:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: storyid
+            attributes: ' int(8)  NOT NULL auto_increment'
+        -
+            name: parent_id
+            attributes: ' int(8)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: blockid
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: catid
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: weight
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''1'' '
+        -
+            name: uid
+            attributes: ' int(12) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: visible
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: homepage
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: nohtml
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: nosmiley
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: nobreaks
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: nocomments
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: link
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: address
+            attributes: ' varchar(255) '
+        -
+            name: submenu
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: date
+            attributes: ' int(8)  DEFAULT ''0'' '
+        -
+            name: assoc_module
+            attributes: ' int(8) unsigned '
+        -
+            name: tags
+            attributes: ' varchar(255) '
+        -
+            name: publish
+            attributes: ' int(12)  DEFAULT ''0'' '
+        -
+            name: publish_storyid
+            attributes: ' int(8)  DEFAULT ''0'' '
+        -
+            name: expire
+            attributes: ' int(12)  DEFAULT ''0'' '
+        -
+            name: expire_storyid
+            attributes: ' int(8)  DEFAULT ''0'' '
+        -
+            name: password
+            attributes: ' varchar(32) '
+    keys:
+        AccessIndex:
+            columns: 'parent_id, blockid, catid'
+            unique: false
+        PRIMARY:
+            columns: storyid
+            unique: true
+        TimingIndex:
+            columns: 'publish, publish_storyid, expire, expire_storyid'
+            unique: false
+        UserIndex:
+            columns: 'storyid, uid'
+            unique: false
+xcontent_categories:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: catid
+            attributes: ' int(8)  NOT NULL auto_increment'
+        -
+            name: parent_id
+            attributes: ' int(8)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: rssenabled
+            attributes: ' tinyint(2)  DEFAULT ''0'' '
+    keys:
+        AccessIndex:
+            columns: 'catid, parent_id'
+            unique: false
+        PRIMARY:
+            columns: catid
+            unique: true
+xcontent_text:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: xcontentid
+            attributes: ' int(8)  NOT NULL auto_increment'
+        -
+            name: storyid
+            attributes: ' int(8)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: catid
+            attributes: ' int(8)  DEFAULT ''0'' '
+        -
+            name: blockid
+            attributes: ' int(8)  DEFAULT ''0'' '
+        -
+            name: type
+            attributes: ' enum(''xcontent'',''category'',''block'')  NOT NULL  DEFAULT ''xcontent'' '
+        -
+            name: language
+            attributes: ' varchar(64)  NOT NULL  DEFAULT ''english'' '
+        -
+            name: title
+            attributes: ' varchar(255)  DEFAULT '''' '
+        -
+            name: ptitle
+            attributes: ' varchar(255) '
+        -
+            name: text
+            attributes: ' longtext '
+        -
+            name: keywords
+            attributes: ' mediumtext '
+        -
+            name: page_description
+            attributes: ' mediumtext '
+        -
+            name: rss
+            attributes: ' longtext '
+    keys:
+        AccessIndex:
+            columns: 'storyid, catid, blockid, type'
+            unique: false
+        PRIMARY:
+            columns: xcontentid
+            unique: true
+xcontent_blocks:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: blockid
+            attributes: ' int(12) unsigned  NOT NULL auto_increment'
+        -
+            name: created
+            attributes: ' int(12)  DEFAULT ''0'' '
+        -
+            name: uid
+            attributes: ' int(12)  DEFAULT ''0'' '
+    keys:
+        PRIMARY:
+            columns: blockid
+            unique: true

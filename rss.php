@@ -14,13 +14,19 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-include __DIR__ . '/header.php';
+use Xmf\Request;
+use XoopsModules\Xcontent\Helper;
 
-$catid = \Xmf\Request::getInt('catid', 0, 'GET');
+require_once __DIR__ . '/header.php';
+
+$helper = Helper::getInstance();
+
+$catid = Request::getInt('catid', 0, 'GET');
 
 if ($GLOBALS['xoopsModuleConfig']['htaccess']) {
-    if (strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {
-        $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
+    if (mb_strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {
+        /** @var \XoopsModules\Xcontent\CategoryHandler $categoryHandler */
+        $categoryHandler = $helper->getHandler(_XCONTENT_CLASS_CATEGORY);
         $category        = $categoryHandler->getCategory($catid);
         if ('' != $category['text']->getVar('title')) {
             header('HTTP/1.1 301 Moved Permanently');
@@ -33,12 +39,20 @@ if ($GLOBALS['xoopsModuleConfig']['htaccess']) {
     }
 }
 
+/**
+ * @param $catid
+ * @param $language
+ * @return array
+ */
 function rss_data($catid, $language)
 {
-    $myts            = \MyTextSanitizer::getInstance();
-    $rss             = [];
-    $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
-    $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
+    $myts = \MyTextSanitizer::getInstance();
+    $rss  = [];
+    $helper = Helper::getInstance();
+    /** @var \XoopsModules\Xcontent\ContentHandler $xcontentHandler */
+    $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
+    /** @var \XoopsModules\Xcontent\CategoryHandler $categoryHandler */
+    $categoryHandler = $helper->getHandler(_XCONTENT_CLASS_CATEGORY);
     $criteria        = new \CriteriaCompo(new \Criteria('catid', $catid), 'AND');
     $criteria->setSort('weight');
     $xcontents = $xcontentHandler->getObjects($criteria, true);
@@ -72,7 +86,7 @@ header('content-type: text/xml; charset=' . _CHARSET);
     <channel>
 
         <?php if (!isset($_REQUEST['ms'])) {
-    ?>
+            ?>
             <description><?php echo htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES | ENT_HTML5) . ' ' . htmlspecialchars(implode(', ', $rssfeed_data['category']), ENT_QUOTES | ENT_HTML5); ?></description>
             <lastBuildDate><?php echo date('D, d-m-y H:i:s e', time()); ?></lastBuildDate>
             <docs>http://backend.userland.com/rss/</docs>
@@ -81,10 +95,10 @@ header('content-type: text/xml; charset=' . _CHARSET);
             <managingEditor><?php echo $xoopsConfig['adminmail']; ?></managingEditor>
             <webMaster><?php echo $xoopsConfig['adminmail']; ?></webMaster>
             <?php
-} ?>
+        } ?>
         <language>en</language>
         <?php if (!isset($_REQUEST['ms'])) {
-        ?>
+            ?>
             <image>
                 <title><?php echo(htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES | ENT_HTML5)); ?></title>
                 <url><?php echo XOOPS_URL; ?>/images/logo.png
@@ -94,7 +108,7 @@ header('content-type: text/xml; charset=' . _CHARSET);
             <title>RSS Feed | <?php echo htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES | ENT_HTML5) . ' | ' . ucfirst($rssfeed_data['category'][0]); ?> </title>
             <link><?php echo XOOPS_URL; ?></link>
             <?php
-    } ?>
+        } ?>
         <?php
 
         foreach ($rssfeed_data['item'] as $item) {
@@ -104,15 +118,14 @@ header('content-type: text/xml; charset=' . _CHARSET);
                 <link><?php echo htmlspecialchars($item['url'], ENT_QUOTES | ENT_HTML5); ?></link>
                 <description><?php echo $item['description']; ?></description>
                 <?php if (!isset($_REQUEST['ms'])) {
-                ?>
+                    ?>
                     <guid><?php echo htmlspecialchars($item['dossier_url'], ENT_QUOTES | ENT_HTML5); ?></guid>
                     <category><?php echo $item['category']; ?></category>
                     <?php
-            } ?>
+                } ?>
                 <pubDate><?php echo $item['date']; ?></pubDate>
             </item>
             <?php
-
             /*
             Module: xContent
 

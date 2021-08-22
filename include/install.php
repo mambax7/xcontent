@@ -14,6 +14,10 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
+/**
+ * @param \XoopsModule $module
+ * @return bool
+ */
 function xoops_module_pre_install_xcontent(\XoopsModule $module)
 {
     xoops_load('xoopscache');

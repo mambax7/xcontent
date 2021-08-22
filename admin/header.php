@@ -14,9 +14,21 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+use Xmf\Module\Admin;
+use Xmf\Request;
+use XoopsModules\Xcontent;
+use XoopsModules\Xcontent\Helper;
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
+require_once \dirname(__DIR__) . '/include/common.php';
+
+$moduleDirName = \basename(\dirname(__DIR__));
+$helper  = Helper::getInstance();
+$utility = new Xcontent\Utility();
+
+/** @var Xmf\Module\Admin $adminObject */
+$adminObject = Admin::getInstance();
 
 if (!defined('_CHARSET')) {
     define('_CHARSET', 'UTF-8');
@@ -34,17 +46,17 @@ require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_TEMPLATE);
 
 $myts = \MyTextSanitizer::getInstance();
 
-$op         = isset($_REQUEST['op']) ? strtolower($_REQUEST['op']) : 'dashboard';
-$fct        = isset($_REQUEST['fct']) ? strtolower($_REQUEST['fct']) : '';
-$storyid    = \Xmf\Request::getInt('storyid', 0, 'REQUEST');
-$xcontentid = \Xmf\Request::getInt('xcontentid', 0, 'REQUEST');
-$catid      = \Xmf\Request::getInt('catid', 0, 'REQUEST');
-$blockid    = \Xmf\Request::getInt('blockid', 0, 'REQUEST');
-$passkey    = isset($_REQUEST['passkey']) ? strtolower($_REQUEST['passkey']) : '';
-$mode       = isset($_REQUEST['mode']) ? strtolower($_REQUEST['mode']) : _XCONTENT_PERM_MODE_VIEW;
-$language   = isset($_REQUEST['language']) ? $_REQUEST['language'] : $GLOBALS['xoopsConfig']['language'];
+$op         = Request::getCmd('op', 'dashboard');
+$fct        = Request::getCmd('fct', '');
+$storyid    = Request::getInt('storyid', 0, 'REQUEST');
+$xcontentid = Request::getInt('xcontentid', 0, 'REQUEST');
+$catid      = Request::getInt('catid', 0, 'REQUEST');
+$blockid    = Request::getInt('blockid', 0, 'REQUEST');
+$passkey    = Request::getCmd('passkey', '');
+$mode       = Request::getCmd('mode', _XCONTENT_PERM_MODE_VIEW);
+$language   = Request::getString('language', $GLOBALS['xoopsConfig']['language']);
 
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $criteria      = new \CriteriaCompo(new \Criteria('dirname', 'xlanguage'));
 $criteria->add(new \Criteria('isactive', true));
@@ -56,8 +68,9 @@ if ($moduleHandler->getCount($criteria) > 0) {
 
 $GLOBALS['contentTpl'] = new \XoopsTpl();
 
-/** @var XoopsModuleHandler $moduleHandler */
-$moduleHandler                   = xoops_getHandler('module');
+/** @var \XoopsModuleHandler $moduleHandler */
+$moduleHandler = xoops_getHandler('module');
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler                   = xoops_getHandler('config');
 $GLOBALS['xcontentModule']       = $moduleHandler->getByDirname('xcontent');
 $GLOBALS['xcontentModuleConfig'] = $configHandler->getConfigList($GLOBALS['xcontentModule']->getVar('mid'));
@@ -69,17 +82,11 @@ xoops_load('xoopsformloader');
 require_once $GLOBALS['xoops']->path('class/xoopsmailer.php');
 require_once $GLOBALS['xoops']->path('class/xoopstree.php');
 
-if (file_exists($GLOBALS['xoops']->path('Frameworks/moduleclasses/moduleadmin/moduleadmin.php'))) {
-    require_once $GLOBALS['xoops']->path('Frameworks/moduleclasses/moduleadmin/moduleadmin.php');
-//return true;
-} else {
-    echo xcontent_error("Error: You don't use the Frameworks \"admin module\". Please install this Frameworks");
-    //return false;
-}
-$GLOBALS['xcontentImageIcon']  = \Xmf\Module\Admin::iconUrl('', 16);
+$GLOBALS['xcontentImageIcon']  = Admin::iconUrl('', 16);
 $GLOBALS['xcontentImageAdmin'] = XOOPS_URL . '/' . $GLOBALS['xcontentModule']->getInfo('icons32');
 
 if ($GLOBALS['xoopsUser']) {
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
     if (!$grouppermHandler->checkRight('module_admin', $GLOBALS['xcontentModule']->getVar('mid'), $GLOBALS['xoopsUser']->getGroups())) {
         redirect_header(XOOPS_URL, 1, _NOPERM);

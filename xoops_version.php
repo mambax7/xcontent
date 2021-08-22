@@ -13,25 +13,33 @@ Owner: Chronolabs
 
 License: See /docs - GPL 2.0
 */
+
+use XoopsModules\Xcontent\Helper;
+
 require_once __DIR__ . '/preloads/autoloader.php';
-$i                           = 0;
+$helper = Helper::getInstance();
+
+$moduleDirName      = basename(__DIR__);
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
+$i = 0;
 //$modversion['version']       = _XCONTENT_VERSION;
-$modversion['version']       = '2.17';
-$modversion['release_date']  = '2017/04/23';
-$modversion['module_status'] = 'Beta 2';
-$modversion['name']          = _XCONTENT_MODULENAME;
-$modversion['author']        = _XCONTENT_AUTHOR;
-$modversion['description']   = _XCONTENT_DESCRIPTION;
-$modversion['credits']       = _XCONTENT_OWNER;
-$modversion['license']       = _XCONTENT_LICENSE;
-$modversion['official']      = _XCONTENT_OFFICIAL;
-$modversion['image']         = 'assets/images/logoModule.png'; //_XCONTENT_LOGOIMAGE;
-$modversion['dirname']       = basename(__DIR__); //_XCONTENT_DIRNAME;
-$modversion['website'] = 'www.xoops.org';
-$modversion['modicons16'] = 'assets/images/icons/16';
-$modversion['modicons32'] = 'assets/images/icons/32';
-$modversion['release_info'] = '2012/08/06';
-$modversion['release_file'] = XOOPS_URL . '/modules/' . $modversion['dirname'] . '/docs/changelog.txt';
+$modversion['version']                = '2.17';
+$modversion['release_date']           = '2017/04/23';
+$modversion['module_status']          = 'Beta 2';
+$modversion['name']                   = _XCONTENT_MODULENAME;
+$modversion['author']                 = _XCONTENT_AUTHOR;
+$modversion['description']            = _XCONTENT_DESCRIPTION;
+$modversion['credits']                = _XCONTENT_OWNER;
+$modversion['license']                = _XCONTENT_LICENSE;
+$modversion['official']               = _XCONTENT_OFFICIAL;
+$modversion['image']                  = 'assets/images/logoModule.png'; //_XCONTENT_LOGOIMAGE;
+$modversion['dirname']                = $moduleDirName; //_XCONTENT_DIRNAME;
+$modversion['website']                = 'www.xoops.org';
+$modversion['modicons16']             = 'assets/images/icons/16';
+$modversion['modicons32']             = 'assets/images/icons/32';
+$modversion['release_info']           = '2012/08/06';
+$modversion['release_file']           = XOOPS_URL . '/modules/' . $modversion['dirname'] . '/docs/changelog.txt';
 $modversion['author_realname']        = 'Simon Roberts';
 $modversion['author_website_url']     = 'http://www.chronolabs.coop';
 $modversion['author_website_name']    = 'Chronolabs Cooperative';
@@ -89,59 +97,30 @@ $modversion['helpsection'] = [
     ['name' => _MI_XCONTENT_SUPPORT, 'link' => 'page=support'],
 ];
 
-// Templates
-$i                                          = 1;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_INDEX;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_INDEX_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_BREADCRUMB;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_BREADCRUMB_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_CPANEL_ADDEDITPAGE;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_CPANEL_ADDEDITPAGE_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_CPANEL_ADDEDITCATEGORY;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_CPANEL_ADDEDITCATEGORY_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_CPANEL_ADDEDITBLOCK;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_CPANEL_ADDEDITBLOCK_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_INDEX_ADDEDITPAGE;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_INDEX_ADDEDITPAGE_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_INDEX_ADDEDITCATEGORY;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_INDEX_ADDEDITCATEGORY_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_INDEX_ADDEDITBLOCK;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_INDEX_ADDEDITBLOCK_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITPAGE;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITPAGE_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITCATEGORY;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITCATEGORY_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITBLOCK;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITBLOCK_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITPAGE;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITPAGE_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITCATEGORY;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITCATEGORY_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITBLOCK;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITBLOCK_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_INDEX_MANAGE;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_INDEX_MANAGE_DESC;
-++$i;
-$modversion['templates'][$i]['file']        = _XCONTENT_TEMPLATE_INDEX_PASSWORD;
-$modversion['templates'][$i]['description'] = _XCONTENT_TEMPLATE_INDEX_PASSWORD_DESC;
+// ------------------- Templates ------------------- //
+
+$modversion['templates'] = [
+    ['file' => _XCONTENT_TEMPLATE_INDEX, 'description' => _XCONTENT_TEMPLATE_INDEX_DESC],
+    ['file' => _XCONTENT_TEMPLATE_BREADCRUMB, 'description' => _XCONTENT_TEMPLATE_BREADCRUMB_DESC],
+    ['file' => _XCONTENT_TEMPLATE_CPANEL_ADDEDITPAGE, 'description' => _XCONTENT_TEMPLATE_CPANEL_ADDEDITPAGE_DESC],
+    ['file' => _XCONTENT_TEMPLATE_CPANEL_ADDEDITCATEGORY, 'description' => _XCONTENT_TEMPLATE_CPANEL_ADDEDITCATEGORY_DESC],
+    ['file' => _XCONTENT_TEMPLATE_CPANEL_ADDEDITBLOCK, 'description' => _XCONTENT_TEMPLATE_CPANEL_ADDEDITBLOCK_DESC],
+    ['file' => _XCONTENT_TEMPLATE_INDEX_ADDEDITPAGE, 'description' => _XCONTENT_TEMPLATE_INDEX_ADDEDITPAGE_DESC],
+    ['file' => _XCONTENT_TEMPLATE_INDEX_ADDEDITCATEGORY, 'description' => _XCONTENT_TEMPLATE_INDEX_ADDEDITCATEGORY_DESC],
+    ['file' => _XCONTENT_TEMPLATE_INDEX_ADDEDITBLOCK, 'description' => _XCONTENT_TEMPLATE_INDEX_ADDEDITBLOCK_DESC],
+    ['file' => _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITPAGE, 'description' => _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITPAGE_DESC],
+    ['file' => _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITCATEGORY, 'description' => _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITCATEGORY_DESC],
+    ['file' => _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITBLOCK, 'description' => _XCONTENT_TEMPLATE_CPANEL_JSON_ADDEDITBLOCK_DESC],
+    ['file' => _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITPAGE, 'description' => _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITPAGE_DESC],
+    ['file' => _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITCATEGORY, 'description' => _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITCATEGORY_DESC],
+    ['file' => _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITBLOCK, 'description' => _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITBLOCK_DESC],
+    ['file' => _XCONTENT_TEMPLATE_INDEX_MANAGE, 'description' => _XCONTENT_TEMPLATE_INDEX_MANAGE_DESC],
+    ['file' => _XCONTENT_TEMPLATE_INDEX_PASSWORD, 'description' => _XCONTENT_TEMPLATE_INDEX_PASSWORD_DESC],
+];
 
 // Submenu Items
-$xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
-$textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+$xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
+$textHandler     = $helper->getHandler(_XCONTENT_CLASS_TEXT);
 $criteria        = new \CriteriaCompo(new \Criteria('homepage', false));
 $criteria->add(new \Criteria('submenu', true));
 $criteria->add(new \Criteria('parent_id', 0));
@@ -157,11 +136,13 @@ $criteria->add($criteria_expire);
 
 $xcontents = $xcontentHandler->getObjects($criteria, true);
 
+/** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
-$groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
-/** @var XoopsModuleHandler $moduleHandler */
+$groups           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-if ($xoModule = $moduleHandler->getByDirname('xcontent')) {
+$xoModule      = $moduleHandler->getByDirname('xcontent');
+if ($xoModule) {
     $modid = $xoModule->getVar('mid');
 
     if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, _XCONTENT_PERM_TEMPLATE_ADD_XCONTENT, $groups, $modid)) {
@@ -211,7 +192,8 @@ if ($xoModule = $moduleHandler->getByDirname('xcontent')) {
             && $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent->getVar('catid'), $groups, $modid)) {
             $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
             $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
-            if ($texts = $textHandler->getObjects($criteria)) {
+            $texts = $textHandler->getObjects($criteria);
+            if ($texts) {
                 $modversion['sub'][$i]['name'] = $texts[0]->getVar('title');
                 $modversion['sub'][$i]['url']  = 'index.php?storyid=' . $storyid . '';
                 ++$i;
@@ -220,9 +202,9 @@ if ($xoModule = $moduleHandler->getByDirname('xcontent')) {
     }
 }
 
-// Blocks
+// ------------------- Blocks ------------------- //
 
-$modversion['blocks'][1] = [
+$modversion['blocks'][] = [
     'file'        => 'xcontent_block_tag.php',
     'name'        => 'Module Tag Cloud',
     'description' => 'Show tag cloud',
@@ -232,7 +214,7 @@ $modversion['blocks'][1] = [
     'template'    => 'xcontent_tag_block_cloud.tpl',
 ];
 
-$modversion['blocks'][2] = [
+$modversion['blocks'][] = [
     'file'        => 'xcontent_block_tag.php',
     'name'        => 'Module Top Tags',
     'description' => 'Show top tags',
@@ -242,7 +224,7 @@ $modversion['blocks'][2] = [
     'template'    => 'xcontent_tag_block_top.tpl',
 ];
 
-$modversion['blocks'][3] = [
+$modversion['blocks'][] = [
     'file'        => 'xcontent_block_subitems.php',
     'name'        => 'Subitems Menu for xContent',
     'description' => 'Subitems Menu for xContent',
@@ -252,7 +234,7 @@ $modversion['blocks'][3] = [
     'template'    => 'xcontent_block_subitems.tpl',
 ];
 
-$modversion['blocks'][4] = [
+$modversion['blocks'][] = [
     'file'        => 'xcontent_block_menu.php',
     'name'        => 'Menu for xContent',
     'description' => 'Menu for xContent',
@@ -262,7 +244,7 @@ $modversion['blocks'][4] = [
     'template'    => 'xcontent_block_menu.tpl',
 ];
 
-$modversion['blocks'][5] = [
+$modversion['blocks'][] = [
     'file'        => 'xcontent_block_inheritable.php',
     'name'        => 'Linked Block for xContent',
     'description' => 'Linked Block for xContent',
@@ -272,7 +254,7 @@ $modversion['blocks'][5] = [
     'template'    => 'xcontent_block_inheritable.tpl',
 ];
 
-$modversion['blocks'][6] = [
+$modversion['blocks'][] = [
     'file'        => 'xcontent_block_sections.php',
     'name'        => 'Section Block for xContent',
     'description' => 'Section Block for xContent',
@@ -282,61 +264,65 @@ $modversion['blocks'][6] = [
     'template'    => 'xcontent_block_sections.tpl',
 ];
 
-$i = 1;
 xoops_load('XoopsEditorHandler');
 $editorHandler = XoopsEditorHandler::getInstance();
 foreach ($editorHandler->getList(false) as $id => $val) {
     $options[$val] = $id;
 }
 
-++$i;
-$modversion['config'][$i]['name']        = 'editor';
-$modversion['config'][$i]['title']       = '_XCONTENT_EDITORS';
-$modversion['config'][$i]['description'] = '_XCONTENT_EDITORS_DESC';
-$modversion['config'][$i]['formtype']    = 'select';
-$modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['default']     = 'tinymce';
-$modversion['config'][$i]['options']     = $options;
+$modversion['config'][] = [
+    'name'        => 'editor',
+    'title'       => '_XCONTENT_EDITORS',
+    'description' => '_XCONTENT_EDITORS_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'default'     => 'tinymce',
+    'options'     => $options,
+];
 
-++$i;
-$modversion['config'][$i]['name']        = 'json';
-$modversion['config'][$i]['title']       = '_XCONTENT_USEJSON';
-$modversion['config'][$i]['description'] = '_XCONTENT_USEJSON_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 0;
+$modversion['config'][] = [
+    'name'        => 'json',
+    'title'       => '_XCONTENT_USEJSON',
+    'description' => '_XCONTENT_USEJSON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
 
-++$i;
-$modversion['config'][$i]['name']        = 'rss';
-$modversion['config'][$i]['title']       = '_XCONTENT_RSSICON';
-$modversion['config'][$i]['description'] = '_XCONTENT_RSSICON_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 1;
+$modversion['config'][] = [
+    'name'        => 'rss',
+    'title'       => '_XCONTENT_RSSICON',
+    'description' => '_XCONTENT_RSSICON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
 
-++$i;
-$modversion['config'][$i]['name']        = 'print';
-$modversion['config'][$i]['title']       = '_XCONTENT_PRINTICON';
-$modversion['config'][$i]['description'] = '_XCONTENT_PRINTICON_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 1;
+$modversion['config'][] = [
+    'name'        => 'print',
+    'title'       => '_XCONTENT_PRINTICON',
+    'description' => '_XCONTENT_PRINTICON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
 
-++$i;
-$modversion['config'][$i]['name']        = 'share';
-$modversion['config'][$i]['title']       = '_XCONTENT_ADDTHIS';
-$modversion['config'][$i]['description'] = '_XCONTENT_ADDTHISICON_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 1;
+$modversion['config'][] = [
+    'name'        => 'share',
+    'title'       => '_XCONTENT_ADDTHIS',
+    'description' => '_XCONTENT_ADDTHISICON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
 
-++$i;
-$modversion['config'][$i]['name']        = 'sharecode';
-$modversion['config'][$i]['title']       = '_XCONTENT_ADDTHISCODE';
-$modversion['config'][$i]['description'] = '_XCONTENT_ADDTHISCODE_DESC';
-$modversion['config'][$i]['formtype']    = 'textarea';
-$modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['default']     = '<!-- AddThis Button BEGIN -->
+$modversion['config'][] = [
+    'name'        => 'sharecode',
+    'title'       => '_XCONTENT_ADDTHISCODE',
+    'description' => '_XCONTENT_ADDTHISCODE_DESC',
+    'formtype'    => 'textarea',
+    'valuetype'   => 'text',
+    'default'     => '<!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_default_style">
 <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=xoops" class="addthis_button_compact">Share</a>
 <span class="addthis_separator">|</span>
@@ -348,113 +334,176 @@ $modversion['config'][$i]['default']     = '<!-- AddThis Button BEGIN -->
 </div>
 <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xoops"></script>
 <!-- AddThis Button END -->
-';
-
-++$i;
-$modversion['config'][$i]['name']        = 'pdf';
-$modversion['config'][$i]['title']       = '_XCONTENT_PDFICON';
-$modversion['config'][$i]['description'] = '_XCONTENT_PDFICON_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 1;
-
-++$i;
-$modversion['config'][$i]['name']        = 'writtenby';
-$modversion['config'][$i]['title']       = '_XCONTENT_WRITENBY';
-$modversion['config'][$i]['description'] = '_XCONTENT_WRITENBY_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 1;
-
-++$i;
-$modversion['config'][$i]['name']        = 'breadcrumb';
-$modversion['config'][$i]['title']       = '_XCONTENT_BREADCRUMB';
-$modversion['config'][$i]['description'] = '_XCONTENT_BREADCRUMB_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 1;
-
-++$i;
-$modversion['config'][$i]['name']        = 'htaccess';
-$modversion['config'][$i]['title']       = '_XCONTENT_HTACCESS';
-$modversion['config'][$i]['description'] = '_XCONTENT_HTACCESS_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 0;
-
-++$i;
-$modversion['config'][$i]['name']        = 'baseurl';
-$modversion['config'][$i]['title']       = '_XCONTENT_BASEURL';
-$modversion['config'][$i]['description'] = '_XCONTENT_BASEURL_DESC';
-$modversion['config'][$i]['formtype']    = 'text';
-$modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['default']     = 'xcontent';
-
-++$i;
-$modversion['config'][$i]['name']        = 'endofurl';
-$modversion['config'][$i]['title']       = '_XCONTENT_ENDOFURL';
-$modversion['config'][$i]['description'] = '_XCONTENT_ENDOFURL_DESC';
-$modversion['config'][$i]['formtype']    = 'text';
-$modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['default']     = '.tpl';
-
-++$i;
-$modversion['config'][$i]['name']        = 'endofurl_rss';
-$modversion['config'][$i]['title']       = '_XCONTENT_ENDOFURLRSS';
-$modversion['config'][$i]['description'] = '_XCONTENT_ENDOFURLRSS_DESC';
-$modversion['config'][$i]['formtype']    = 'text';
-$modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['default']     = '.rss';
-
-++$i;
-$modversion['config'][$i]['name']        = 'endofurl_pdf';
-$modversion['config'][$i]['title']       = '_XCONTENT_ENDOFURLPDF';
-$modversion['config'][$i]['description'] = '_XCONTENT_ENDOFURLPDF_DESC';
-$modversion['config'][$i]['formtype']    = 'text';
-$modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['default']     = '.pdf';
-
-++$i;
-$modversion['config'][$i]['name']        = 'force_jquery';
-$modversion['config'][$i]['title']       = '_XCONTENT_FORCEJQUERY';
-$modversion['config'][$i]['description'] = '_XCONTENT_FORCEJQUERY_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 0;
-
-++$i;
-$modversion['config'][$i]['name']        = 'force_cpanel_jquery';
-$modversion['config'][$i]['title']       = '_XCONTENT_FORCECPANELJQUERY';
-$modversion['config'][$i]['description'] = '_XCONTENT_FORCECPANELJQUERY_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 0;
-
-++$i;
-$modversion['config'][$i]['name']        = 'security';
-$modversion['config'][$i]['title']       = '_XCONTENT_SECURITY';
-$modversion['config'][$i]['description'] = '_XCONTENT_SECURITY_DESC';
-$modversion['config'][$i]['formtype']    = 'select';
-$modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['default']     = _XCONTENT_SECURITY_BASIC;
-$modversion['config'][$i]['options']     = [
-    _XCONTENT_SECURITY_BASIC_DESC        => _XCONTENT_SECURITY_BASIC,
-    _XCONTENT_SECURITY_INTERMEDIATE_DESC => _XCONTENT_SECURITY_INTERMEDIATE,
-    _XCONTENT_SECURITY_ADVANCED_DESC     => _XCONTENT_SECURITY_ADVANCED
+',
 ];
 
-++$i;
-$modversion['config'][$i]['name']        = 'multilingual';
-$modversion['config'][$i]['title']       = '_XCONTENT_MUlTILINGUAL';
-$modversion['config'][$i]['description'] = '_XCONTENT_MUlTILINGUAL_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 0;
+$modversion['config'][] = [
+    'name'        => 'pdf',
+    'title'       => '_XCONTENT_PDFICON',
+    'description' => '_XCONTENT_PDFICON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
 
-++$i;
-$modversion['config'][$i]['name']        = 'tags';
-$modversion['config'][$i]['title']       = '_XCONTENT_SUPPORTTAGS';
-$modversion['config'][$i]['description'] = '_XCONTENT_SUPPORTTAGS_DESC';
-$modversion['config'][$i]['formtype']    = 'yesno';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 0;
+$modversion['config'][] = [
+    'name'        => 'writtenby',
+    'title'       => '_XCONTENT_WRITENBY',
+    'description' => '_XCONTENT_WRITENBY_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+$modversion['config'][] = [
+    'name'        => 'breadcrumb',
+    'title'       => '_XCONTENT_BREADCRUMB',
+    'description' => '_XCONTENT_BREADCRUMB_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+$modversion['config'][] = [
+    'name'        => 'htaccess',
+    'title'       => '_XCONTENT_HTACCESS',
+    'description' => '_XCONTENT_HTACCESS_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
+$modversion['config'][] = [
+    'name'        => 'baseurl',
+    'title'       => '_XCONTENT_BASEURL',
+    'description' => '_XCONTENT_BASEURL_DESC',
+    'formtype'    => 'text',
+    'valuetype'   => 'text',
+    'default'     => 'xcontent',
+];
+
+$modversion['config'][] = [
+    'name'        => 'endofurl',
+    'title'       => '_XCONTENT_ENDOFURL',
+    'description' => '_XCONTENT_ENDOFURL_DESC',
+    'formtype'    => 'text',
+    'valuetype'   => 'text',
+    'default'     => '.tpl',
+];
+
+$modversion['config'][] = [
+    'name'        => 'endofurl_rss',
+    'title'       => '_XCONTENT_ENDOFURLRSS',
+    'description' => '_XCONTENT_ENDOFURLRSS_DESC',
+    'formtype'    => 'text',
+    'valuetype'   => 'text',
+    'default'     => '.rss',
+];
+
+$modversion['config'][] = [
+    'name'        => 'endofurl_pdf',
+    'title'       => '_XCONTENT_ENDOFURLPDF',
+    'description' => '_XCONTENT_ENDOFURLPDF_DESC',
+    'formtype'    => 'text',
+    'valuetype'   => 'text',
+    'default'     => '.pdf',
+];
+
+$modversion['config'][] = [
+    'name'        => 'force_jquery',
+    'title'       => '_XCONTENT_FORCEJQUERY',
+    'description' => '_XCONTENT_FORCEJQUERY_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
+$modversion['config'][] = [
+    'name'        => 'force_cpanel_jquery',
+    'title'       => '_XCONTENT_FORCECPANELJQUERY',
+    'description' => '_XCONTENT_FORCECPANELJQUERY_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
+$modversion['config'][] = [
+    'name'        => 'security',
+    'title'       => '_XCONTENT_SECURITY',
+    'description' => '_XCONTENT_SECURITY_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'default'     => _XCONTENT_SECURITY_BASIC,
+    'options'     => [
+        _XCONTENT_SECURITY_BASIC_DESC        => _XCONTENT_SECURITY_BASIC,
+        _XCONTENT_SECURITY_INTERMEDIATE_DESC => _XCONTENT_SECURITY_INTERMEDIATE,
+        _XCONTENT_SECURITY_ADVANCED_DESC     => _XCONTENT_SECURITY_ADVANCED,
+    ],
+];
+
+$modversion['config'][] = [
+    'name'        => 'multilingual',
+    'title'       => '_XCONTENT_MUlTILINGUAL',
+    'description' => '_XCONTENT_MUlTILINGUAL_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
+$modversion['config'][] = [
+    'name'        => 'tags',
+    'title'       => '_XCONTENT_SUPPORTTAGS',
+    'description' => '_XCONTENT_SUPPORTTAGS_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
+// default admin editor
+xoops_load('XoopsEditorHandler');
+$editorHandler = \XoopsEditorHandler::getInstance();
+$editorList    = array_flip($editorHandler->getList());
+
+$modversion['config'][] = [
+    'name'        => 'editorAdmin',
+    'title'       => '_MI_XCONTENT_EDITOR_ADMIN',
+    'description' => '_MI_XCONTENT_EDITOR_ADMIN_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'default'     => 'dhtmltextarea',
+    'options'     => $editorList,
+];
+
+$modversion['config'][] = [
+    'name'        => 'editorUser',
+    'title'       => '_MI_XCONTENT_EDITOR_USER',
+    'description' => '_MI_XCONTENT_EDITOR_USER_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'default'     => 'dhtmltextarea',
+    'options'     => $editorList,
+];
+
+/**
+ * Make Sample button visible?
+ */
+$modversion['config'][] = [
+    'name'        => 'displaySampleButton',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+/**
+ * Show Developer Tools?
+ */
+$modversion['config'][] = [
+    'name'        => 'displayDeveloperTools',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];

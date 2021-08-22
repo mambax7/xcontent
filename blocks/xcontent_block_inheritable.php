@@ -14,13 +14,23 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-require_once $GLOBALS['xoops']->path('modules/xcontent/include/formselectblocks.php');
+//require_once $GLOBALS['xoops']->path('modules/xcontent/include/formselectblocks.php');
+use Xmf\Request;
+use XoopsModules\Xcontent\Form\FormSelectBlocks;
+use XoopsModules\Xcontent\Helper;
 
+/**
+ * @param $options
+ * @return array|bool
+ */
 function xcontent_block_inheritable_show($options)
 {
-    $xcontentHandler = xoops_getModuleHandler('xcontent', 'xcontent');
-    $blockHandler    = xoops_getModuleHandler('block', 'xcontent');
-    $xcontent        = $xcontentHandler->get(\Xmf\Request::getInt('storyid', 0, 'GET'));
+    $helper = Helper::getInstance();
+    /** @var \XoopsModules\Xcontent\ContentHandler $xcontentHandler */
+    $xcontentHandler = $helper->getHandler('Content');
+    /** @var \XoopsModules\Xcontent\BlockHandler $blockHandler */
+    $blockHandler = $helper->getHandler('Block');
+    $xcontent     = $xcontentHandler->get(Request::getInt('storyid', 0, 'GET'));
     if (is_object($xcontent)) {
         if (0 == $xcontent->getVar('blockid') && 0 == $options[0]) {
             return false;
@@ -40,11 +50,15 @@ function xcontent_block_inheritable_show($options)
     $myts = \MyTextSanitizer::getInstance();
 
     return [
-        'html' => $myts->displayTarea(clear_unicodeslashes($block['text']->getVar('text')), true, true, true, true, false)
+        'html' => $myts->displayTarea(clear_unicodeslashes($block['text']->getVar('text')), true, true, true, true, false),
     ];
 }
 
 if (!function_exists('clear_unicodeslashes')) {
+    /**
+     * @param $text
+     * @return mixed
+     */
     function clear_unicodeslashes($text)
     {
         $text = str_replace(["\\'"], "'", $text);
@@ -55,9 +69,13 @@ if (!function_exists('clear_unicodeslashes')) {
     }
 }
 
+/**
+ * @param $options
+ * @return string
+ */
 function xcontent_block_inheritable_edit($options)
 {
-    $blockform = new \XoopsFormSelectBlocks('', 'options[0]', $options[0]);
+    $blockform = new FormSelectBlocks('', 'options[0]', $options[0]);
 
     return 'Default Block: ' . $blockform->render();
 }

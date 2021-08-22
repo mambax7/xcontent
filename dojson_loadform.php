@@ -14,11 +14,15 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-include __DIR__ . '/header.php';
-$GLOBALS['xoopsLogger']->activated = false;
-include $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_JSON);
+use XoopsModules\Xcontent\{
+    ServicesJSON
+};
 
-$json = new services_JSON();
+require_once __DIR__ . '/header.php';
+$GLOBALS['xoopsLogger']->activated = false;
+//require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_JSON);
+
+$json = new ServicesJSON();
 
 $values = [];
 $submit = true;

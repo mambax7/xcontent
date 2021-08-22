@@ -14,17 +14,23 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
+use XoopsModules\Xlanguage\Utility as XlanguageUtility;
+use XoopsModules\Xcontent\Helper;
+
 error_reporting(0);
 require_once __DIR__ . '/header.php';
-
-$xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
-$categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
+$helper = Helper::getInstance();
+/** @var \XoopsModules\Xcontent\ContentHandler $xcontentHandler */
+$xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
+/** @var \XoopsModules\Xcontent\CategoryHandler $categoryHandler */
+$categoryHandler = $helper->getHandler(_XCONTENT_CLASS_CATEGORY);
 $xcontent        = $xcontentHandler->getContent($storyid, $language);
 
 if (empty($storyid) && 0 == $xcontentHandler->getCount(new \Criteria('storyid', $storyid))) {
     redirect_header(XOOPS_URL . _XCONTENT_PATH_MODULE_ROOT, 2, _XCONTENT_NOSTORY);
 }
 
+/** @var \XoopsGroupPermHandler $grouppermHandler */
 if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent['xcontent']->getVar('storyid'), $groups, $modid)) {
     redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
 } elseif (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent['xcontent']->getVar('catid'), $groups, $modid)
@@ -32,7 +38,7 @@ if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYP
     redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
 } else {
     if ($GLOBALS['xoopsModuleConfig']['htaccess']) {
-        if (strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {
+        if (mb_strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {
             $category = $categoryHandler->getCategory($catid);
             if ('' != $category['text']->getVar('title')) {
                 header('HTTP/1.1 301 Moved Permanently');
@@ -59,7 +65,7 @@ if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYP
             redirect_header(XOOPS_URL . '/modules/' . _XCONTENT_DIRNAME . '/', 10, _XCONTENT_XCONTENTEXPIRED);
         }
         exit(0);
-    } elseif (32 == strlen($xcontent['xcontent']->getVar('password'))) {
+    } elseif (32 == mb_strlen($xcontent['xcontent']->getVar('password'))) {
         if (!isset($_COOKIE['xcontent_password'])) {
             $_COOKIE['xcontent_password'] = [];
         }
@@ -74,9 +80,8 @@ if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYP
                 $GLOBALS['xoopsTpl']->assign('form', xcontent_passwordform($xcontent['xcontent']->getVar('storyid')));
                 require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                 exit(0);
-            } else {
-                $_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] = true;
             }
+            $_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] = true;
         } else {
             $_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] = true;
         }
@@ -89,9 +94,10 @@ if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYP
 
     $pdf_data['subsubtitle'] = '';
     $pdf_data['date']        = ': ' . date(_DATESTRING, $xcontent['xcontent']->getVar('date'));
-    $pdf_data['filename']    = preg_replace("/[^0-9a-z\-_\.]/i", '', $myts->htmlSpecialChars($pdf_data['title']) . ' - ' . $pdf_data['subtitle']);
+    $pdf_data['filename']    = preg_replace('/[^0-9a-z\-_\.]/i', '', htmlspecialchars($pdf_data['title'], ENT_QUOTES | ENT_HTML5) . ' - ' . $pdf_data['subtitle']);
     $pdf_data['filename']    = 'test';
 
+    /** @var \XoopsMemberHandler $memberHandler */
     $memberHandler = xoops_getHandler('member');
     $author        = $memberHandler->getUser($xcontent['xcontent']->getVar('uid'));
     if ($author->getVar('name')) {
@@ -117,15 +123,15 @@ if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYP
 
     require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.php';
 
-//    $filename = XOOPS_ROOT_PATH . '/Frameworks/tcpdf/config/lang/' . _LANGCODE . '.php';
-//    if (file_exists($filename)) {
-//        require_once $filename;
-//    } else {
-//        require_once XOOPS_ROOT_PATH . '/Frameworks/tcpdf/config/lang/en.php';
-//    }
+    //    $filename = XOOPS_ROOT_PATH . '/Frameworks/tcpdf/config/lang/' . _LANGCODE . '.php';
+    //    if (file_exists($filename)) {
+    //        require_once $filename;
+    //    } else {
+    //        require_once XOOPS_ROOT_PATH . '/Frameworks/tcpdf/config/lang/en.php';
+    //    }
 
     //DNPROSSI Added - xlanguage installed and active
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $xlanguage     = $moduleHandler->getByDirname('xlanguage');
     if (is_object($xlanguage) && true === $xlanguage->getVar('isactive')) {
@@ -153,9 +159,8 @@ if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYP
     $xcontent .= $myts->undoHtmlSpecialChars($pdf_data['xcontent']);
 
     //DNPROSSI Added - Get correct language and remove tags from text to be sent to PDF
-    if (true === $xlang) {
-        require_once XOOPS_ROOT_PATH . '/modules/xlanguage/include/functions.php';
-        $xcontent = xlanguage_ml($xcontent);
+    if (true === $xlang && class_exists('XlanguageUtility')) {
+        $xcontent = XlanguageUtility::cleanMultiLang($xcontent);
     }
 
     $pdf          = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -175,7 +180,7 @@ if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYP
     $pdf->SetKeywords($doc_keywords);
 
     // set default header data
-    $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+    $pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
     //$pdf->SetHeaderData('', '', $firstLine, $secondLine);
     //$pdf->SetHeaderData('logo_example.png', '25', $firstLine, $secondLine);
     //UTF-8 char sample
@@ -185,8 +190,8 @@ if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYP
     $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP + 10, PDF_MARGIN_RIGHT);
     //set auto page breaks
     $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
-    $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+    $pdf->setHeaderMargin(PDF_MARGIN_HEADER);
+    $pdf->setFooterMargin(PDF_MARGIN_FOOTER);
     $pdf->setImageScale(1); //set image scale factor
 
     //DNPROSSI ADDED FOR SCHINESE

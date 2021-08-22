@@ -14,12 +14,20 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
+/**
+ * @param $queryarray
+ * @param $andor
+ * @param $limit
+ * @param $offset
+ * @param $userid
+ * @return array
+ */
 function xcontent_search($queryarray, $andor, $limit, $offset, $userid)
 {
-    if (file_exists(XOOPS_ROOT_PATH . '/modules/xcontent/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php')) {
-        include XOOPS_ROOT_PATH . '/modules/xcontent/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php';
-    } elseif (file_exists(XOOPS_ROOT_PATH . '/modules/xcontent/language/english/modinfo.php')) {
-        include XOOPS_ROOT_PATH . '/modules/xcontent/language/english/modinfo.php';
+    if (is_file(XOOPS_ROOT_PATH . '/modules/xcontent/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php')) {
+        require_once XOOPS_ROOT_PATH . '/modules/xcontent/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php';
+    } elseif (is_file(XOOPS_ROOT_PATH . '/modules/xcontent/language/english/modinfo.php')) {
+        require_once XOOPS_ROOT_PATH . '/modules/xcontent/language/english/modinfo.php';
     }
 
     if ($userid > 0) {
@@ -43,14 +51,15 @@ function xcontent_search($queryarray, $andor, $limit, $offset, $userid)
     $result = $GLOBALS['xoopsDB']->query($sql, $limit, $offset);
     $ret    = [];
     $i      = 0;
-
-    while (false !== ($myrow = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $ret[$i]['image'] = '';
-        $ret[$i]['link']  = 'index.php?storyid=' . $myrow['storyid'];
-        $ret[$i]['title'] = xoops_convert_decode($myrow['title']);
-        $ret[$i]['text']  = xoops_convert_decode($myrow['text']);
-        $ret[$i]['uid']   = $myrow['uid'];
-        ++$i;
+    if ($result instanceof \mysqli_result) {
+        while (false !== ($myrow = $GLOBALS['xoopsDB']->fetchArray($result))) {
+            $ret[$i]['image'] = '';
+            $ret[$i]['link']  = 'index.php?storyid=' . $myrow['storyid'];
+            $ret[$i]['title'] = xoops_convert_decode($myrow['title']);
+            $ret[$i]['text']  = xoops_convert_decode($myrow['text']);
+            $ret[$i]['uid']   = $myrow['uid'];
+            ++$i;
+        }
     }
 
     return $ret;

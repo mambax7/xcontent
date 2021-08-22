@@ -14,7 +14,12 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-include __DIR__ . '/header.php';
+use XoopsModules\Xcontent;
+use XoopsModules\Xcontent\Helper;
+
+require_once __DIR__ . '/header.php';
+
+$helper = Helper::getInstance();
 
 $GLOBALS['xoopsOption']['template_main'] = _XCONTENT_TEMPLATE_INDEX;
 require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
@@ -28,10 +33,12 @@ if ($GLOBALS['xoopsModuleConfig']['json']) {
 }
 $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . _XCONTENT_PATH_CSS_INDEX);
 
-$xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+/** @var \XoopsModules\Xcontent\ContentHandler $xcontentHandler */
+$xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
 
 if (!empty($storyid) && 0 != $xcontentHandler->getCount(new \Criteria('storyid', $storyid))) {
-    if ($xcontent = $xcontentHandler->getContent($storyid)) {
+    $xcontent = $xcontentHandler->getContent($storyid);
+    if ($xcontent) {
         if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent['xcontent']->getVar('storyid'), $groups, $modid)) {
             redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
         } elseif (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent['xcontent']->getVar('catid'), $groups, $modid)
@@ -39,37 +46,22 @@ if (!empty($storyid) && 0 != $xcontentHandler->getCount(new \Criteria('storyid',
             redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
         } else {
             if ($GLOBALS['xoopsModuleConfig']['htaccess']) {
-                if (strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {
-                    $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
+                if (mb_strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {
+                    /** @var \XoopsModules\Xcontent\CategoryHandler $categoryHandler */
+                    $categoryHandler = $helper->getHandler(_XCONTENT_CLASS_CATEGORY);
                     $category        = $categoryHandler->getCategory($xcontent['xcontent']->getVar('catid'));
                     if ('' != $category['text']->getVar('title')) {
                         header('HTTP/1.1 301 Moved Permanently');
-                        header('Location: '
-                               . XOOPS_URL
-                               . '/'
-                               . $GLOBALS['xoopsModuleConfig']['baseurl']
-                               . '/'
-                               . xoops_sef($category['text']->getVar('title'))
-                               . '/'
-                               . xoops_sef($xcontent['text']->getVar('ptitle'))
-                               . '/'
-                               . $xcontent['xcontent']->getVar('storyid')
-                               . ','
-                               . $xcontent['xcontent']->getVar('catid')
-                               . $GLOBALS['xoopsModuleConfig']['endofurl']);
+                        header(
+                            'Location: ' . XOOPS_URL . '/' . $GLOBALS['xoopsModuleConfig']['baseurl'] . '/' . xoops_sef($category['text']->getVar('title')) . '/' . xoops_sef($xcontent['text']->getVar('ptitle')) . '/' . $xcontent['xcontent']->getVar('storyid') . ',' . $xcontent['xcontent']->getVar(
+                                'catid'
+                            ) . $GLOBALS['xoopsModuleConfig']['endofurl']
+                        );
                     } else {
                         header('HTTP/1.1 301 Moved Permanently');
-                        header('Location: '
-                               . XOOPS_URL
-                               . '/'
-                               . $GLOBALS['xoopsModuleConfig']['baseurl']
-                               . '/'
-                               . xoops_sef($xcontent['text']->getVar('ptitle'))
-                               . '/'
-                               . $xcontent['xcontent']->getVar('storyid')
-                               . ','
-                               . $xcontent['xcontent']->getVar('catid')
-                               . $GLOBALS['xoopsModuleConfig']['endofurl']);
+                        header(
+                            'Location: ' . XOOPS_URL . '/' . $GLOBALS['xoopsModuleConfig']['baseurl'] . '/' . xoops_sef($xcontent['text']->getVar('ptitle')) . '/' . $xcontent['xcontent']->getVar('storyid') . ',' . $xcontent['xcontent']->getVar('catid') . $GLOBALS['xoopsModuleConfig']['endofurl']
+                        );
                     }
                     exit(0);
                 }
@@ -98,7 +90,7 @@ if (!empty($storyid) && 0 != $xcontentHandler->getCount(new \Criteria('storyid',
                         redirect_header(XOOPS_URL . '/modules/' . _XCONTENT_DIRNAME . '/', 10, _XCONTENT_XCONTENTEXPIRED);
                     }
                     exit(0);
-                } elseif (32 == strlen($xcontent['xcontent']->getVar('password'))) {
+                } elseif (32 == mb_strlen($xcontent['xcontent']->getVar('password'))) {
                     if (!isset($_COOKIE['xcontent_password'])) {
                         $_COOKIE['xcontent_password'] = [];
                     }
@@ -112,14 +104,14 @@ if (!empty($storyid) && 0 != $xcontentHandler->getCount(new \Criteria('storyid',
                             $GLOBALS['xoopsTpl']->assign('form', xcontent_passwordform($xcontent['xcontent']->getVar('storyid')));
                             require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                             exit(0);
-                        } else {
-                            $_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] = true;
                         }
+                        $_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] = true;
                     } else {
                         $_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] = true;
                     }
                 }
 
+                /** @var \XoopsMemberHandler $memberHandler */
                 $memberHandler = xoops_getHandler('member');
                 $author        = $memberHandler->getUser($xcontent['xcontent']->getVar('uid'));
                 $GLOBALS['xoopsTpl']->assign('xoAuthor', $author->toArray());
@@ -150,7 +142,8 @@ if (!empty($storyid) && 0 != $xcontentHandler->getCount(new \Criteria('storyid',
         }
     }
 } else {
-    if ($xcontent = $xcontentHandler->getHompage()) {
+    $xcontent = $xcontentHandler->getHomepage();
+    if ($xcontent) {
         if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent['xcontent']->getVar('storyid'), $groups, $modid)) {
             redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
         } elseif (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent['xcontent']->getVar('catid'), $groups, $modid)
@@ -171,5 +164,5 @@ if (!empty($storyid) && 0 != $xcontentHandler->getCount(new \Criteria('storyid',
         }
     }
 }
-include $GLOBALS['xoops']->path('include/comment_view.php');
+require_once $GLOBALS['xoops']->path('include/comment_view.php');
 require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);

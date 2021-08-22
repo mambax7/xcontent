@@ -26,7 +26,7 @@ define('_XCONTENT_LICENSE', 'GNU GPL 2.0');
 define('_XCONTENT_OFFICIAL', false);
 define('_XCONTENT_LOGOIMAGE', 'assets/images/logoModule.png');
 //    define('_XCONTENT_DIRNAME', 'xcontent');
-define('_XCONTENT_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_XCONTENT_DIRNAME', basename(dirname(__DIR__, 2)));
 define('_XCONTENT_SQLFILE_MYSQL', 'sql/mysql.sql');
 
 // MAINTENANCE ACtioNS
@@ -42,6 +42,8 @@ define('_XCONTENT_XCONTENT_ADMENU4', 'Add Category');
 define('_XCONTENT_XCONTENT_ADMENU5', 'Linked Blocks');
 define('_XCONTENT_XCONTENT_ADMENU6', 'Add Linked Block');
 define('_XCONTENT_XCONTENT_ADMENU7', 'Permissions');
+define('_MI_XCONTENT_HOME', 'Home');
+define('_MI_XCONTENT_ABOUT', 'About');
 
 // MENU ICONS?IMAGES
 define('_XCONTENT_XCONTENT_ADMENU1_ICON', 'assets/images/manage.xcontent.png');
@@ -107,11 +109,11 @@ define('_XCONTENT_TEMPLATE_INDEX_PASSWORD', 'xcontent_index_password.tpl');
 define('_XCONTENT_TEMPLATE_INDEX_PASSWORD_DESC', 'xContent Password Prompt Template');
 
 //CLASS NAMES // DO NOT CHANGE
-define('_XCONTENT_CLASS_XCONTENT', 'xcontent');
-define('_XCONTENT_CLASS_CATEGORY', 'category');
-define('_XCONTENT_CLASS_TEXT', 'text');
-define('_XCONTENT_CLASS_BLOCK', 'block');
-define('_XCONTENT_CLASS_XLANGUAGE_EXT', 'xlanguage_ext');
+define('_XCONTENT_CLASS_XCONTENT', 'Content');
+define('_XCONTENT_CLASS_CATEGORY', 'Category');
+define('_XCONTENT_CLASS_TEXT', 'Text');
+define('_XCONTENT_CLASS_BLOCK', 'Block');
+define('_XCONTENT_CLASS_XLANGUAGE_EXT', 'XlanguageExt');
 
 //FUNCTIOnAL PAGE OpERATORs -- DO NOT CHANGE
 define('_XCONTENT_URL_OP_SAVE', 'save');
@@ -142,12 +144,12 @@ define('_XCONTENT_PATH_PHP_GROUPPERMS', '/class/xoopsform/grouppermform.php');
 define('_XCONTENT_PATH_PHP_TEMPLATE', '/class/template.php');
 define('_XCONTENT_PATH_PHP_FORMLOADER', '/class/xoopsformloader.php');
 define('_XCONTENT_PATH_PHP_FORM_TAG', '/modules/tag/include/formtag.php');
-define('_XCONTENT_PATH_PHP_HEADER', '/header.php');
-define('_XCONTENT_PATH_PHP_FOOTER', '/footer.php');
+define('_XCONTENT_PATH_PHP_HEADER', 'header.php');
+define('_XCONTENT_PATH_PHP_FOOTER', 'footer.php');
 define('_XCONTENT_PATH_PHP_COMMENTVIEW', '/include/comment_view.php');
 define('_XCONTENT_PATH_MODULE_ROOT', '/modules/' . _XCONTENT_DIRNAME . '/index.php');
-define('_XCONTENT_PATH_PHP_FPDF', '/modules/' . _XCONTENT_DIRNAME . '/include/fpdf/fpdf.inc.php');
-define('_XCONTENT_PATH_PHP_JSON', '/modules/' . _XCONTENT_DIRNAME . '/include/JSON.php');
+//define('_XCONTENT_PATH_PHP_FPDF', '/modules/' . _XCONTENT_DIRNAME . '/include/fpdf/fpdf.inc.php');
+//define('_XCONTENT_PATH_PHP_JSON', '/modules/' . _XCONTENT_DIRNAME . '/include/JSON.php');
 define('_XCONTENT_PATH_PREDEFINED_HTML', '/modules/' . _XCONTENT_DIRNAME . '/templates/predefined/xcontent/');
 define('_XCONTENT_PATH_PREDEFINED_RSS', '/modules/' . _XCONTENT_DIRNAME . '/templates/predefined/rss/');
 define('_XCONTENT_PATH_CSS_INDEX', '/modules/' . _XCONTENT_DIRNAME . '/assets/css/xcontent.css');
@@ -157,11 +159,12 @@ define('_XCONTENT_PATH_JS_JQUERY', '/browse.php?Frameworks/jquery/jquery.js');
 define('_XCONTENT_PATH_PHP_FUNCTIONS', '/modules/' . _XCONTENT_DIRNAME . '/include/functions.php');
 define('_XCONTENT_PATH_PHP_FORMOBJECTS', '/modules/' . _XCONTENT_DIRNAME . '/include/formobjects.xcontent.php');
 define('_XCONTENT_PATH_PHP_FORMS', '/modules/' . _XCONTENT_DIRNAME . '/include/forms.xcontent.php');
-define('_XCONTENT_PATH_PHP_FORM_LANGUAGES', '/modules/' . _XCONTENT_DIRNAME . '/include/formselectlanguages.php');
-define('_XCONTENT_PATH_PHP_FORM_CATEGORIES', '/modules/' . _XCONTENT_DIRNAME . '/include/formselectcategories.php');
-define('_XCONTENT_PATH_PHP_FORM_PAGES', '/modules/' . _XCONTENT_DIRNAME . '/include/formselectpages.php');
-define('_XCONTENT_PATH_PHP_FORM_BLOCKS', '/modules/' . _XCONTENT_DIRNAME . '/include/formselectblocks.php');
-define('_XCONTENT_PATH_PHP_FORM_HTMLTEMPLATES', '/modules/' . _XCONTENT_DIRNAME . '/include/formselecttemplates.php');
+
+//define('_XCONTENT_PATH_PHP_FORM_LANGUAGES', '/modules/' . _XCONTENT_DIRNAME . '/include/formselectlanguages.php');
+//define('_XCONTENT_PATH_PHP_FORM_CATEGORIES', '/modules/' . _XCONTENT_DIRNAME . '/include/formselectcategories.php');
+//define('_XCONTENT_PATH_PHP_FORM_PAGES', '/modules/' . _XCONTENT_DIRNAME . '/include/formselectpages.php');
+//define('_XCONTENT_PATH_PHP_FORM_BLOCKS', '/modules/' . _XCONTENT_DIRNAME . '/include/formselectblocks.php');
+//define('_XCONTENT_PATH_PHP_FORM_HTMLTEMPLATES', '/modules/' . _XCONTENT_DIRNAME . '/include/formselecttemplates.php');
 
 // PERMiSSION OPTIONS // DO NOT CHANGE
 define('_XCONTENT_PERM_VIEW_CATEGORY', 'Categories Viewing Permissions');
@@ -234,6 +237,7 @@ define('_XCONTENT_PERMISSIONS_CATEGORY', 'Permissions for Categories');
 define('_XCONTENT_PERMISSIONS_XCONTENT', 'Permissions for Content');
 define('_XCONTENT_PERMISSIONS_BLOCKS', 'Permissions for Blocks');
 define('_XCONTENT_PERMISSIONS_DEFAULT', 'Permissions Defaults');
+define('_XCONTENT_PERMISSIONS_NOPERMSSET', 'No Permissions to Set!');
 
 // LANGUAGE DESCRIPTIONS
 define('_XCONTENT_USEJSON', 'Use Secure JSON for forms?');
@@ -306,8 +310,8 @@ define('_XCONTENT_XCONTENT_ADMENU8_ICON', '../../Frameworks/moduleclasses/icons/
 
 //2.17
 //Help
-define('_MI_XCONTENT_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_XCONTENT_HELP_HEADER', __DIR__.'/help/helpheader.tpl');
+define('_MI_XCONTENT_DIRNAME', basename(dirname(__DIR__, 2)));
+define('_MI_XCONTENT_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_XCONTENT_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_XCONTENT_OVERVIEW', 'Overview');
 
@@ -317,3 +321,11 @@ define('_MI_XCONTENT_OVERVIEW', 'Overview');
 define('_MI_XCONTENT_DISCLAIMER', 'Disclaimer');
 define('_MI_XCONTENT_LICENSE', 'License');
 define('_MI_XCONTENT_SUPPORT', 'Support');
+
+define('_MI_XCONTENT_ADMENU_MIGRATE', 'Migrate');
+
+define('_MI_XCONTENT_EDITOR_ADMIN', 'Editor Admin');
+define('_MI_XCONTENT_EDITOR_ADMIN_DESC', '');
+define('_MI_XCONTENT_EDITOR_USER', 'Editor User');
+define('_MI_XCONTENT_EDITOR_USER_DESC', '');
+

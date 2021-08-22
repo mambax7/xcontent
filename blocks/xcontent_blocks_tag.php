@@ -14,6 +14,10 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
+/**
+ * @param $options
+ * @return mixed
+ */
 function xcontent_tag_block_cloud_show($options)
 {
     require_once XOOPS_ROOT_PATH . '/modules/tag/blocks/block.php';
@@ -21,6 +25,10 @@ function xcontent_tag_block_cloud_show($options)
     return tag_block_cloud_show($options, $module_dirname);
 }
 
+/**
+ * @param $options
+ * @return mixed
+ */
 function xcontent_tag_block_cloud_edit($options)
 {
     require_once XOOPS_ROOT_PATH . '/modules/tag/blocks/block.php';
@@ -28,6 +36,10 @@ function xcontent_tag_block_cloud_edit($options)
     return tag_block_cloud_edit($options);
 }
 
+/**
+ * @param $options
+ * @return mixed
+ */
 function xcontent_tag_block_top_show($options)
 {
     require_once XOOPS_ROOT_PATH . '/modules/tag/blocks/block.php';
@@ -35,6 +47,10 @@ function xcontent_tag_block_top_show($options)
     return tag_block_top_show($options, $module_dirname);
 }
 
+/**
+ * @param $options
+ * @return mixed
+ */
 function xcontent_tag_block_top_edit($options)
 {
     require_once XOOPS_ROOT_PATH . '/modules/tag/blocks/block.php';

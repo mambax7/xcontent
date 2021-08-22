@@ -1,3 +1,10 @@
+<h5>1.32 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.5
+<hr>
+- namespaces (mamba)
+- class autoloading (mamba)
+WORK IN PROGRESS
+
+
 2.17 Beta 2       2014-04-23
 =================================
 - moved all images, CSS, and JS files to /assets (mamba)

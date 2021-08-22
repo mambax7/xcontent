@@ -14,26 +14,42 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
+use XoopsModules\Xcontent\Helper;
+
+/**
+ * @return string
+ */
 function xcontent_getpostinglocal()
 {
-    if (0 == strpos($_SERVER['PHP_SELF'], '/admin/index.php')) {
+    if (0 == mb_strpos($_SERVER['SCRIPT_NAME'], '/admin/index.php')) {
         return '/manage.php';
-    } else {
-        return '/admin/index.php';
     }
+
+    return '/admin/index.php';
 }
 
+/**
+ * @param $op
+ * @param $fct
+ * @param $storyid
+ * @param $catid
+ * @param $blockid
+ * @param $securitymode
+ * @return bool|void
+ */
 function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode)
 {
-    $grouppermHandler  = xoops_getHandler('groupperm');
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
+    $grouppermHandler = xoops_getHandler('groupperm');
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
     $groups        = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $xoModule      = $moduleHandler->getByDirname('xcontent');
     $modid         = $xoModule->getVar('mid');
     $xoConfig      = $configHandler->getConfigList($modid, 0);
-    if (0 == strlen($securitymode)) {
+    if ('' === $securitymode) {
         $securitymode = $xoConfig['security'];
     }
 
@@ -59,14 +75,14 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
                         case _XCONTENT_URL_FCT_XCONTENT:
                             if (0 == $storyid) {
                                 return $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ADD . _XCONTENT_PERM_TYPE_XCONTENT, $catid, $groups, $modid);
-                            } else {
-                                return true;
                             }
+
+                            return true;
                             break;
                     }
                     break;
             }
-            // no break
+        // no break
         case _XCONTENT_URL_OP_EDIT:
             switch ($securitymode) {
                 case _XCONTENT_SECURITY_BASIC:
@@ -113,7 +129,7 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
                     }
                     break;
             }
-            // no break
+        // no break
         case _XCONTENT_URL_OP_ADD:
             switch ($fct) {
                 case _XCONTENT_URL_FCT_XCONTENT:
@@ -180,9 +196,15 @@ function xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $securitymode
     }
 }
 
+/**
+ * @param        $currentoption
+ * @param string $breadcrumb
+ * @return string
+ */
 function loadUserMenu($currentoption, $breadcrumb = '')
 {
     $adminmenu = [];
+    $j         = 0;
 
     $adminmenu[_XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT]['title'] = _XCONTENT_XCONTENT_ADMENU1;
     $adminmenu[_XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT]['link']  = 'manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_XCONTENT;
@@ -199,7 +221,8 @@ function loadUserMenu($currentoption, $breadcrumb = '')
     $adminmenu[_XCONTENT_PERM_TEMPLATE_PERMISSIONS]['title']     = _XCONTENT_XCONTENT_ADMENU7;
     $adminmenu[_XCONTENT_PERM_TEMPLATE_PERMISSIONS]['link']      = 'manage.php?op=' . _XCONTENT_URL_OP_PERMISSIONS . '&fct=' . _XCONTENT_URL_FCT_TEMPLATE . '&mode=' . _XCONTENT_PERM_MODE_ALL;
 
-    $breadcrumb  = empty($breadcrumb) ? $adminmenu[$currentoption]['title'] : $breadcrumb;
+    //    $breadcrumb  = empty($breadcrumb) ? $adminmenu[$currentoption]['title'] : $breadcrumb;
+    $breadcrumb  = empty($breadcrumb) ? array_values($adminmenu)[$currentoption - 1]['title'] : $breadcrumb;
     $module_link = XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/';
     $image_link  = XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/images';
 
@@ -238,15 +261,16 @@ function loadUserMenu($currentoption, $breadcrumb = '')
          <ul>
         ';
 
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
-    $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
-    /** @var XoopsModuleHandler $moduleHandler */
+    $groups           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $xoModule      = $moduleHandler->getByDirname(_XCONTENT_DIRNAME);
     $modid         = $xoModule->getVar('mid');
 
-    foreach (array_keys($adminObject) as $key) {
-        ++$j;
+    foreach (array_keys($adminmenu) as $key) {
+        $j++;
         if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_ALL . _XCONTENT_PERM_TYPE_TEMPLATE, $key, $groups, $modid)) {
             $adminMenu_text .= (($currentoption == $j) ? '<li class="current">' : '<li>') . '<a href="' . $module_link . $adminmenu[$key]['link'] . '"><span>' . $adminmenu[$key]['title'] . '</span></a></li>';
         }
@@ -259,9 +283,14 @@ function loadUserMenu($currentoption, $breadcrumb = '')
 }
 
 if (!function_exists('xoops_sef')) {
+    /**
+     * @param        $datab
+     * @param string $char
+     * @return string
+     */
     function xoops_sef($datab, $char = '-')
     {
-        $datab             = urldecode(strtolower($datab));
+        $datab             = urldecode(mb_strtolower($datab));
         $datab             = urlencode($datab);
         $datab             = str_replace(urlencode('æ'), 'ae', $datab);
         $datab             = str_replace(urlencode('ø'), 'oe', $datab);
@@ -299,7 +328,7 @@ if (!function_exists('xoops_sef')) {
             '!',
             '`',
             '~',
-            ' ',
+            ' ',
             '',
             '¡',
             '¦',
@@ -327,7 +356,7 @@ if (!function_exists('xoops_sef')) {
             '¼',
             '½',
             '¾',
-            '¿'
+            '¿',
         ];
         $return_data       = str_replace($replacement_chars, $char, urldecode($datab));
         #print $return_data."<br><br>";
@@ -344,6 +373,10 @@ if (!function_exists('xoops_sef')) {
 }
 
 if (!function_exists('clear_unicodeslashes')) {
+    /**
+     * @param $text
+     * @return array|string|string[]
+     */
     function clear_unicodeslashes($text)
     {
         $text = str_replace(["\\'"], "'", $text);
@@ -354,9 +387,14 @@ if (!function_exists('clear_unicodeslashes')) {
     }
 }
 
+/**
+ * @param $storyid
+ * @return array
+ */
 function xcontent_getBreadcrumb($storyid)
 {
-    $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+    $helper          = Helper::getInstance();
+    $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
     $xcontent        = $xcontentHandler->get($storyid);
     if (0 != $xcontent->getVar('parent_id')) {
         $children = xcontent_getChildrenTree([], $storyid);
@@ -379,9 +417,15 @@ function xcontent_getBreadcrumb($storyid)
     return $crumb;
 }
 
+/**
+ * @param     $children
+ * @param int $storyid
+ * @return mixed
+ */
 function xcontent_getChildrenTree($children, $storyid = 0)
 {
-    $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+    $helper          = Helper::getInstance();
+    $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
     $xcontent        = $xcontentHandler->get($storyid);
     if (0 != $xcontent->getVar('parent_id')) {
         $children[$storyid] = $storyid;
@@ -393,160 +437,217 @@ function xcontent_getChildrenTree($children, $storyid = 0)
     return $children;
 }
 
+/**
+ * @return string
+ */
 function xcontent_passkey()
 {
     return md5(sha1(XOOPS_LICENSE_KEY) . date('Ymd'));
 }
 
+/**
+ * @param $storyid
+ * @return mixed|string
+ */
 function xcontent_getPageTitle($storyid)
 {
-    $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+    $helper          = Helper::getInstance();
+    $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
     $xcontent        = $xcontentHandler->get($storyid);
     if ($xcontent->getVar('catid') > 0) {
         return xcontent_getTitle($storyid) . _XCONTENT_PAGETITLESEP . xcontent_getCatTitle($xcontent->getVar('catid'));
-    } else {
-        return xcontent_getTitle($storyid);
     }
+
+    return xcontent_getTitle($storyid);
 }
 
+/**
+ * @param $storyid
+ * @return mixed|string
+ */
 function xcontent_getMetaKeywords($storyid)
 {
-    $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+    $helper          = Helper::getInstance();
+    $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
     $xcontent        = $xcontentHandler->get($storyid);
     if ($xcontent->getVar('catid') > 0) {
         return xcontent_getField($storyid, 'keywords') . ', ' . xcontent_getCatField($xcontent->getVar('catid'), 'keywords');
-    } else {
-        return xcontent_getField($storyid, 'keywords');
     }
+
+    return xcontent_getField($storyid, 'keywords');
 }
 
+/**
+ * @param $storyid
+ * @return mixed|string
+ */
 function xcontent_getMetaDescription($storyid)
 {
-    $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+    $helper          = Helper::getInstance();
+    $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
     $xcontent        = $xcontentHandler->get($storyid);
     if ($xcontent->getVar('catid') > 0) {
         $catid = $xcontent->getVar('catid');
         $desc  = xcontent_getField($storyid, 'page_description');
         if (empty($desc)) {
             return xcontent_getCatField($catid, 'page_description');
-        } else {
-            return $desc;
         }
-    } else {
-        return xcontent_getField($storyid, 'page_description');
+
+        return $desc;
     }
+
+    return xcontent_getField($storyid, 'page_description');
 }
 
+/**
+ * @param $storyid
+ * @return mixed
+ */
 function xcontent_getTitle($storyid)
 {
-    $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+    $helper      = Helper::getInstance();
+    $textHandler = $helper->getHandler(_XCONTENT_CLASS_TEXT);
     $criteria    = new \CriteriaCompo(new \Criteria('storyid', $storyid));
     $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
     $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
-    if ($texts = $textHandler->getObjects($criteria)) {
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
         return $texts[0]->getVar('title');
-    } else {
-        $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
-        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
-        if ($texts = $textHandler->getObjects($criteria)) {
-            return $texts[0]->getVar('title');
-        } else {
-            return _XCONTENT_NOTITLESPECIFIED;
-        }
     }
+    $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
+        return $texts[0]->getVar('title');
+    }
+
+    return _XCONTENT_NOTITLESPECIFIED;
 }
 
+/**
+ * @param $blockid
+ * @return mixed
+ */
 function xcontent_getBlockTitle($blockid)
 {
-    $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+    $helper      = Helper::getInstance();
+    $textHandler = $helper->getHandler(_XCONTENT_CLASS_TEXT);
     $criteria    = new \CriteriaCompo(new \Criteria('blockid', $blockid));
     $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
     $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
-    if ($texts = $textHandler->getObjects($criteria)) {
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
         return $texts[0]->getVar('title');
-    } else {
-        $criteria = new \CriteriaCompo(new \Criteria('blockid', $blockid));
-        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
-        if ($texts = $textHandler->getObjects($criteria)) {
-            return $texts[0]->getVar('title');
-        } else {
-            return _XCONTENT_NOTITLESPECIFIED;
-        }
     }
+    $criteria = new \CriteriaCompo(new \Criteria('blockid', $blockid));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
+        return $texts[0]->getVar('title');
+    }
+
+    return _XCONTENT_NOTITLESPECIFIED;
 }
 
+/**
+ * @param $catid
+ * @return mixed
+ */
 function xcontent_getCatTitle($catid)
 {
-    $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+    $helper      = Helper::getInstance();
+    $textHandler = $helper->getHandler(_XCONTENT_CLASS_TEXT);
     $criteria    = new \CriteriaCompo(new \Criteria('catid', $catid));
     $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
     $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
-    if ($texts = $textHandler->getObjects($criteria)) {
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
         return $texts[0]->getVar('title');
-    } else {
-        $criteria = new \CriteriaCompo(new \Criteria('catid', $catid));
-        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
-        if ($texts = $textHandler->getObjects($criteria)) {
-            return $texts[0]->getVar('title');
-        } else {
-            return _XCONTENT_NOTCATITLESPECIFIED;
-        }
     }
+    $criteria = new \CriteriaCompo(new \Criteria('catid', $catid));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
+        return $texts[0]->getVar('title');
+    }
+
+    return _XCONTENT_NOTCATITLESPECIFIED;
 }
 
+/**
+ * @param $storyid
+ * @param $field
+ * @return mixed|string
+ */
 function xcontent_getField($storyid, $field)
 {
-    $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+    $helper      = Helper::getInstance();
+    $textHandler = $helper->getHandler(_XCONTENT_CLASS_TEXT);
     $criteria    = new \CriteriaCompo(new \Criteria('storyid', $storyid));
     $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
     $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
-    if ($texts = $textHandler->getObjects($criteria)) {
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
         return clear_unicodeslashes($texts[0]->getVar($field));
-    } else {
-        $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
-        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
-        if ($texts = $textHandler->getObjects($criteria)) {
-            return clear_unicodeslashes($texts[0]->getVar($field));
-        } else {
-            return '';
-        }
     }
+    $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
+        return clear_unicodeslashes($texts[0]->getVar($field));
+    }
+
+    return '';
 }
 
+/**
+ * @param $catid
+ * @param $field
+ * @return mixed|string
+ */
 function xcontent_getCatField($catid, $field)
 {
-    $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+    $helper      = Helper::getInstance();
+    $textHandler = $helper->getHandler(_XCONTENT_CLASS_TEXT);
     $criteria    = new \CriteriaCompo(new \Criteria('catid', $catid));
     $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
     $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
-    if ($texts = $textHandler->getObjects($criteria)) {
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
         return clear_unicodeslashes($texts[0]->getVar($field));
-    } else {
-        $criteria = new \CriteriaCompo(new \Criteria('catid', $catid));
-        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
-        if ($texts = $textHandler->getObjects($criteria)) {
-            return clear_unicodeslashes($texts[0]->getVar($field));
-        } else {
-            return '';
-        }
     }
+    $criteria = new \CriteriaCompo(new \Criteria('catid', $catid));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
+        return clear_unicodeslashes($texts[0]->getVar($field));
+    }
+
+    return '';
 }
 
+/**
+ * @param $blockid
+ * @param $field
+ * @return mixed|string
+ */
 function xcontent_getBlockField($blockid, $field)
 {
-    $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+    $helper      = Helper::getInstance();
+    $textHandler = $helper->getHandler(_XCONTENT_CLASS_TEXT);
     $criteria    = new \CriteriaCompo(new \Criteria('blockid', $blockid));
     $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
     $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
-    if ($texts = $textHandler->getObjects($criteria)) {
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
         return clear_unicodeslashes($texts[0]->getVar($field));
-    } else {
-        $criteria = new \CriteriaCompo(new \Criteria('blockid', $blockid));
-        $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
-        if ($texts = $textHandler->getObjects($criteria)) {
-            return clear_unicodeslashes($texts[0]->getVar($field));
-        } else {
-            return '';
-        }
     }
+    $criteria = new \CriteriaCompo(new \Criteria('blockid', $blockid));
+    $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
+        return clear_unicodeslashes($texts[0]->getVar($field));
+    }
+
+    return '';
 }

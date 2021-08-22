@@ -14,15 +14,22 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-include __DIR__ . '/header.php';
+use XoopsModules\Xcontent\Helper;
 
-$xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+require_once __DIR__ . '/header.php';
+
+$helper = Helper::getInstance();
+
+/** @var \XoopsModules\Xcontent\ContentHandler $xcontentHandler */
+$xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
 
 if (empty($storyid) && 0 == $xcontentHandler->getCount(new \Criteria('storyid', $storyid))) {
     redirect_header(XOOPS_URL . _XCONTENT_PATH_MODULE_ROOT, 2, _XCONTENT_NOSTORY);
 }
 
-if ($xcontent = $xcontentHandler->getContent((int)$storyid)) {
+$xcontent = $xcontentHandler->getContent($storyid);
+if ($xcontent) {
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
     if (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent['xcontent']->getVar('storyid'), $groups, $modid)) {
         redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
     } elseif (!$grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent['xcontent']->getVar('catid'), $groups, $modid)
@@ -30,7 +37,7 @@ if ($xcontent = $xcontentHandler->getContent((int)$storyid)) {
         redirect_header(XOOPS_URL, 10, _XCONTENT_NOPERMISSIONS);
     } else {
         if ($GLOBALS['xoopsModuleConfig']['htaccess']) {
-            if (strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {
+            if (mb_strpos($_SERVER['REQUEST_URI'], 'odules/') > 0) {
                 $category = $categoryHandler->getCategory($xcontent['xcontent']->getVar('catid'));
                 if ('' != $category['text']->getVar('title')) {
                     header('HTTP/1.1 301 Moved Permanently');
@@ -57,7 +64,7 @@ if ($xcontent = $xcontentHandler->getContent((int)$storyid)) {
                 redirect_header(XOOPS_URL . '/modules/' . _XCONTENT_DIRNAME . '/', 10, _XCONTENT_XCONTENTEXPIRED);
             }
             exit(0);
-        } elseif (32 == strlen($xcontent['xcontent']->getVar('password'))) {
+        } elseif (32 == mb_strlen($xcontent['xcontent']->getVar('password'))) {
             if (!isset($_COOKIE['xcontent_password'])) {
                 $_COOKIE['xcontent_password'] = [];
             }
@@ -72,15 +79,14 @@ if ($xcontent = $xcontentHandler->getContent((int)$storyid)) {
                     $GLOBALS['xoopsTpl']->assign('form', xcontent_passwordform($xcontent['xcontent']->getVar('storyid')));
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
-                } else {
-                    $_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] = true;
                 }
+                $_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] = true;
             } else {
                 $_COOKIE['xcontent_password'][md5(sha1(XOOPS_LICENSE_KEY) . $storyid)] = true;
             }
         }
 
-        echo '<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">';
+        echo '<!doctype html>';
         echo '<html>';
         echo '<head>';
         echo '  <meta http-equiv="xContent-Type" xcontent="text/html; charset=UTF-8">';

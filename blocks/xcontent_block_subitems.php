@@ -14,12 +14,28 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
+use XoopsModules\Xcontent\Helper;
+
+/**
+ * @param $options
+ * @return array|bool
+ */
 function xcontent_block_subitems_show($options)
 {
-    $grouppermHandler  = xoops_getHandler('groupperm');
+    require_once \dirname(__DIR__) . '/include/common.php';
+
+    $helper = Helper::getInstance();
+
+    if (null === $helper) {
+        return false;
+    }
+
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
+    $grouppermHandler = xoops_getHandler('groupperm');
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
     $groups        = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $xoModule      = $moduleHandler->getByDirname('xcontent');
     $modid         = $xoModule->getVar('mid');
@@ -27,7 +43,7 @@ function xcontent_block_subitems_show($options)
 
     xoops_loadLanguage('modinfo', 'xcontent');
 
-    $criteria = new \CriteriaCompo(new \Criteria('parent_id', (!isset($_GET['storyid']) ? 0 : $_GET['storyid'])));
+    $criteria = new \CriteriaCompo(new \Criteria('parent_id', ($_GET['storyid'] ?? 0)));
     $criteria->add(new \Criteria('submenu', 1));
     $criteria->add(new \Criteria('visible', 1));
 
@@ -40,29 +56,33 @@ function xcontent_block_subitems_show($options)
     $criteria->add($criteria_expire);
     $criteria->setSort('weight');
 
-    $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+    $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
 
-    if ($xcontents = $xcontentHandler->getObjects($criteria, true)) {
+    $xcontents = $xcontentHandler->getObjects($criteria, true);
+    if ($xcontents) {
         foreach ($xcontents as $storyid => $xcontent) {
             if (_XCONTENT_SECURITY_BASIC != $xoConfig['security']) {
                 if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)
                     && $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent->getVar('catid'), $groups, $modid)) {
                     $pages[$storyid]['storyid'] = $storyid;
                     $pages[$storyid]['catid']   = $xcontent->getVar('catid');
-                    if ($text = xcontent_block_subitems_gettext($storyid)) {
+                    $text                       = xcontent_block_subitems_gettext($storyid);
+                    if ($text) {
                         $pages[$storyid]['ptitle'] = $text->getVar('ptitle');
                         $pages[$storyid]['title']  = $text->getVar('title');
                     }
 
                     $criteriab = new \CriteriaCompo(new \Criteria('parent_id', $storyid));
                     $criteriab->add(new \Criteria('submenu', 1));
-                    if ($xcontentsb = $xcontentHandler->getObjects($criteriab, true)) {
+                    $xcontentsb = $xcontentHandler->getObjects($criteriab, true);
+                    if ($xcontentsb) {
                         foreach ($xcontentsb as $storyidb => $xcontentb) {
                             if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontentb->getVar('storyid'), $groups, $modid)
                                 && $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontentb->getVar('catid'), $groups, $modid)) {
                                 $pages[$storyid]['sublinks'][$storyidb]['storyid'] = $storyidb;
                                 $pages[$storyid]['sublinks'][$storyidb]['catid']   = $xcontentb->getVar('catid');
-                                if ($text = xcontent_block_subitems_gettext($storyidb)) {
+                                $text                                              = xcontent_block_subitems_gettext($storyidb);
+                                if ($text) {
                                     $pages[$storyid]['sublinks'][$storyidb]['ptitle'] = $text->getVar('ptitle');
                                     $pages[$storyid]['sublinks'][$storyidb]['title']  = $text->getVar('title');
                                 }
@@ -70,58 +90,69 @@ function xcontent_block_subitems_show($options)
                         }
                     }
                 }
-            } else {
-                if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)) {
+            } elseif ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)) {
                     $pages[$storyid]['storyid'] = $storyid;
                     $pages[$storyid]['catid']   = $xcontent->getVar('catid');
-                    if ($text = xcontent_block_subitems_gettext($storyid)) {
+                    $text                       = xcontent_block_subitems_gettext($storyid);
+                    if ($text) {
                         $pages[$storyid]['ptitle'] = $text->getVar('ptitle');
                         $pages[$storyid]['title']  = $text->getVar('title');
                     }
 
                     $criteriab = new \CriteriaCompo(new \Criteria('parent_id', $storyid));
                     $criteriab->add(new \Criteria('submenu', 1));
-                    if ($xcontentsb = $xcontentHandler->getObjects($criteriab, true)) {
+                    $xcontentsb = $xcontentHandler->getObjects($criteriab, true);
+                    if ($xcontentsb) {
                         foreach ($xcontentsb as $storyidb => $xcontentb) {
                             if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontentb->getVar('storyid'), $groups, $modid)) {
                                 $pages[$storyid]['sublinks'][$storyidb]['storyid'] = $storyidb;
                                 $pages[$storyid]['sublinks'][$storyidb]['catid']   = $xcontentb->getVar('catid');
-                                if ($text = xcontent_block_subitems_gettext($storyidb)) {
+                                $text                                              = xcontent_block_subitems_gettext($storyidb);
+                                if ($text) {
                                     $pages[$storyid]['sublinks'][$storyidb]['ptitle'] = $text->getVar('ptitle');
                                     $pages[$storyid]['sublinks'][$storyidb]['title']  = $text->getVar('title');
                                 }
                             }
                         }
                     }
-                }
             }
         }
     }
     if (isset($pages) && count($pages)) {
         return ['pages' => $pages];
-    } else {
-        return false;
     }
+
+    return false;
 }
 
+/**
+ * @param $options
+ * @return bool
+ */
 function xcontent_block_subitems_edit($options)
 {
     return false;
 }
 
+/**
+ * @param $storyid
+ * @return mixed
+ */
 function xcontent_block_subitems_gettext($storyid)
 {
-    $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+    $helper      = Helper::getInstance();
+    $textHandler = $helper->getHandler(_XCONTENT_CLASS_TEXT);
     $criteria    = new \CriteriaCompo(new \Criteria('storyid', $storyid));
     $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
     $criteria->add(new \Criteria('type', 'xcontent'));
-    if ($texts = $textHandler->getObjects($criteria)) {
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
         return $texts[0];
-    } else {
-        $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
-        $criteria->add(new \Criteria('type', 'xcontent'));
-        if ($texts = $textHandler->getObjects($criteria)) {
-            return $texts[0];
-        }
+    }
+    $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
+    $criteria->add(new \Criteria('type', 'xcontent'));
+    $texts = $textHandler->getObjects($criteria);
+    if ($texts) {
+        return $texts[0];
     }
 }

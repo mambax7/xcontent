@@ -14,7 +14,9 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-include __DIR__ . '/header.php';
+use XoopsModules\Tag\Helper;
+
+require_once __DIR__ . '/header.php';
 
 $GLOBALS['xoopsOption']['template_main'] = _XCONTENT_TEMPLATE_INDEX_MANAGE;
 
@@ -22,6 +24,8 @@ if (!xcontent_checkperm($op, $fct, $storyid, $catid, $blockid, $mode, $GLOBALS['
     redirect_header(XOOPS_URL, 6, _XCONTENT_NOPERMISSIONS);
     exit(0);
 }
+
+$helper = \XoopsModules\Xcontent\Helper::getInstance();
 
 switch ($op) {
     case _XCONTENT_URL_OP_SAVE:
@@ -32,7 +36,7 @@ switch ($op) {
                     ${$id} = $val;
                 }
 
-                $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+                $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
 
                 foreach ($catid as $storyid => $val) {
                     $xcontent = $xcontentHandler->get($storyid);
@@ -54,14 +58,13 @@ switch ($op) {
                 redirect_header('manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_XCONTENT, 7, _XCONTENT_MSG_XCONTENTSAVED);
                 exit(0);
                 break;
-
             case _XCONTENT_URL_FCT_CATEGORIES:
 
                 foreach ($_POST as $id => $val) {
                     ${$id} = $val;
                 }
 
-                $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
+                $categoryHandler = $helper->getHandler(_XCONTENT_CLASS_CATEGORY);
 
                 foreach ($parent_id as $catid => $val) {
                     $category = $categoryHandler->get($catid);
@@ -75,14 +78,14 @@ switch ($op) {
                 redirect_header('manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES, 7, _XCONTENT_MSG_XCONTENTSAVED);
                 exit(0);
                 break;
-
             case _XCONTENT_URL_FCT_BLOCKS:
 
                 foreach ($_POST as $id => $val) {
                     ${$id} = $val;
                 }
 
-                $blockHandler = xoops_getModuleHandler(_XCONTENT_CLASS_BLOCK, _XCONTENT_DIRNAME);
+                /** @var \XoopsModules\Xcontent\BlockHandler $blockHandler */
+                $blockHandler = $helper->getHandler(_XCONTENT_CLASS_BLOCK);
 
                 if (0 == $blockid) {
                     $block = $blockHandler->createnew();
@@ -96,7 +99,7 @@ switch ($op) {
                 $block['block']->setVar('uid', $GLOBALS['xoopsUser']->getVar('uid'), true);
 
                 if ($blockHandler->insert($block['block'])) {
-                    $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+                    $textHandler = $helper->getHandler(_XCONTENT_CLASS_TEXT);
                     $block['text']->setVar('type', _XCONTENT_ENUM_TYPE_BLOCK);
                     $block['text']->setVar('blockid', $block['block']->getVar('blockid'));
                     if (!empty($language)) {
@@ -130,14 +133,13 @@ switch ($op) {
                 }
                 exit(0);
                 break;
-
             case _XCONTENT_URL_FCT_CATEGORY:
 
                 foreach ($_POST as $id => $val) {
                     ${$id} = $val;
                 }
 
-                $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
+                $categoryHandler = $helper->getHandler(_XCONTENT_CLASS_CATEGORY);
 
                 if (0 == $catid) {
                     $category = $categoryHandler->createnew();
@@ -153,7 +155,7 @@ switch ($op) {
                 }
 
                 if ($categoryHandler->insert($category['cat'])) {
-                    $textHandler = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+                    $textHandler = $helper->getHandler(_XCONTENT_CLASS_TEXT);
                     $category['text']->setVar('type', _XCONTENT_ENUM_TYPE_CATEGORY);
                     $category['text']->setVar('catid', $category['cat']->getVar('catid'));
                     if (!empty($language)) {
@@ -187,7 +189,6 @@ switch ($op) {
                 }
                 exit(0);
                 break;
-
             case _XCONTENT_URL_FCT_XCONTENT:
 
                 foreach ($_POST as $id => $val) {
@@ -199,8 +200,9 @@ switch ($op) {
                     @$GLOBALS['xoopsDB']->queryF($sql);
                 }
 
-                $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
-                $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+                /** @var \XoopsModules\Xcontent\ContentHandler $xcontentHandler */
+                $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
+                $textHandler     = $helper->getHandler(_XCONTENT_CLASS_TEXT);
 
                 if (0 == $storyid) {
                     $xcontent = $xcontentHandler->createnew();
@@ -281,7 +283,7 @@ switch ($op) {
 
                 if (file_exists($GLOBALS['xoops']->path('modules/tag/class/tag.php'))
                     && $GLOBALS['xoopsModuleConfig']['tags']) {
-                    $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
+                    $tagHandler = Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
                     $tagHandler->updateByItem($_POST['tags'], $xcontent['xcontent']->getVar('storyid'), $GLOBALS['xoopsModule']->getVar('dirname'), $xcontent['xcontent']->getVar('catid'));
                 }
 
@@ -289,7 +291,6 @@ switch ($op) {
                 exit(0);
 
                 break;
-
         }
         break;
     case _XCONTENT_URL_OP_EDIT:
@@ -312,7 +313,8 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('passkey', xcontent_passkey());
                 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['xoopsModuleConfig']);
                 $GLOBALS['xoopsTpl']->assign('xoModule', $GLOBALS['xoopsModule']->toArray());
-                $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
+                /** @var \XoopsModules\Xcontent\ContentHandler $xcontentHandler */
+                $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
                 $xcontent        = $xcontentHandler->getContent($storyid, $_GET['language']);
                 $GLOBALS['xoopsTpl']->assign('xcontent', array_merge($xcontent['xcontent']->toArray(), $xcontent['text']->toArray()));
                 $GLOBALS['xoopsTpl']->assign('form', xcontent_addxcontent($storyid, $_GET['language']));
@@ -337,13 +339,13 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('passkey', xcontent_passkey());
                 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['xoopsModuleConfig']);
                 $GLOBALS['xoopsTpl']->assign('xoModule', $GLOBALS['xoopsModule']->toArray());
-                $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
+                /** @var \XoopsModules\Xcontent\CategoryHandler $categoryHandler */
+                $categoryHandler = $helper->getHandler(_XCONTENT_CLASS_CATEGORY);
                 $category        = $categoryHandler->getCategory($catid, $_GET['language']);
                 $GLOBALS['xoopsTpl']->assign('category', array_merge($category['cat']->toArray(), $category['text']->toArray()));
                 $GLOBALS['xoopsTpl']->assign('form', xcontent_addcategory($catid, $language));
                 require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                 break;
-
             case _XCONTENT_URL_FCT_BLOCKS:
                 if ($GLOBALS['xoopsModuleConfig']['json']) {
                     $GLOBALS['xoopsOption']['template_main'] = _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITBLOCK;
@@ -362,20 +364,18 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('passkey', xcontent_passkey());
                 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['xoopsModuleConfig']);
                 $GLOBALS['xoopsTpl']->assign('xoModule', $GLOBALS['xoopsModule']->toArray());
-                $blockHandler = xoops_getModuleHandler(_XCONTENT_CLASS_BLOCK, _XCONTENT_DIRNAME);
+                $blockHandler = $helper->getHandler(_XCONTENT_CLASS_BLOCK);
                 $block        = $blockHandler->getBlock($blockid, $_GET['language']);
                 $GLOBALS['xoopsTpl']->assign('block', array_merge($block['block']->toArray(), $block['text']->toArray()));
                 $GLOBALS['xoopsTpl']->assign('form', xcontent_addblock($blockid, $language));
                 require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                 break;
-
         }
         break;
-
     case _XCONTENT_URL_OP_ADD:
         switch ($fct) {
             case _XCONTENT_URL_FCT_XCONTENT:
-                $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
+                $categoryHandler = $helper->getHandler(_XCONTENT_CLASS_CATEGORY);
                 if (0 == $categoryHandler->getCount(null)) {
                     redirect_header('manage.php?op=' . _XCONTENT_URL_OP_ADD . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES, 6, _XCONTENT_NEEDCATEGORIES);
                     exit(0);
@@ -421,7 +421,6 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('form', xcontent_addcategory($catid, $language));
                 require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                 break;
-
             case _XCONTENT_URL_FCT_BLOCKS:
                 if ($GLOBALS['xoopsModuleConfig']['json']) {
                     $GLOBALS['xoopsOption']['template_main'] = _XCONTENT_TEMPLATE_INDEX_JSON_ADDEDITBLOCK;
@@ -450,12 +449,16 @@ switch ($op) {
             case _XCONTENT_URL_FCT_XCONTENT:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm([
-                                      'confirmed' => true,
-                                      'op'        => _XCONTENT_URL_OP_DELETE,
-                                      'fct'       => _XCONTENT_URL_FCT_XCONTENT,
-                                      'storyid'   => $storyid
-                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getTitle($storyid)));
+                    xoops_confirm(
+                        [
+                            'confirmed' => true,
+                            'op'        => _XCONTENT_URL_OP_DELETE,
+                            'fct'       => _XCONTENT_URL_FCT_XCONTENT,
+                            'storyid'   => $storyid,
+                        ],
+                        $_SERVER['REQUEST_URI'],
+                        sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getTitle($storyid))
+                    );
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
@@ -465,16 +468,19 @@ switch ($op) {
                 @$GLOBALS['xoopsDB']->queryF($sql[1]);
                 redirect_header('manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_XCONTENT, 7, _XCONTENT_AD_MSG_DELETE);
                 break;
-
             case _XCONTENT_URL_FCT_CATEGORY:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm([
-                                      'confirmed' => true,
-                                      'op'        => _XCONTENT_URL_OP_DELETE,
-                                      'fct'       => _XCONTENT_URL_FCT_CATEGORY,
-                                      'catid'     => $catid
-                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getCatTitle($catid)));
+                    xoops_confirm(
+                        [
+                            'confirmed' => true,
+                            'op'        => _XCONTENT_URL_OP_DELETE,
+                            'fct'       => _XCONTENT_URL_FCT_CATEGORY,
+                            'catid'     => $catid,
+                        ],
+                        $_SERVER['REQUEST_URI'],
+                        sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getCatTitle($catid))
+                    );
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
@@ -484,16 +490,19 @@ switch ($op) {
                 @$GLOBALS['xoopsDB']->queryF($sql[1]);
                 redirect_header('manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES, 7, _XCONTENT_AD_MSG_DELETE);
                 break;
-
             case _XCONTENT_URL_FCT_BLOCKS:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm([
-                                      'confirmed' => true,
-                                      'op'        => _XCONTENT_URL_OP_DELETE,
-                                      'fct'       => _XCONTENT_URL_FCT_BLOCKS,
-                                      'blockid'   => $blockid
-                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getBlockTitle($blockid)));
+                    xoops_confirm(
+                        [
+                            'confirmed' => true,
+                            'op'        => _XCONTENT_URL_OP_DELETE,
+                            'fct'       => _XCONTENT_URL_FCT_BLOCKS,
+                            'blockid'   => $blockid,
+                        ],
+                        $_SERVER['REQUEST_URI'],
+                        sprintf(_XCONTENT_AD_CONFIRM_DELETE, xcontent_getBlockTitle($blockid))
+                    );
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
@@ -503,28 +512,31 @@ switch ($op) {
                 @$GLOBALS['xoopsDB']->queryF($sql[1]);
                 redirect_header('manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_BLOCKS, 7, _XCONTENT_AD_MSG_DELETE);
                 break;
-
         }
 
-        // no break
+    // no break
     case _XCONTENT_URL_OP_COPY:
         switch ($fct) {
             default:
             case _XCONTENT_URL_FCT_XCONTENT:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm([
-                                      'confirmed' => true,
-                                      'op'        => _XCONTENT_URL_OP_COPY,
-                                      'fct'       => _XCONTENT_URL_FCT_XCONTENT,
-                                      'storyid'   => $storyid
-                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getTitle($storyid)));
+                    xoops_confirm(
+                        [
+                            'confirmed' => true,
+                            'op'        => _XCONTENT_URL_OP_COPY,
+                            'fct'       => _XCONTENT_URL_FCT_XCONTENT,
+                            'storyid'   => $storyid,
+                        ],
+                        $_SERVER['REQUEST_URI'],
+                        sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getTitle($storyid))
+                    );
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
 
-                $xcontentHandler = xoops_getModuleHandler(_XCONTENT_CLASS_XCONTENT, _XCONTENT_DIRNAME);
-                $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+                $xcontentHandler = $helper->getHandler(_XCONTENT_CLASS_XCONTENT);
+                $textHandler     = $helper->getHandler(_XCONTENT_CLASS_TEXT);
                 $criteria        = new \CriteriaCompo(new \Criteria('storyid', $storyid));
                 $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_XCONTENT));
                 $xcontent  = $xcontentHandler->get($storyid);
@@ -573,22 +585,25 @@ switch ($op) {
 
                 redirect_header('manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_XCONTENT, 7, sprintf(_XCONTENT_AD_MSG_COPY, $page));
                 break;
-
             case _XCONTENT_URL_FCT_BLOCKS:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm([
-                                      'confirmed' => true,
-                                      'op'        => _XCONTENT_URL_OP_COPY,
-                                      'fct'       => _XCONTENT_URL_FCT_BLOCKS,
-                                      'blockid'   => $blockid
-                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getBlockTitle($blockid)));
+                    xoops_confirm(
+                        [
+                            'confirmed' => true,
+                            'op'        => _XCONTENT_URL_OP_COPY,
+                            'fct'       => _XCONTENT_URL_FCT_BLOCKS,
+                            'blockid'   => $blockid,
+                        ],
+                        $_SERVER['REQUEST_URI'],
+                        sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getBlockTitle($blockid))
+                    );
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
 
-                $blockHandler = xoops_getModuleHandler(_XCONTENT_CLASS_BLOCK, _XCONTENT_DIRNAME);
-                $textHandler  = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+                $blockHandler = $helper->getHandler(_XCONTENT_CLASS_BLOCK);
+                $textHandler  = $helper->getHandler(_XCONTENT_CLASS_TEXT);
                 $criteria     = new \CriteriaCompo(new \Criteria('blockid', $blockid));
                 $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_BLOCK));
                 $block  = $blockHandler->get($blockid);
@@ -624,22 +639,25 @@ switch ($op) {
 
                 redirect_header('manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_BLOCKS, 7, sprintf(_XCONTENT_AD_MSG_COPY, $page));
                 break;
-
             case _XCONTENT_URL_FCT_CATEGORY:
                 if (empty($_POST['confirmed'])) {
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_HEADER);
-                    xoops_confirm([
-                                      'confirmed' => true,
-                                      'op'        => _XCONTENT_URL_OP_COPY,
-                                      'fct'       => _XCONTENT_URL_FCT_CATEGORY,
-                                      'catid'     => $catid
-                                  ], $_SERVER['REQUEST_URI'], sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getCatTitle($catid)));
+                    xoops_confirm(
+                        [
+                            'confirmed' => true,
+                            'op'        => _XCONTENT_URL_OP_COPY,
+                            'fct'       => _XCONTENT_URL_FCT_CATEGORY,
+                            'catid'     => $catid,
+                        ],
+                        $_SERVER['REQUEST_URI'],
+                        sprintf(_XCONTENT_AD_CONFIRM_COPY, xcontent_getCatTitle($catid))
+                    );
                     require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
                     exit(0);
                 }
 
-                $categoryHandler = xoops_getModuleHandler(_XCONTENT_CLASS_CATEGORY, _XCONTENT_DIRNAME);
-                $textHandler     = xoops_getModuleHandler(_XCONTENT_CLASS_TEXT, _XCONTENT_DIRNAME);
+                $categoryHandler = $helper->getHandler(_XCONTENT_CLASS_CATEGORY);
+                $textHandler     = $helper->getHandler(_XCONTENT_CLASS_TEXT);
                 $criteria        = new \CriteriaCompo(new \Criteria('catid', $catid));
                 $criteria->add(new \Criteria('type', _XCONTENT_ENUM_TYPE_CATEGORY));
                 $category  = $categoryHandler->get($catid);
@@ -675,9 +693,8 @@ switch ($op) {
 
                 redirect_header('manage.php?op=' . _XCONTENT_URL_OP_MANAGE . '&fct=' . _XCONTENT_URL_FCT_CATEGORIES, 7, sprintf(_XCONTENT_AD_MSG_COPY, $page));
                 break;
-
         }
-        // no break
+    // no break
     default:
     case _XCONTENT_URL_OP_MANAGE:
         switch ($fct) {
@@ -834,18 +851,24 @@ switch ($op) {
 
                 $result_view = $GLOBALS['xoopsDB']->query('SELECT catid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_CATEGORY) . ' ');
                 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
-                    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
+                    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetchArray($result_view))) {
                         $item_list_view['cid']   = $myrow_view['catid'];
                         $item_list_view['title'] = xcontent_getCatTitle($myrow_view['catid']);
-                        $form_view               = new \XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_CATEGORY, "<img id='toptableicon' src="
-                                                                                                                                                            . XOOPS_URL
-                                                                                                                                                            . '/modules/'
-                                                                                                                                                            . $GLOBALS['xoopsModule']->dirname()
-                                                                                                                                                            . "/assets/images/close12.gif alt=''></a>"
-                                                                                                                                                            . _XCONTENT_PERMISSIONS_CATEGORY
-                                                                                                                                                            . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
-                                                                                                                                                            . ucfirst($mode)
-                                                                                                                                                            . '</span>', 'admin/index.php?op=permissions&fct=template&mode=all');
+                        $form_view               = new \XoopsGroupPermForm(
+                            '',
+                            $GLOBALS['xoopsModule']->getVar('mid'),
+                            $mode . _XCONTENT_PERM_TYPE_CATEGORY,
+                            "<img id='toptableicon' src="
+                            . XOOPS_URL
+                            . '/modules/'
+                            . $GLOBALS['xoopsModule']->dirname()
+                            . "/assets/images/close12.gif alt=''></a>"
+                            . _XCONTENT_PERMISSIONS_CATEGORY
+                            . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
+                            . ucfirst($mode)
+                            . '</span>',
+                            'admin/index.php?op=permissions&fct=template&mode=all'
+                        );
                         $block_view[]            = $item_list_view;
                         foreach ($block_view as $itemlists) {
                             $form_view->addItem($itemlists['cid'], $itemlists['title']);
@@ -860,12 +883,11 @@ switch ($op) {
                          . "/assets/images/close12.gif alt=''></a>&nbsp;"
                          . _XCONTENT_PERMISSIONSVIEWCATEGORY
                          . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
-                         . _XCONTENT_NOPERMSSET
+                         . _XCONTENT_PERMISSIONS_NOPERMSSET
                          . '</span>';
                 }
                 echo '</div>';
                 break;
-
             case _XCONTENT_URL_FCT_XCONTENT:
 
                 // View Categories permissions
@@ -875,18 +897,24 @@ switch ($op) {
                 if (_XCONTENT_PERM_MODE_ADD == $mode) {
                     $result_view = $GLOBALS['xoopsDB']->query('SELECT catid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_CATEGORY) . ' ');
                     if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
-                        while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
+                        while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetchArray($result_view))) {
                             $item_list_view['cid']   = $myrow_view['catid'];
                             $item_list_view['title'] = xcontent_getCatTitle($myrow_view['catid']);
-                            $form_view               = new \XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_XCONTENT, "<img id='toptableicon' src="
-                                                                                                                                                                . XOOPS_URL
-                                                                                                                                                                . '/modules/'
-                                                                                                                                                                . $GLOBALS['xoopsModule']->dirname()
-                                                                                                                                                                . "/assets/images/close12.gif alt=''></a>"
-                                                                                                                                                                . _XCONTENT_PERMISSIONS_XCONTENT
-                                                                                                                                                                . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
-                                                                                                                                                                . ucfirst($mode)
-                                                                                                                                                                . '</span>', 'admin/index.php?op=permissions&fct=template&mode=all');
+                            $form_view               = new \XoopsGroupPermForm(
+                                '',
+                                $GLOBALS['xoopsModule']->getVar('mid'),
+                                $mode . _XCONTENT_PERM_TYPE_XCONTENT,
+                                "<img id='toptableicon' src="
+                                . XOOPS_URL
+                                . '/modules/'
+                                . $GLOBALS['xoopsModule']->dirname()
+                                . "/assets/images/close12.gif alt=''></a>"
+                                . _XCONTENT_PERMISSIONS_XCONTENT
+                                . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
+                                . ucfirst($mode)
+                                . '</span>',
+                                'admin/index.php?op=permissions&fct=template&mode=all'
+                            );
                             $block_view[]            = $item_list_view;
                             foreach ($block_view as $itemlists) {
                                 $form_view->addItem($itemlists['cid'], $itemlists['title']);
@@ -901,24 +929,30 @@ switch ($op) {
                              . "/assets/images/close12.gif alt=''></a>&nbsp;"
                              . _XCONTENT_PERMISSIONS_XCONTENT
                              . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
-                             . _XCONTENT_NOPERMSSET
+                             . _XCONTENT_PERMISSIONS_NOPERMSSET
                              . '</span>';
                     }
                 } else {
                     $result_view = $GLOBALS['xoopsDB']->query('SELECT storyid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_XCONTENT) . ' ');
                     if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
-                        while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
+                        while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetchArray($result_view))) {
                             $item_list_view['cid']   = $myrow_view['storyid'];
                             $item_list_view['title'] = xcontent_getTitle($myrow_view['storyid']);
-                            $form_view               = new \XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_XCONTENT, "<img id='toptableicon' src="
-                                                                                                                                                                . XOOPS_URL
-                                                                                                                                                                . '/modules/'
-                                                                                                                                                                . $GLOBALS['xoopsModule']->dirname()
-                                                                                                                                                                . "/assets/images/close12.gif alt=''></a>"
-                                                                                                                                                                . _XCONTENT_PERMISSIONS_XCONTENT
-                                                                                                                                                                . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
-                                                                                                                                                                . ucfirst($mode)
-                                                                                                                                                                . '</span>', 'admin/index.php?op=permissions&fct=template&mode=all');
+                            $form_view               = new \XoopsGroupPermForm(
+                                '',
+                                $GLOBALS['xoopsModule']->getVar('mid'),
+                                $mode . _XCONTENT_PERM_TYPE_XCONTENT,
+                                "<img id='toptableicon' src="
+                                . XOOPS_URL
+                                . '/modules/'
+                                . $GLOBALS['xoopsModule']->dirname()
+                                . "/assets/images/close12.gif alt=''></a>"
+                                . _XCONTENT_PERMISSIONS_XCONTENT
+                                . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
+                                . ucfirst($mode)
+                                . '</span>',
+                                'admin/index.php?op=permissions&fct=template&mode=all'
+                            );
                             $block_view[]            = $item_list_view;
                             foreach ($block_view as $itemlists) {
                                 $form_view->addItem($itemlists['cid'], $itemlists['title']);
@@ -933,13 +967,12 @@ switch ($op) {
                              . "/assets/images/close12.gif alt=''></a>&nbsp;"
                              . _XCONTENT_PERMISSIONS_XCONTENT
                              . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
-                             . _XCONTENT_NOPERMSSET
+                             . _XCONTENT_PERMISSIONS_NOPERMSSET
                              . '</span>';
                     }
                 }
                 echo '</div>';
                 break;
-
             case _XCONTENT_URL_FCT_BLOCKS:
 
                 // View Categories permissions
@@ -948,18 +981,24 @@ switch ($op) {
 
                 $result_view = $GLOBALS['xoopsDB']->query('SELECT blockid FROM ' . $GLOBALS['xoopsDB']->prefix(_XCONTENT_TABLE_BLOCK) . ' ');
                 if ($GLOBALS['xoopsDB']->getRowsNum($result_view)) {
-                    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetcharray($result_view))) {
+                    while (false !== ($myrow_view = $GLOBALS['xoopsDB']->fetchArray($result_view))) {
                         $item_list_view['cid']   = $myrow_view['blockid'];
                         $item_list_view['title'] = xcontent_getBlockTitle($myrow_view['blockid']);
-                        $form_view               = new \XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_BLOCK, "<img id='toptableicon' src="
-                                                                                                                                                         . XOOPS_URL
-                                                                                                                                                         . '/modules/'
-                                                                                                                                                         . $GLOBALS['xoopsModule']->dirname()
-                                                                                                                                                         . "/assets/images/close12.gif alt=''></a>"
-                                                                                                                                                         . _XCONTENT_PERMISSIONS_BLOCKS
-                                                                                                                                                         . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
-                                                                                                                                                         . ucfirst($mode)
-                                                                                                                                                         . '</span>', 'admin/index.php?op=permissions&fct=template&mode=all');
+                        $form_view               = new \XoopsGroupPermForm(
+                            '',
+                            $GLOBALS['xoopsModule']->getVar('mid'),
+                            $mode . _XCONTENT_PERM_TYPE_BLOCK,
+                            "<img id='toptableicon' src="
+                            . XOOPS_URL
+                            . '/modules/'
+                            . $GLOBALS['xoopsModule']->dirname()
+                            . "/assets/images/close12.gif alt=''></a>"
+                            . _XCONTENT_PERMISSIONS_BLOCKS
+                            . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
+                            . ucfirst($mode)
+                            . '</span>',
+                            'admin/index.php?op=permissions&fct=template&mode=all'
+                        );
                         $block_view[]            = $item_list_view;
                         foreach ($block_view as $itemlists) {
                             $form_view->addItem($itemlists['cid'], $itemlists['title']);
@@ -974,12 +1013,11 @@ switch ($op) {
                          . "/assets/images/close12.gif alt=''></a>&nbsp;"
                          . _XCONTENT_PERMISSIONS_BLOCKS
                          . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
-                         . _XCONTENT_NOPERMSSET
+                         . _XCONTENT_PERMISSIONS_NOPERMSSET
                          . '</span>';
                 }
                 echo '</div>';
                 break;
-
             case _XCONTENT_URL_FCT_TEMPLATE:
 
                 $permtypes = [
@@ -1001,30 +1039,34 @@ switch ($op) {
                     _XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT => _XCONTENT_PERM_TEMPLATE_MANAGE_XCONTENT_DESC,
                     _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY => _XCONTENT_PERM_TEMPLATE_MANAGE_CATEGORY_DESC,
                     _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK    => _XCONTENT_PERM_TEMPLATE_MANAGE_BLOCK_DESC,
-                    _XCONTENT_PERM_TEMPLATE_PERMISSIONS     => _XCONTENT_PERM_TEMPLATE_PERMISSIONS_DESC
+                    _XCONTENT_PERM_TEMPLATE_PERMISSIONS     => _XCONTENT_PERM_TEMPLATE_PERMISSIONS_DESC,
                 ];
 
-                $form_view = new \XoopsGroupPermForm('', $GLOBALS['xoopsModule']->getVar('mid'), $mode . _XCONTENT_PERM_TYPE_TEMPLATE, "<img id='toptableicon' src="
-                                                                                                                                      . XOOPS_URL
-                                                                                                                                      . '/modules/'
-                                                                                                                                      . $GLOBALS['xoopsModule']->dirname()
-                                                                                                                                      . "/assets/images/close12.gif alt=''></a>"
-                                                                                                                                      . _XCONTENT_PERMISSIONS_DEFAULT
-                                                                                                                                      . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
-                                                                                                                                      . ucfirst($mode)
-                                                                                                                                      . '</span>', 'admin/index.php?op=permissions&fct=template&mode=all');
+                $form_view = new \XoopsGroupPermForm(
+                    '',
+                    $GLOBALS['xoopsModule']->getVar('mid'),
+                    $mode . _XCONTENT_PERM_TYPE_TEMPLATE,
+                    "<img id='toptableicon' src="
+                    . XOOPS_URL
+                    . '/modules/'
+                    . $GLOBALS['xoopsModule']->dirname()
+                    . "/assets/images/close12.gif alt=''></a>"
+                    . _XCONTENT_PERMISSIONS_DEFAULT
+                    . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
+                    . ucfirst($mode)
+                    . '</span>',
+                    'admin/index.php?op=permissions&fct=template&mode=all'
+                );
                 foreach ($permtypes as $id => $title) {
                     $form_view->addItem($id, $title);
                 }
                 echo $form_view->render();
                 echo '</div>';
                 break;
-
         }
-        $GLOBALS['xoopsTpl']->assign('list', ob_get_content());
+        $GLOBALS['xoopsTpl']->assign('list', ob_get_contents());
         ob_end_clean();
 
         require_once $GLOBALS['xoops']->path(_XCONTENT_PATH_PHP_FOOTER);
         break;
-
 }

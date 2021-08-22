@@ -14,6 +14,6 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-include  dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
 header('HTTP/1.1 301 Moved Permanently');
-header('Location: ' . XOOPS_URL . str_replace('xcontent', 'tag', $_SERVER['PHP_SELF']));
+header('Location: ' . XOOPS_URL . str_replace('xcontent', 'tag', $_SERVER['SCRIPT_NAME']));

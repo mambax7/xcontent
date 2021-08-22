@@ -14,13 +14,22 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
+use XoopsModules\Xcontent\Helper;
+
+/**
+ * @param \XoopsModule $module
+ * @return bool
+ */
 function xoops_module_update_xcontent(\XoopsModule $module)
 {
     if ($module->getVar('version') <= 213) {
-        $textHandler = xoops_getModuleHandler('text', 'xcontent');
+        $helper = Helper::getInstance();
+        /** @var \XoopsModules\Xcontent\TextHandler $textHandler */
+        $textHandler = $helper->getHandler('Text');
 
         $texts = $textHandler->getObjects(null, false);
 
+        /** @var \XoopsModules\Xcontent\Text $text */
         foreach ($texts as $xcontentid => $text) {
             $text->setVar('title', urldecode($text->getVar('title')));
             $text->setVar('ptitle', urldecode($text->getVar('ptitle')));

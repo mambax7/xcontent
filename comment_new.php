@@ -14,12 +14,14 @@ Owner: Chronolabs
 License: See /docs - GPL 2.0
 */
 
-include  dirname(dirname(__DIR__)) . '/mainfile.php';
-include __DIR__ . '/include/functions.php';
+use Xmf\Request;
 
-$com_itemid = \Xmf\Request::getInt('com_itemid', 0, 'GET');
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
+@require_once \dirname(__DIR__) . '/include/functions.php';
+
+$com_itemid = Request::getInt('com_itemid', 0, 'GET');
 if ($com_itemid > 0) {
     // Get link title
     $com_replytitle = xcontent_getPageTitle($com_itemid);
-    include XOOPS_ROOT_PATH . '/include/comment_new.php';
+    require XOOPS_ROOT_PATH . '/include/comment_new.php';
 }
