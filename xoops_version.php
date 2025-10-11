@@ -137,10 +137,10 @@ $criteria->add($criteria_expire);
 $xcontents = $xcontentHandler->getObjects($criteria, true);
 
 /** @var \XoopsGroupPermHandler $grouppermHandler */
-$grouppermHandler = xoops_getHandler('groupperm');
-$groups           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
+$grouppermHandler = \Xoops::getInstance()->getHandler('groupperm');
+$groups           = is_object(\Xoops::getInstance()->user) ? \Xoops::getInstance()->user->getGroups() : [XOOPS_GROUP_ANONYMOUS];
 /** @var \XoopsModuleHandler $moduleHandler */
-$moduleHandler = xoops_getHandler('module');
+$moduleHandler = \Xoops::getInstance()->getHandler('module');
 $xoModule      = $moduleHandler->getByDirname('xcontent');
 if ($xoModule) {
     $modid = $xoModule->getVar('mid');
@@ -191,7 +191,7 @@ if ($xoModule) {
         if ($grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_XCONTENT, $xcontent->getVar('storyid'), $groups, $modid)
             && $grouppermHandler->checkRight(_XCONTENT_PERM_MODE_VIEW . _XCONTENT_PERM_TYPE_CATEGORY, $xcontent->getVar('catid'), $groups, $modid)) {
             $criteria = new \CriteriaCompo(new \Criteria('storyid', $storyid));
-            $criteria->add(new \Criteria('language', $GLOBALS['xoopsConfig']['language']));
+            $criteria->add(new \Criteria('language', \Xoops::getInstance()->getConfig('language')));
             $texts = $textHandler->getObjects($criteria);
             if ($texts) {
                 $modversion['sub'][$i]['name'] = $texts[0]->getVar('title');
@@ -264,11 +264,8 @@ $modversion['blocks'][] = [
     'template'    => 'xcontent_block_sections.tpl',
 ];
 
-xoops_load('XoopsEditorHandler');
-$editorHandler = XoopsEditorHandler::getInstance();
-foreach ($editorHandler->getList(false) as $id => $val) {
-    $options[$val] = $id;
-}
+$editorHandler = \Xoops::getInstance()->getHandler('editor');
+$options = array_flip($editorHandler->getList());
 
 $modversion['config'][] = [
     'name'        => 'editor',
@@ -460,8 +457,7 @@ $modversion['config'][] = [
 ];
 
 // default admin editor
-xoops_load('XoopsEditorHandler');
-$editorHandler = \XoopsEditorHandler::getInstance();
+$editorHandler = \Xoops::getInstance()->getHandler('editor');
 $editorList    = array_flip($editorHandler->getList());
 
 $modversion['config'][] = [

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Xcontent;
 
 /*
@@ -23,7 +25,7 @@ namespace XoopsModules\Xcontent;
  */
 class Helper extends \Xmf\Module\Helper
 {
-    public $debug;
+    public readonly bool $debug;
 
     /**
      * @param bool $debug
@@ -42,7 +44,7 @@ class Helper extends \Xmf\Module\Helper
      */
     public static function getInstance(bool $debug = false): Helper
     {
-        static $instance;
+        static $instance = null;
         if (null === $instance) {
             $instance = new static($debug);
         }
@@ -65,19 +67,17 @@ class Helper extends \Xmf\Module\Helper
      *
      * @return bool|\XoopsObjectHandler|\XoopsPersistableObjectHandler
      */
-    public function getHandler($name)
+    public function getHandler(string $name): \XoopsObjectHandler
     {
-        $ret = false;
-
         $class = __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
         if (!\class_exists($class)) {
-            throw new \RuntimeException("Class '$class' not found");
+            throw new \RuntimeException("Class '{$class}' not found");
         }
         /** @var \XoopsMySQLDatabase $db */
         $db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $helper = self::getInstance();
-        $ret    = new $class($db, $helper);
+        $handler = new $class($db, $helper);
         $this->addLog("Getting handler '{$name}'");
-        return $ret;
+        return $handler;
     }
 }
