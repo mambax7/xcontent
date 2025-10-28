@@ -46,7 +46,7 @@ class Helper extends \Xmf\Module\Helper
     {
         static $instance = null;
         if (null === $instance) {
-            $instance = new static($debug);
+            $instance = new self($debug);
         }
 
         return $instance;
@@ -55,7 +55,7 @@ class Helper extends \Xmf\Module\Helper
     /**
      * @return string
      */
-    public function getDirname()
+    public function getDirname(): string
     {
         return $this->dirname;
     }
@@ -65,7 +65,7 @@ class Helper extends \Xmf\Module\Helper
      *
      * @param string $name name of handler to load
      *
-     * @return bool|\XoopsObjectHandler|\XoopsPersistableObjectHandler
+     * @return \XoopsObjectHandler
      */
     public function getHandler(string $name): \XoopsObjectHandler
     {
