@@ -26,10 +26,11 @@ $json = new ServicesJSON();
 
 $values = [];
 $submit = true;
+$msg    = null;
 if ($passkey != xcontent_passkey()) {
     ob_start();
     xoops_error(_XCONTENT_MSG_SECURITYTOKEN);
-    $msg = ob_get_xcontents();
+    $msg = ob_get_contents();
     ob_end_clean();
 }
 
