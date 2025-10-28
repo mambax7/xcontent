@@ -20,3 +20,17 @@ To contribute to the Tutorial, [fork it on GitHub](https://github.com/XoopsDocs/
 Please visit us on https://xoops.org
 
 Current and upcoming "next generation" versions of XOOPS CMS are crafted on GitHub at: https://github.com/XOOPS
+
+## Development
+
+This module ships its test tooling via [Composer](https://getcomposer.org/). Install the development dependencies to get a local PHPUnit binary:
+
+```
+composer install
+```
+
+Run the test suite with the Composer-installed executable:
+
+```
+./vendor/bin/phpunit
+```
